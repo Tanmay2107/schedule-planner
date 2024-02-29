@@ -81,8 +81,14 @@ public class UserSchedule {
 
   // invites a user to a given event
   public void inviteUser(Event e, String u){
-
-
+    // if the user already has the event in their schedule
+    if (events.contains(e)) {
+      throw new IllegalStateException("User already has the event in their schedule.");
+    }
+    // adds this event to their schedule.
+    events.add(e);
+    // user gets added to the event as an invitee
+    e.inviteUser(uid);
   }
 
 

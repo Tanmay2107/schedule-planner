@@ -30,19 +30,31 @@ public class Event {
     this.host = host;
     invitees.add(0, host.getUid());
     this.invitees = invitees;
-    this.duration = new Duration(startTime,endTime);
+    this.duration = new Duration(startTime, endTime);
   }
 
-  public boolean isEventOverlapping(){
+
+  public boolean isEventOverlapping() {
     return false; // handle in duration
   }
 
+
   // adding invitee to event
-  public void inviteUser(String uid){
+  public void inviteUser(String uid) {
+
+    // user already an invitee
+    if (invitees.contains(uid)) {
+      throw new IllegalArgumentException("User " + uid + " is already invited to the event.");
+    }
+
+    // Add the user to the list of invitees
+    invitees.add(uid);
+  }
+
+
+
+  public void deleteEvent() {
 
   }
 
-  public void deleteEvent(){
-
-  }
 }
