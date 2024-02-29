@@ -1,6 +1,7 @@
 package model;
 
 public class DayTime {
+  //fields
 
   int hours;
   int minutes;
