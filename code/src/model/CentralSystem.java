@@ -21,12 +21,12 @@ public class CentralSystem {
   }
 
   public void addUser(String uid){
-    UserSchedule u = new UserSchedule(uid);
+    UserSchedule u = new UserSchedule(uid,this);
     userMap.put(u.getUid(), u);
   }
 
-  public void getUserSchedule(String uid){
-    userMap.get(uid);
+  public UserSchedule getUserSchedule(String uid){
+    return userMap.get(uid);
   }
 
 }
