@@ -16,6 +16,7 @@ public class UserSchedule extends AUsers{
   }
 
   //only for testing
+  //
 
   /**
    * Creates a new user with the a given uid and a list of events. Helpful while testing.
