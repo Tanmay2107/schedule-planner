@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/code/code.iml" filepath="$PROJECT_DIR$/code/code.iml" />
-      <module fileurl="file://$PROJECT_DIR$/code 15.iml" filepath="$PROJECT_DIR$/code 15.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/schedule-planner.iml" filepath="$PROJECT_DIR$/.idea/schedule-planner.iml" />
     </modules>
   </component>
 </project>
