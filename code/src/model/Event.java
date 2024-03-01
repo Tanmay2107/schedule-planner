@@ -72,6 +72,7 @@ public class Event {
     }
 
   }
+  //
 
 
   public void removeInvitee(UserSchedule u){
