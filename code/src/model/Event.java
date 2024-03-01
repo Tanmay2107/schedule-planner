@@ -16,7 +16,6 @@ public class Event {
   private List<String> invitees;
 
   private CentralSystem cs;
-//
 
 
   // constructor:
@@ -32,7 +31,7 @@ public class Event {
     this.startTime = startTime;
     this.endTime = endTime;
     this.host = host;
-    invitees.add(0, host.getUid());
+    invitees.add(0, host.userID());
     this.invitees = invitees;
     this.duration = new Duration(startTime, endTime);
     this.cs = cs;
@@ -79,7 +78,7 @@ public class Event {
   public void removeInvitee(UserSchedule u){
 
     //removes the event but if the given user is not an invitee then throws exception
-      if(!this.invitees.remove(u.getUid())){
+      if(!this.invitees.remove(u.userID())){
         throw new IllegalStateException("This user is not in the invitee list");
       }
 
@@ -91,8 +90,10 @@ public class Event {
    * @return true if given userschedule is the host of this event.
    */
   public boolean isHost(UserSchedule u){
-    return u.getUid().equals(this.host.getUid());
+    return u.userID().equals(this.host.userID());
   }
+
+
 
 
 }

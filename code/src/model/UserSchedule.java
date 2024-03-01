@@ -4,20 +4,15 @@ import java.util.ArrayList;
 //
 
 
-public class UserSchedule {
-  private String uid;
-  private ArrayList<Event> events;
-
-  private CentralSystem cs;
+public class UserSchedule extends AUsers{
 
   /**
    * Creates a new user schedule with the given uid.
    * @param uid
    */
-  public UserSchedule(String uid,CentralSystem cs){
-    this.uid = uid;
-    this.events = new ArrayList<Event>();
-    this.cs = cs;
+  public UserSchedule(String uid, CentralSystem cs){
+    super(uid, cs);
+
   }
 
   //only for testing
@@ -27,21 +22,16 @@ public class UserSchedule {
    * @param uid
    * @param events
    */
-  public UserSchedule(String uid, ArrayList<Event> events){
-    if (events == null){
-      throw new IllegalArgumentException("List of events cannot be null");
-    }
-    this.uid = uid;
+  public UserSchedule(String uid, ArrayList<Event> events, CentralSystem cs){
+    super(uid, cs);
     this.events = events;
   }
 
-  // getter method for the uid
-  public String getUid(){
-    return this.uid;
-  }
+
 
   //same fields as event constructor
 
+  // user can host an event.
   public void hostEvent(String name, String location, boolean online, DayTime startTime,
                         DayTime endTime, ArrayList<String> invitees){
     Event currentEvent = new Event(name, location, online,startTime,endTime, this,invitees,
@@ -76,15 +66,6 @@ public class UserSchedule {
   }
 
   /**
-   * Checks if any event exists that is overlapping the time period of the given event.
-   * @param e
-   * @return if there is an overlapping event in this user's schedule.
-   */
-  private boolean overlappingEventExists(Event e){
-    return false;
-  }
-
-  /**
    * Gives the event occuring at the given time.
    * @param dt
    * @return the event that is occuring during the given time
@@ -96,22 +77,26 @@ public class UserSchedule {
 
 
   // invites a user to a given event
-  public void inviteUser(Event e, String u){
+  public void inviteUser(Event e){
     // if the user already has the event in their schedule
     if (events.contains(e)) {
       throw new IllegalStateException("User already has the event in their schedule.");
     }
+    if (this.overlappingEventExists(e)) {
+      throw new IllegalStateException("This event overlaps with an existing event in the schedule.");
+    }
+
     // adds this event to their schedule.
     events.add(e);
     // user gets added to the event as an invitee
     e.inviteUser(uid);
+
   }
 
-
-
-
-
-
+  @Override
+  public IUsers activate() {
+    throw new IllegalStateException("User is already active");
+  }
 
 
 }
