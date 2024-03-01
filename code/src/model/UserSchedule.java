@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 //
 
+
 public class UserSchedule {
   private String uid;
   private ArrayList<Event> events;

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class CentralSystem {
 //
+
   private ArrayList<UserSchedule> users;
 
   private HashMap<String,UserSchedule> userMap;
