@@ -36,7 +36,6 @@ public abstract class AUsers implements IUsers{
     if (this.overlappingEventExists(e)) {
       throw new IllegalStateException("This event overlaps with an existing event in the schedule.");
     }
-
     // adds this event to their schedule.
     events.add(e);
     // user gets added to the event as an invitee

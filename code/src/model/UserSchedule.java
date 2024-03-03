@@ -32,17 +32,17 @@ public class UserSchedule extends AUsers{
   // user can host an event.
   public void hostEvent(String name, String location, boolean online, DayTime startTime,
                         DayTime endTime, ArrayList<String> invitees){
-    Event currentEvent = new Event(name, location, online,startTime,endTime, this,invitees,
+    Event currentEvent = new Event(name, location, online,startTime,endTime, this, invitees,
             this.cs);
-    if (this.overlappingEventExists(currentEvent)){
+    if (this.overlappingEventExists(currentEvent)) {
       throw new IllegalStateException("Event is overlapping with another event");
     }
-
-
   }
 
+  //host event helper
+  private void hostHelper(String invitee) {
   //
-
+  }
   /**
    * Removes the given event from the users schedule.
    * @param e

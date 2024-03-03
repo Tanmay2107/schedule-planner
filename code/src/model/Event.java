@@ -11,7 +11,7 @@ public class Event {
   private DayTime startTime;
   private DayTime endTime;
 
-  private Duration duration;
+  private TimeSlot duration;
   private UserSchedule host;
   private List<String> invitees;
 
@@ -33,7 +33,7 @@ public class Event {
     this.host = host;
     invitees.add(0, host.userID());
     this.invitees = invitees;
-    this.duration = new Duration(startTime, endTime);
+    this.duration = new TimeSlot(startTime, endTime);
     this.cs = cs;
   }
 
@@ -63,7 +63,7 @@ public class Event {
     for (String uid: this.invitees){
 
       //use the map from the central system
-      inviteesList.add(cs.getUserSchedule(uid));
+      inviteesList.add(cs.schedule(uid));
     }
 
     //remove this event for every user

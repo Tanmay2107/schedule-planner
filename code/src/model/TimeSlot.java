@@ -1,14 +1,14 @@
 package model;
 
-public class Duration {
+public class TimeSlot {
 
   private DayTime startTime;
   private DayTime endTime;
 
   // constructor
-  public Duration(DayTime startTime, DayTime endTime){
+  public TimeSlot(DayTime startTime, DayTime endTime) {
 
-    if (startTime == null || endTime == null){
+    if (startTime == null || endTime == null) {
       throw new IllegalArgumentException("startTime and endTime of a duration cannot be null");
     }
 
@@ -16,7 +16,7 @@ public class Duration {
     this.startTime = startTime;
   }
 
-  public boolean timeInDuration(){
+  public boolean timeInDuration() {
     return true;
 
   }
