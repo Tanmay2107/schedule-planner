@@ -65,7 +65,7 @@ public class UserSchedule extends AUsers{
     }
 
   }
-
+  ///
   /**
    * Gives the event occuring at the given time.
    * @param dt
