@@ -98,6 +98,15 @@ public class Event {
 
   }
 
+  public boolean eventConflict(Event e){
+    return e.eventConflict(this.duration);
+  }
+
+  public boolean eventConflict(TimeSlot ts){
+    return ts.conflict(this.duration);
+
+  }
+
 
 
 
