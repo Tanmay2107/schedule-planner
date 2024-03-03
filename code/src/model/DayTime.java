@@ -22,6 +22,10 @@ public class DayTime {
     this.day = day;
   }
 
+  public int toInt(){
+    return this.minutes + (this.hours * 100) + (this.day.dayToInt() * 10000);
+  }
+
 
 
 }

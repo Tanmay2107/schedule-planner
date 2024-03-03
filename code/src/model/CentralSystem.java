@@ -29,7 +29,11 @@ public class CentralSystem {
     userMap.put(u.userID(), u);
   }
 
-  public UserSchedule getUserSchedule(String uid){
+  public UserSchedule schedule(String uid){
+    return userMap.get(uid);
+  }
+
+  public UserSchedule inactiveUser(String uid){
     return userMap.get(uid);
   }
 
