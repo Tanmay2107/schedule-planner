@@ -75,28 +75,9 @@ public class UserSchedule extends AUsers{
     return null;
   }
 
-
-
-  // invites a user to a given event
-  public void inviteUser(Event e){
-    // if the user already has the event in their schedule
-    if (events.contains(e)) {
-      throw new IllegalStateException("User already has the event in their schedule.");
-    }
-    if (this.overlappingEventExists(e)) {
-      throw new IllegalStateException("This event overlaps with an existing event in the schedule.");
-    }
-
-    // adds this event to their schedule.
-    events.add(e);
-    // user gets added to the event as an invitee
-    e.inviteUser(uid);
-
-  }
-
   @Override
   public IUsers activate() {
     throw new IllegalStateException("User is already active");
   }
-  
+
 }
