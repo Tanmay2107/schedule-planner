@@ -13,17 +13,17 @@ public class CentralSystem {
   public CentralSystem(ArrayList<UserSchedule> users){
     this.users = users;
     for(UserSchedule user: users){
-      userMap.put(user.getUid(), user);
+      userMap.put(user.userID(), user);
     }
   }
 
   public void addUser(UserSchedule u){
-    userMap.put(u.getUid(), u);
+    userMap.put(u.userID(), u);
   }
 
   public void addUser(String uid){
     UserSchedule u = new UserSchedule(uid,this);
-    userMap.put(u.getUid(), u);
+    userMap.put(u.userID(), u);
   }
 
   public UserSchedule getUserSchedule(String uid){

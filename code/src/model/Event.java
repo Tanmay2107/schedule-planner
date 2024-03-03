@@ -93,6 +93,11 @@ public class Event {
     return u.userID().equals(this.host.userID());
   }
 
+  public boolean isEventAtGivenTime(DayTime d){
+    return duration.timeInDuration();
+
+  }
+
 
 
 

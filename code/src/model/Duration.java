@@ -16,4 +16,9 @@ public class Duration {
     this.startTime = startTime;
   }
 
+  public boolean timeInDuration(){
+    return true;
+
+  }
+
 }

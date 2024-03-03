@@ -98,6 +98,5 @@ public class UserSchedule extends AUsers{
   public IUsers activate() {
     throw new IllegalStateException("User is already active");
   }
-
-
+  
 }
