@@ -10,8 +10,11 @@ public class CentralSystem {
 
   private HashMap<String,UserSchedule> userMap;
 
+  private HashMap<String,UserSchedule> inactiveUserMap;
+
   public CentralSystem(ArrayList<UserSchedule> users){
     this.users = users;
+    this.userMap = new HashMap<String,UserSchedule>();
     for(UserSchedule user: users){
       userMap.put(user.userID(), user);
     }
