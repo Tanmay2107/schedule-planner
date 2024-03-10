@@ -18,7 +18,6 @@ public class TimeSlot {
 
   public boolean timeInDuration() {
     return true;
-
   }
 
 
@@ -28,14 +27,12 @@ public class TimeSlot {
   }
 
   private boolean conflictHelper(TimeSlot d) {
-
     if (this.endTime.toInt() < this.startTime.toInt()) {
       return this.overFlowConflict(d);
     }
     else {
       return this.sameWeekConflict(d);
     }
-
   }
 
   private boolean overFlowConflict(TimeSlot d) {
@@ -48,9 +45,8 @@ public class TimeSlot {
 
   // returns true if there is a conflict for events that last within the same week.
   private boolean sameWeekConflict(TimeSlot d) {
-    return (d.startTime.toInt() < this.endTime.toInt());
+    return !(d.startTime.toInt() >= this.endTime.toInt()
+    || d.endTime.toInt() <= this.startTime.toInt());
   }
-
-
 
 }

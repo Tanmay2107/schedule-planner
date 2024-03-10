@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-//
+
 
 
 public class UserSchedule extends AUsers{
@@ -39,9 +39,9 @@ public class UserSchedule extends AUsers{
     }
   }
 
+
   //host event helper
   private void hostHelper(String invitee) {
-  //
   }
   /**
    * Removes the given event from the users schedule.

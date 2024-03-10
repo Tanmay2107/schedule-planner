@@ -43,15 +43,9 @@ public abstract class AUsers implements IUsers{
 
   }
 
-  /**
-   * Checks if any event exists that is overlapping the time period of the given event.
-   * @param e
-   * @return if there is an overlapping event in this user's schedule.
-   */
-  protected boolean overlappingEventExists(Event e){
-    return false;
+  protected boolean overlappingEventExists(Event e) {
+    return true;
   }
-
 
   public abstract IUsers activate();
 
