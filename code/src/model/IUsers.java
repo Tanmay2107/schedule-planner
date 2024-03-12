@@ -4,16 +4,18 @@ import java.util.ArrayList;
 
 public interface IUsers {
 
-  public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime, ArrayList<String> invitees);
+  public String userID();
 
-  public void removeEvent(Event e);
+  public void hostEvent(String name, String location, boolean online, DayTime startTime,
+                        DayTime endTime, ArrayList<IUsers> invitedUsers);
+
+  public void removeEvent(IEvent e);
 
   public Event eventAtGiveTime(DayTime dt0);
 
-  public void inviteUser(Event e);
+  public void inviteUser(IEvent e);
 
-  public IUsers activate();
+  public UserSchedule activate();
 
   // public modify ();
 

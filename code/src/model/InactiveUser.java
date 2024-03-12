@@ -4,23 +4,24 @@ import java.util.ArrayList;
 
 public class InactiveUser extends AUsers{
 
-  public InactiveUser(String uid, CentralSystem cs) {
-    super(uid, cs);
+  public InactiveUser(String uid) {
+    super(uid);
   }
 
   @Override
-  public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime, ArrayList<String> invitees) {
+  public void hostEvent(String name, String location, boolean online, DayTime startTime, DayTime endTime, ArrayList<IUsers> invitedUsers) {
     throw new IllegalStateException("Inactive user can not host");
   }
 
+
   @Override
-  public void removeEvent(Event e) {
-    throw new IllegalStateException("Inactive user can not delete event");
+  public void removeEvent(IEvent e) {
+    events.remove(e);
+    e.removeInvitee(this);
   }
 
   @Override
-  public IUsers activate() {
-    return new UserSchedule(uid, events, cs);
+  public UserSchedule activate() {
+    return new UserSchedule(uid, events);
   }
 }

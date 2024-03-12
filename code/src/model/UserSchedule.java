@@ -10,8 +10,8 @@ public class UserSchedule extends AUsers{
    * Creates a new user schedule with the given uid.
    * @param uid
    */
-  public UserSchedule(String uid, CentralSystem cs){
-    super(uid, cs);
+  public UserSchedule(String uid){
+    super(uid);
 
   }
 
@@ -20,8 +20,8 @@ public class UserSchedule extends AUsers{
    * @param uid
    * @param events
    */
-  public UserSchedule(String uid, ArrayList<Event> events, CentralSystem cs){
-    super(uid, cs);
+  public UserSchedule(String uid, ArrayList<IEvent> events){
+    super(uid);
     this.events = events;
   }
 
@@ -31,37 +31,47 @@ public class UserSchedule extends AUsers{
 
   // user can host an event.
   public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime, ArrayList<String> invitees){
-    Event currentEvent = new Event(name, location, online,startTime,endTime, this, invitees,
-            this.cs);
-    if (this.overlappingEventExists(currentEvent)) {
-      throw new IllegalStateException("Event is overlapping with another event");
+                        DayTime endTime,ArrayList<IUsers> invitedUsers){
+    if (name == null || location == null || startTime == null || endTime == null || invitedUsers== null) {
+      throw new IllegalArgumentException("fields can't be null");
+    }
+
+    Event e = new Event(name, location, online, startTime, endTime, this);
+
+    //add the host as an invitee
+    this.inviteUser(e);
+
+    //invite the other users
+    for(IUsers i: invitedUsers){
+      i.inviteUser(e);
     }
   }
 
 
-  //host event helper
-  private void hostHelper(String invitee) {
-  }
+
+
+
+
+
+
+
   /**
    * Removes the given event from the users schedule.
    * @param e
    */
-  public void removeEvent(Event e){
-    //remove this event from my events
-    this.events.remove(e);
-
-    //remove me as an invitee
-    e.removeInvitee(this);
-
-    //if host then  delete the event
+  public void removeEvent(IEvent e){
     if(e.isHost(this)){
-
-      //delete this event for every user who is invited to it
+      events.remove(e);
+      e.removeInvitee(this);
       e.deleteEvent();
-    }
+    } else {
+      events.remove(e);
+      e.removeInvitee(this);
 
+    }
   }
+
+
   ///
   /**
    * Gives the event occuring at the given time.
@@ -73,7 +83,7 @@ public class UserSchedule extends AUsers{
   }
 
   @Override
-  public IUsers activate() {
+  public UserSchedule activate() {
     throw new IllegalStateException("User is already active");
   }
 

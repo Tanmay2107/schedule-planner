@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public class Event implements IEvent{
   private String name;
   private boolean online;
 
@@ -13,16 +13,18 @@ public class Event {
 
   private TimeSlot duration;
   private UserSchedule host;
-  private List<String> invitees;
 
-  private CentralSystem cs;
+
+  private List<IUsers> invitedUsers;
+
+
 
 
   // constructor:
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-               UserSchedule host, List<String> invitees,CentralSystem cs) {
+               UserSchedule host,  List<IUsers> invitedUsers) {
     if (name == null || location == null || startTime == null
-            || endTime == null || host == null || invitees == null) {
+            || endTime == null || host == null || invitedUsers == null) {
       throw new IllegalArgumentException("fields can't be null");
     }
     this.name = name;
@@ -31,83 +33,99 @@ public class Event {
     this.startTime = startTime;
     this.endTime = endTime;
     this.host = host;
-    invitees.add(0, host.userID());
-    this.invitees = invitees;
     this.duration = new TimeSlot(startTime, endTime);
-    this.cs = cs;
+    this.invitedUsers = invitedUsers;
+
+  }
+
+  public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
+               UserSchedule host) {
+    if (name == null || location == null || startTime == null
+            || endTime == null || host == null || invitedUsers == null) {
+      throw new IllegalArgumentException("fields can't be null");
+    }
+    this.name = name;
+    this.location = location;
+    this.online = online;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.host = host;
+    this.duration = new TimeSlot(startTime, endTime);
+    this.invitedUsers = new ArrayList<IUsers>();
   }
 
 
-  public boolean isEventOverlapping() {
-    return false; // handle in duration
-  }
 
 
-  // adding invitee to event
-  public void inviteUser(String uid) {
 
-    // user already an invitee
-    if (invitees.contains(uid)) {
-      throw new IllegalArgumentException("User " + uid + " is already invited to the event.");
+  @Override
+  public void addInvitee(IUsers u) {
+    if (u == null) {
+      throw new IllegalArgumentException("User can't be null");
     }
 
-    // Add the user to the list of invitees
-    invitees.add(uid);
+    if(invitedUsers.contains(u)){
+      throw new IllegalArgumentException("User is already invited");
+    }
+
+    invitedUsers.add(u);
   }
 
 
 
+  @Override
   public void deleteEvent() {
-    //make a list of users from uids
-    ArrayList<UserSchedule> inviteesList = new ArrayList<>();
-    for (String uid: this.invitees){
-
-      //use the map from the central system
-      inviteesList.add(cs.schedule(uid));
-    }
-
-    //remove this event for every user
-    for (UserSchedule u: inviteesList){
-      u.removeEvent(this);
+    //delete event
+    while(invitedUsers.size() > 0){
+      invitedUsers.get(0).removeEvent(this);
     }
 
   }
   //
 
 
-  public void removeInvitee(UserSchedule u){
 
-    //removes the event but if the given user is not an invitee then throws exception
-      if(!this.invitees.remove(u.userID())){
-        throw new IllegalStateException("This user is not in the invitee list");
-      }
 
-  }
-
-  /**
-   * Checking if the given user is the host.
-   * @param u
-   * @return true if given userschedule is the host of this event.
-   */
+  @Override
   public boolean isHost(UserSchedule u){
     return u.userID().equals(this.host.userID());
   }
 
+  @Override
   public boolean isEventAtGivenTime(DayTime d){
     return duration.timeInDuration();
-
   }
 
-  
-  public boolean eventConflict(Event e){
+
+  @Override
+  public boolean eventConflict(IEvent e){
     return e.eventConflict(this.duration);
   }
 
+  @Override
   public boolean eventConflict(TimeSlot ts){
     return ts.conflict(this.duration);
   }
 
+  @Override
+  public ArrayList<String> getInvitees(){
+    ArrayList<String> invitees = new ArrayList<String>();
+    for(IUsers i: invitedUsers){
+      invitees.add(i.userID());
+    }
+    return invitees;
+  }
 
+  @Override
+  public void removeInvitee(IUsers u){
+    if(u == null){
+      throw new IllegalArgumentException("User can't be null");
+    }
+    if(!invitedUsers.contains(u)){
+      throw new IllegalArgumentException("User is not invited");
+    }
+    invitedUsers.remove(u);
+  }
 
 
 }
