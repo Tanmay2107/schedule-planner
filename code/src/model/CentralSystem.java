@@ -100,5 +100,10 @@ public class CentralSystem {
     user.removeEvent(e);
   }
 
+  public void modifyEvent(Event event, EventCommand command) {
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
+
 
 }

@@ -2,6 +2,8 @@ import org.junit.Test;
 
 import model.Day;
 import model.DayTime;
+import model.Event;
+import model.IUsers;
 import model.TimeSlot;
 import model.CentralSystem;
 import model.UserSchedule;
@@ -203,6 +205,94 @@ public class TestPlanner {
     DayTime startTime2 = new DayTime(10, 30, Day.MONDAY);
     TimeSlot event2 = new TimeSlot(startTime2, startTime1);
     assertTrue(event2.conflict(event1));
+  }
+
+  @Test
+  public void testValidModifyName() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(host);
+
+    Event event = new Event("CS 3500", "Churchill", true,
+            startTime, endTime, host, invitees);
+
+    event.modifyName("Object Oriented Design");
+    assertEquals("Object Oriented Design", event.eventName());
+  }
+
+  @Test
+  public void testNullModifyName() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
+
+    Event event = new Event("Object Oriented Design", "Churchill", true,
+            startTime, endTime, host, invitees);
+
+    // Act & Assert: Try to modify the event name to null, should throw an exception
+    assertThrows(IllegalArgumentException.class, () -> event.modifyName(null));
+  }
+
+  @Test
+  public void testValidModifyLocation() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(host);
+
+    Event event = new Event("CS 3500", "Churchill 101", true,
+            startTime, endTime, host, invitees);
+
+    event.modifyLocation("Snell 109");
+    assertEquals("Snell 109", event.eventLocation());
+  }
+
+  @Test
+  public void testNullModifyLocation() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
+
+    Event event = new Event("OriginalName", "Churchill", true,
+            startTime, endTime, host, invitees);
+
+    // Act & Assert: Try to modify the event name to null, should throw an exception
+    assertThrows(IllegalArgumentException.class, () -> event.modifyLocation(null));
   }
 
 }

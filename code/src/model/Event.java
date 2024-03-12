@@ -6,18 +6,12 @@ import java.util.List;
 public class Event implements IEvent{
   private String name;
   private boolean online;
-
   private String location;
   private DayTime startTime;
   private DayTime endTime;
-
   private TimeSlot duration;
   private UserSchedule host;
-
-
   private List<IUsers> invitedUsers;
-
-
 
 
   // constructor:
@@ -54,8 +48,13 @@ public class Event implements IEvent{
     this.invitedUsers = new ArrayList<IUsers>();
   }
 
+  public String eventName(){
+    return this.name;
+  }
 
-
+  public String eventLocation(){
+    return this.location;
+  }
 
 
   @Override
@@ -81,9 +80,6 @@ public class Event implements IEvent{
     }
 
   }
-  //
-
-
 
 
   @Override
@@ -127,5 +123,58 @@ public class Event implements IEvent{
     invitedUsers.remove(u);
   }
 
+
+  void changeName(String newName){
+    this.name = newName;
+  }
+
+  void changeLocation(String newLocation){
+    this.location = newLocation;
+  }
+
+  void changeStartTime(DayTime newStartTime){
+    this.startTime = newStartTime;
+  }
+
+  void changeEndTime(DayTime newEndTime){
+    this.endTime = newEndTime;
+  }
+
+
+  public void modifyName(String newName) {
+    if (newName== null){
+      throw new IllegalArgumentException("Name can't be null");
+    }
+    EventCommand command = new ModifyEventNameCommand(this, newName);
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
+
+  public void modifyLocation(String newLocation) {
+    if (newLocation== null){
+      throw new IllegalArgumentException("Location can't be null");
+    }
+    EventCommand command = new ModifyEventLocationCommand(this, newLocation);
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
+
+  public void modifyStartTime(DayTime newStartTime) {
+    if (newStartTime== null){
+      throw new IllegalArgumentException("Start Time can't be null");
+    }
+    EventCommand command = new ModifyEventStartTimeCommand(this, newStartTime);
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
+
+  public void modifyEndTime(DayTime newEndTime) {
+    if (newEndTime== null){
+      throw new IllegalArgumentException("End Time can't be null");
+    }
+    EventCommand command = new ModifyEventEndTimeCommand(this, newEndTime);
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
 
 }
