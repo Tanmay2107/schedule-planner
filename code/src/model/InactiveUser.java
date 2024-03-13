@@ -24,4 +24,9 @@ public class InactiveUser extends AUsers{
   public UserSchedule activate() {
     return new UserSchedule(uid, events);
   }
+
+  @Override
+  public ArrayList<IEvent> scheduledEvents() {
+    return this.events;
+  }
 }

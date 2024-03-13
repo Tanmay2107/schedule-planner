@@ -47,16 +47,6 @@ public class UserSchedule extends AUsers{
     }
   }
 
-
-
-
-
-
-
-
-
-
-
   /**
    * Removes the given event from the users schedule.
    * @param e
