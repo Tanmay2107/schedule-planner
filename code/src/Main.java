@@ -22,7 +22,7 @@ public class Main {
       invitees.add(user1);
       invitees.add(user2);
       invitees.add(host);
-
+//
 
       IEvent event1 = new Event("CS 3500", "Churchill 101", true,
               startTime, endTime, host, invitees);
