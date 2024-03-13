@@ -2,18 +2,21 @@ package model;
 
 public enum Day {
 
-  MONDAY(1),
-  TUESDAY(2),
-  WEDNESDAY(3),
-  THURSDAY(4),
-  FRIDAY(5),
-  SATURDAY(6),
-  SUNDAY(7);
+  MONDAY(1, "Monday"),
+  TUESDAY(2, "Tuesday"),
+  WEDNESDAY(3, "Wednesday"),
+  THURSDAY(4, "Thursday"),
+  FRIDAY(5, "Friday"),
+  SATURDAY(6, "Saturday"),
+  SUNDAY(7, "Sunday");
 
   private final int value;
 
-  Day(int value) {
+  private final String stringValue;
+
+  Day(int value, String stringValue) {
     this.value = value;
+    this.stringValue = stringValue;
   }
 
   private int getValue() {
@@ -22,6 +25,10 @@ public enum Day {
 
   public int dayToInt() {
     return this.getValue();
+  }
+
+  public String toString() {
+    return this.stringValue;
   }
 
 }

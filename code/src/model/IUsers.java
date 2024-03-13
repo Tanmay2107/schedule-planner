@@ -17,6 +17,8 @@ public interface IUsers {
 
   public UserSchedule activate();
 
+  public ArrayList<IEvent> scheduledEvents();
+
   // public modify ();
 
 }

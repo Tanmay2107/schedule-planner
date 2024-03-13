@@ -2,11 +2,12 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents the central system that manages all the users and their schedules.
  */
-public class CentralSystem {
+public class CentralSystem implements CentralSystemModel{
 //
 
   private ArrayList<UserSchedule> users;
@@ -103,6 +104,24 @@ public class CentralSystem {
   public void modifyEvent(Event event, EventCommand command) {
     EventModifier modifier = new EventModifier(command);
     modifier.executeModification();
+  }
+
+  @Override
+  public List<IEvent> getEvents(String uid) {
+    if(!activeUserMap.containsKey(uid)){
+      throw new IllegalArgumentException("There is no active user with the given ID.");
+    }
+
+    UserSchedule user = activeUserMap.get(uid);
+    return user.scheduledEvents();
+  }
+
+  public String toString(){
+    String result = "";
+    for(UserSchedule u: users){
+      result += u.toString() + "\n";
+    }
+    return result;
   }
 
 

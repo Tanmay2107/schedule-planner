@@ -1,5 +1,6 @@
 package model;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class Event implements IEvent{
   }
 
   @Override
-  public ArrayList<String> getInvitees(){
+  public ArrayList<String> listOfInvitees(){
     ArrayList<String> invitees = new ArrayList<String>();
     for(IUsers i: invitedUsers){
       invitees.add(i.userID());
@@ -121,6 +122,11 @@ public class Event implements IEvent{
       throw new IllegalArgumentException("User is not invited");
     }
     invitedUsers.remove(u);
+  }
+
+  @Override
+  public boolean eventStartsOnDay(Day d) {
+    return this.startTime.dayEquals(d);
   }
 
 
@@ -175,6 +181,59 @@ public class Event implements IEvent{
     EventCommand command = new ModifyEventEndTimeCommand(this, newEndTime);
     EventModifier modifier = new EventModifier(command);
     modifier.executeModification();
+  }
+
+  @Override
+  public DayTime startTime() {
+    return this.startTime;
+  }
+
+  @Override
+  public String name() {
+    return this.name;
+  }
+
+  @Override
+  public boolean online() {
+    return this.online;
+  }
+
+  @Override
+  public String location() {
+    return this.location;
+  }
+
+  @Override
+  public DayTime endTime() {
+    return this.endTime;
+  }
+
+  @Override
+  public TimeSlot duration() {
+    return this.duration;
+  }
+
+  @Override
+  public String hostID() {
+    return this.host.userID();
+  }
+
+
+  //Move to textview
+  public String toString(){
+    String result = "";
+    result += "name: " + this.name + "\n";
+    //for time
+    result += "time: " + this.startTime.toString() + " -> " + this.endTime.toString() + "\n";
+    result += "location: " + this.location + "\n";
+    result += "online: " + this.online + "\n";
+
+    String stringOfInvitees = "";
+    for(IUsers i: invitedUsers){
+      stringOfInvitees += i.userID() + "\n";
+    }
+    result += "invitees: " + stringOfInvitees;
+    return result;
   }
 
 }

@@ -55,6 +55,8 @@ public class UserSchedule extends AUsers{
 
 
 
+
+
   /**
    * Removes the given event from the users schedule.
    * @param e
@@ -86,5 +88,12 @@ public class UserSchedule extends AUsers{
   public UserSchedule activate() {
     throw new IllegalStateException("User is already active");
   }
+
+  @Override
+  public ArrayList<IEvent> scheduledEvents() {
+    return new ArrayList<IEvent>(this.events);
+  }
+
+  
 
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 public interface IEvent {
@@ -53,11 +54,29 @@ public interface IEvent {
    * Returns a list of the uids of the invitees for this event.
    * @return a list of uids of the invitees for this event.
    */
-  public ArrayList<String> getInvitees();
+  public ArrayList<String> listOfInvitees();
 
   /**
    * Removes the given invitee from the event
    * @return removes the given invitee from the event
    */
   public void removeInvitee(IUsers u);
+
+  public boolean eventStartsOnDay(Day d);
+
+  public String toString();
+
+  public DayTime startTime();
+
+  public String name();
+  public boolean online();
+  public String location();
+
+  public DayTime endTime();
+
+  public TimeSlot duration();
+
+  public String hostID();
+
+
 }
