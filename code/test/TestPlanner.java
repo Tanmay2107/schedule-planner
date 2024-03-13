@@ -246,8 +246,6 @@ public class TestPlanner {
 
     Event event = new Event("Object Oriented Design", "Churchill", true,
             startTime, endTime, host, invitees);
-
-    // Act & Assert: Try to modify the event name to null, should throw an exception
     assertThrows(IllegalArgumentException.class, () -> event.modifyName(null));
   }
 
@@ -291,7 +289,6 @@ public class TestPlanner {
     Event event = new Event("OriginalName", "Churchill", true,
             startTime, endTime, host, invitees);
 
-    // Act & Assert: Try to modify the event name to null, should throw an exception
     assertThrows(IllegalArgumentException.class, () -> event.modifyLocation(null));
   }
 
