@@ -84,6 +84,4 @@ public class UserSchedule extends AUsers{
     return new ArrayList<IEvent>(this.events);
   }
 
-  
-
 }

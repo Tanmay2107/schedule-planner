@@ -207,6 +207,60 @@ public class TestPlanner {
     assertTrue(event2.conflict(event1));
   }
 
+  // tests for Event:
+
+  // Event constructor tests:
+
+  @Test
+  public void testValidOnlineEventConstruction(){
+
+  }
+
+  @Test
+  public void testValidInPersonEventConstruction(){
+
+  }
+
+  @Test
+  public void testEventConstructionBadName(){
+
+  }
+
+
+  @Test
+  public void testEventConstructionBadLocation(){
+
+  }
+
+  @Test
+  public void testEventConstructionBadStartTime(){
+
+  }
+
+  @Test
+  public void testEventConstructionBadEndTime(){
+
+  }
+
+  @Test
+  public void testEventConstructionInactiveHost(){
+
+  }
+
+  @Test
+  public void testEventConstructionNullHost(){
+
+  }
+
+  @Test
+  public void testEventConstructionBadInvitees(){
+
+  }
+
+
+
+
+
   @Test
   public void testValidModifyName() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -225,7 +279,7 @@ public class TestPlanner {
             startTime, endTime, host, invitees);
 
     event.modifyName("Object Oriented Design");
-    assertEquals("Object Oriented Design", event.eventName());
+    assertEquals("Object Oriented Design", event.name());
   }
 
   @Test
@@ -250,6 +304,92 @@ public class TestPlanner {
   }
 
   @Test
+  public void testActiveAddInvitee(){}
+
+  @Test
+  public void testInactiveAddInvitee(){}
+
+  @Test
+  public void testNonExistingUserAddInvitee(){}
+
+  @Test
+  public void testNullAddInvitee(){}
+
+  @Test
+  public void testAlreadyInvitedAddInvitee(){}
+
+  @Test
+  public void testValidDeleteEvent(){}
+
+  @Test
+  public void testNonExistentDeleteEvent(){}
+
+  @Test
+  public void testDeleteEventByNonInvitee(){}
+
+  @Test
+  public void testDeleteEventByInvitee(){}
+
+  @Test
+  public void testDeleteEventByHost(){}
+
+  @Test
+  public void testIsHostTrue(){}
+
+
+  @Test
+  public void testIsHostFalse(){}
+
+  @Test
+  public void testEventAtGivenTimeTrue(){
+  }
+
+  @Test
+  public void testEventAtGivenTimeFalse(){
+  }
+
+  @Test
+  public void testRemoveInviteeForHost(){
+  }
+
+  @Test
+  public void testRemoveInviteeForOtherUsers(){
+  }
+
+  @Test
+  public void testRemoveInviteeForNonExistentUsers(){
+  }
+
+  @Test
+  public void testRemoveInviteeForNullUsers(){
+  }
+
+
+
+
+
+  // No change. Just returns same name as is.
+  @Test
+  public void testModifyNameWithSameName() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(host);
+
+    Event event = new Event("CS 3500", "Churchill", true,
+            startTime, endTime, host, invitees);
+
+    event.modifyName("CS 3500");
+    assertEquals("CS 3500", event.name());
+  }
+  @Test
   public void testValidModifyLocation() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
     DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
@@ -267,7 +407,7 @@ public class TestPlanner {
             startTime, endTime, host, invitees);
 
     event.modifyLocation("Snell 109");
-    assertEquals("Snell 109", event.eventLocation());
+    assertEquals("Snell 109", event.location());
   }
 
   @Test
@@ -291,5 +431,82 @@ public class TestPlanner {
 
     assertThrows(IllegalArgumentException.class, () -> event.modifyLocation(null));
   }
+
+  // No error. Just remains unchanged.
+  @Test
+  public void testModifyLocationWithSameLocation() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
+
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
+
+    Event event = new Event("CS 3500", "Churchill 101", true,
+            startTime, endTime, host, invitees);
+
+    event.modifyLocation("Churchill 101");
+    assertEquals("Churchill 101", event.location());
+
+  }
+
+  @Test
+  public void testModifyStartTimeIncreaseDuration(){
+
+  }
+
+  @Test
+  public void testModifyNullStartTime(){
+
+  }
+
+  @Test
+  public void testModifyStartTimeGreaterThanEndTime(){
+
+  }
+
+  @Test
+  public void testModifyStartTimeReduceDuration(){
+
+  }
+
+  @Test
+  public void testModifyStartTimeEqualEndTime(){
+
+  }
+
+  @Test
+  public void testModifyEndTimeReduceDuration(){
+
+  }
+
+  @Test
+  public void testModifyEndTimeIncreaseDuration(){
+
+  }
+
+  @Test
+  public void testModifyEndTimeSmallerThanStartTime(){
+
+  }
+
+  @Test
+  public void testModifyEndTimeEqualStartTime(){
+
+  }
+
+  @Test
+  public void testModifyNullEndTime(){
+
+  }
+
+
 
 }

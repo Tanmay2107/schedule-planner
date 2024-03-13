@@ -49,15 +49,6 @@ public class Event implements IEvent{
     this.invitedUsers = new ArrayList<IUsers>();
   }
 
-  public String eventName(){
-    return this.name;
-  }
-
-  public String eventLocation(){
-    return this.location;
-  }
-
-
   @Override
   public void addInvitee(IUsers u) {
     if (u == null) {
@@ -67,10 +58,8 @@ public class Event implements IEvent{
     if(invitedUsers.contains(u)){
       throw new IllegalArgumentException("User is already invited");
     }
-
     invitedUsers.add(u);
   }
-
 
 
   @Override
@@ -79,7 +68,6 @@ public class Event implements IEvent{
     while(invitedUsers.size() > 0){
       invitedUsers.get(0).removeEvent(this);
     }
-
   }
 
 
@@ -92,7 +80,6 @@ public class Event implements IEvent{
   public boolean isEventAtGivenTime(DayTime d){
     return duration.timeInDuration();
   }
-
 
   @Override
   public boolean eventConflict(IEvent e){
