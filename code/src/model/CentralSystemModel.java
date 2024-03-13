@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface CentralSystemModel {
+public interface CentralSystemModel extends ReadOnlyCentralSystem {
   public void addUser(String uid) ;
 
   public void addEvent(String host_uid, String name, String location, boolean online,
@@ -13,7 +13,7 @@ public interface CentralSystemModel {
 
   public void modifyEvent(Event event, EventCommand command);
 
-  public List<IEvent> getEvents(String uid);
+  public List<ReadOnlyEvent> getEvents(String uid);
 
-
+  public List<ReadOnlyUsers> getUsers(String uid);
 }

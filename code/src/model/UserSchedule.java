@@ -31,7 +31,7 @@ public class UserSchedule extends AUsers{
 
   // user can host an event.
   public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime,ArrayList<IUsers> invitedUsers){
+                        DayTime endTime, ArrayList<IUsers> invitedUsers){
     if (name == null || location == null || startTime == null || endTime == null || invitedUsers== null) {
       throw new IllegalArgumentException("fields can't be null");
     }
@@ -64,7 +64,6 @@ public class UserSchedule extends AUsers{
   }
 
 
-  ///
   /**
    * Gives the event occuring at the given time.
    * @param dt
@@ -80,8 +79,8 @@ public class UserSchedule extends AUsers{
   }
 
   @Override
-  public ArrayList<IEvent> scheduledEvents() {
-    return new ArrayList<IEvent>(this.events);
+  public ArrayList<ReadOnlyEvent> scheduledEvents() {
+    return new ArrayList<ReadOnlyEvent>(this.events);
   }
 
 }

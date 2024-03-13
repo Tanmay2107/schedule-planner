@@ -37,8 +37,6 @@ public class CentralSystem implements CentralSystemModel{
     this.inactiveUserMap = new HashMap<String,InactiveUser>();
   }
 
-
-
   /**
    * Adds a new user to the system with the given uid.
    * @param uid
@@ -65,9 +63,6 @@ public class CentralSystem implements CentralSystemModel{
     this.checkForActiveUser(host_uid);
 
     ArrayList<IUsers> invitedUsers = getInvitees(invitees);
-
-
-
     IUsers hostUser = activeUserMap.get(host_uid);
     hostUser.hostEvent(name, location, online, startTime, endTime, invitedUsers);
   }
@@ -107,13 +102,27 @@ public class CentralSystem implements CentralSystemModel{
   }
 
   @Override
-  public List<IEvent> getEvents(String uid) {
+  public List<ReadOnlyEvent> getEvents(String uid) {
     if(!activeUserMap.containsKey(uid)){
       throw new IllegalArgumentException("There is no active user with the given ID.");
     }
 
     UserSchedule user = activeUserMap.get(uid);
     return user.scheduledEvents();
+  }
+
+
+  @Override
+  public List<ReadOnlyUsers> getUsers(String uid) {
+    List<ReadOnlyUsers> userList = new ArrayList<>();
+
+    for (UserSchedule user : activeUserMap.values()) {
+      if (user.userID().equals(uid)) {
+        userList.add(user);
+      }
+    }
+
+    return userList;
   }
 
   public String toString(){
@@ -123,6 +132,5 @@ public class CentralSystem implements CentralSystemModel{
     }
     return result;
   }
-
 
 }

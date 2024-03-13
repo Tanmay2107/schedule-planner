@@ -3,7 +3,7 @@ package model;
 import java.time.Duration;
 import java.util.ArrayList;
 
-public interface IEvent {
+public interface IEvent extends ReadOnlyEvent{
 
 
   /**

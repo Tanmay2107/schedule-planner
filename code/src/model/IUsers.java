@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public interface IUsers {
+public interface IUsers extends ReadOnlyUsers{
 
   public String userID();
 
@@ -17,7 +17,7 @@ public interface IUsers {
 
   public UserSchedule activate();
 
-  public ArrayList<IEvent> scheduledEvents();
+  public ArrayList<ReadOnlyEvent> scheduledEvents();
 
   // public modify ();
 

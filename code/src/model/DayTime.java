@@ -37,6 +37,11 @@ public class DayTime {
     return this.day.toString() + ": " + this.hours + "" + this.minutes;
   }
 
+  public Day day(){
+    return this.day;
+  }
+
+
 
 
 }
