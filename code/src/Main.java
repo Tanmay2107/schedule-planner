@@ -10,9 +10,9 @@ import model.IUsers;
 import model.ReadOnlyEvent;
 import model.ReadOnlyUsers;
 import model.UserSchedule;
+import view.CentralSystemTextView;
 
 public class Main {
   public static void main(String[] args) {
-
   }
 }

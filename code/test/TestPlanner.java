@@ -278,7 +278,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("CS 3500", "Churchill", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
 
     event.modifyName("Object Oriented Design");
     assertEquals("Object Oriented Design", event.name());
@@ -301,7 +301,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("Object Oriented Design", "Churchill", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
     assertThrows(IllegalArgumentException.class, () -> event.modifyName(null));
   }
 
@@ -386,7 +386,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("CS 3500", "Churchill", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
 
     event.modifyName("CS 3500");
     assertEquals("CS 3500", event.name());
@@ -406,7 +406,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("CS 3500", "Churchill 101", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
 
     event.modifyLocation("Snell 109");
     assertEquals("Snell 109", event.location());
@@ -429,7 +429,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("OriginalName", "Churchill", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
 
     assertThrows(IllegalArgumentException.class, () -> event.modifyLocation(null));
   }
@@ -452,7 +452,7 @@ public class TestPlanner {
     invitees.add(host);
 
     Event event = new Event("CS 3500", "Churchill 101", true,
-            startTime, endTime, host, invitees);
+            startTime, endTime, host.userID());
 
     event.modifyLocation("Churchill 101");
     assertEquals("Churchill 101", event.location());

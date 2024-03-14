@@ -39,7 +39,7 @@ public class Event implements IEvent{
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
                String hostId) {
     if (name == null || location == null || startTime == null
-            || endTime == null || hostId == null || invitedUsers == null) {
+            || endTime == null || hostId == null) {
       throw new IllegalArgumentException("fields can't be null");
     }
     this.name = name;
