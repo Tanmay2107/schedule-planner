@@ -31,13 +31,6 @@ public interface IEvent extends ReadOnlyEvent{
   public boolean isHost(IUsers u);
 
   /**
-   * Returns is the event occurs at the given time.
-   * @return true if this event occurs at the given time.
-   */
-  public boolean isEventAtGivenTime(DayTime d);
-
-
-  /**
    * Checks if the given event conflicts with this event.
    * @param e
    * @return true if the given event conflicts with this event.
@@ -63,8 +56,6 @@ public interface IEvent extends ReadOnlyEvent{
    */
   public void removeInvitee(IUsers u);
 
-  public boolean eventStartsOnDay(Day d);
-
   public String toString();
 
   public DayTime startTime();
@@ -79,8 +70,16 @@ public interface IEvent extends ReadOnlyEvent{
 
   public String hostID();
 
-
-
-
   String giveXMLString();
+
+  public void changeName(String newName);
+
+  public void changeLocation(String newLocation);
+
+  public void changeStartTime(DayTime newStartTime);
+
+  public void changeEndTime(DayTime newEndTime);
+  public void changeOnlineStatus();
+
+  public boolean eventEquals(ReadOnlyEvent e);
 }

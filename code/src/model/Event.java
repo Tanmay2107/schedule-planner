@@ -1,26 +1,12 @@
 package model;
 
-import java.io.File;
-import java.time.Duration;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+/**
+ * Represents an event in the system.
+ */
 public class Event implements IEvent{
   private String name;
   private boolean online;
@@ -35,6 +21,18 @@ public class Event implements IEvent{
 
 
 
+  /**
+   * Constructs an event with the specified attributes.
+   *
+   * @param name         The name of the event.
+   * @param location     The location of the event.
+   * @param online       A boolean indicating if the event is online.
+   * @param startTime    The start time of the event.
+   * @param endTime      The end time of the event.
+   * @param invitedUsers The list of users invited to the event.
+   * @param hostId       The ID of the host user.
+   * @throws IllegalArgumentException if any of the parameters (except invitedUsers) is null.
+   */
 
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
                 List<IUsers> invitedUsers,String hostId) {
@@ -52,6 +50,17 @@ public class Event implements IEvent{
     this.hostId = hostId;
   }
 
+  /**
+   * Constructs an event with the specified attributes.
+   *
+   * @param name         The name of the event.
+   * @param location     The location of the event.
+   * @param online       A boolean indicating if the event is online.
+   * @param startTime    The start time of the event.
+   * @param endTime      The end time of the event.
+   * @param hostId       The ID of the host user.
+   * @throws IllegalArgumentException if any of the parameters (except invitedUsers) is null.
+   */
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
                String hostId) {
     if (name == null || location == null || startTime == null
@@ -68,10 +77,11 @@ public class Event implements IEvent{
     this.hostId = hostId;
   }
 
-
-
-
-
+  /**
+   * Adds a user to the list of invitees for this event.
+   * @param u The user to add as an invitee.
+   * @throws IllegalArgumentException if the user is already invited or null.
+   */
   @Override
   public void addInvitee(IUsers u) {
     if (u == null) {
@@ -85,6 +95,9 @@ public class Event implements IEvent{
   }
 
 
+  /**
+   * Deletes the event from all users' schedules.
+   */
   @Override
   public void deleteEvent() {
     //delete event
@@ -94,26 +107,40 @@ public class Event implements IEvent{
   }
 
 
+  /**
+   * Checks if a user is the host of the event.
+   * @param u The user to check.
+   * @return true if the user is the host, otherwise false.
+   */
   @Override
   public boolean isHost(IUsers u){
     return u.userID().equals(this.hostId);
   }
 
-  @Override
-  public boolean isEventAtGivenTime(DayTime d){
-    return duration.timeInDuration();
-  }
-
+  /**
+   * Checks if the event conflicts with another event.
+   * @param e The event to check for conflicts with.
+   * @return true if there is a conflict, otherwise false.
+   */
   @Override
   public boolean eventConflict(IEvent e){
     return e.eventConflict(this.duration);
   }
 
+  /**
+   * Checks if the event conflicts with a time slot.
+   * @param ts The time slot to check for conflicts with.
+   * @return true if there is a conflict, otherwise false.
+   */
   @Override
   public boolean eventConflict(TimeSlot ts){
     return ts.conflict(this.duration);
   }
 
+  /**
+   * Retrieves a list of invitees' IDs.
+   * @return A list of invitees' IDs.
+   */
   @Override
   public ArrayList<String> listOfInvitees(){
     ArrayList<String> invitees = new ArrayList<String>();
@@ -123,6 +150,11 @@ public class Event implements IEvent{
     return invitees;
   }
 
+  /**
+   * Removes a user from the list of invitees for this event.
+   * @param u The user to remove as an invitee.
+   * @throws IllegalArgumentException if the user is not invited or null.
+   */
   @Override
   public void removeInvitee(IUsers u){
     if(u == null){
@@ -134,29 +166,54 @@ public class Event implements IEvent{
     invitedUsers.remove(u);
   }
 
-  @Override
-  public boolean eventStartsOnDay(Day d) {
-    return this.startTime.dayEquals(d);
-  }
-
-
-  void changeName(String newName){
+  public void changeName(String newName){
     this.name = newName;
   }
 
-  void changeLocation(String newLocation){
+  public void changeLocation(String newLocation){
     this.location = newLocation;
   }
 
-  void changeStartTime(DayTime newStartTime){
-    this.startTime = newStartTime;
+  public void changeStartTime(DayTime newStartTime){
+    if (!this.eventConflict(new TimeSlot(newStartTime, this.endTime()))) {
+      this.startTime= newStartTime;
+    } else {
+      throw new IllegalStateException("Cannot modify start time because of a conflicting event");
+    }
   }
 
-  void changeEndTime(DayTime newEndTime){
-    this.endTime = newEndTime;
+  public void changeEndTime(DayTime newEndTime){
+    for (IUsers u : this.invitedUsers){
+      if (u.overlappingEventExists(new Event(this.name, this.location,
+              this.online,this.startTime, newEndTime, invitedUsers, hostId))) {
+        throw new IllegalArgumentException("Can not modify this time");
+      }
+      else {
+        this.endTime = newEndTime;
+      }
+    }
+
   }
 
+  public void changeOnlineStatus(){
+    this.online = !this.online;
+  }
 
+  /**
+   * Modifies the online status of the event using a command pattern.
+   */
+  public void modifyOnline() {
+    EventCommand command = new ModifyEventOnlineStatus(this);
+    EventModifier modifier = new EventModifier(command);
+    modifier.executeModification();
+  }
+
+  /**
+   * Modifies the name of the event using a command pattern.
+   *
+   * @param newName The new name for the event.
+   * @throws IllegalArgumentException if the new name is null.
+   */
   public void modifyName(String newName) {
     if (newName== null){
       throw new IllegalArgumentException("Name can't be null");
@@ -166,6 +223,12 @@ public class Event implements IEvent{
     modifier.executeModification();
   }
 
+  /**
+   * Modifies the location of the event using a command pattern.
+   *
+   * @param newLocation The new location for the event.
+   * @throws IllegalArgumentException if the new location is null.
+   */
   public void modifyLocation(String newLocation) {
     if (newLocation== null){
       throw new IllegalArgumentException("Location can't be null");
@@ -175,6 +238,12 @@ public class Event implements IEvent{
     modifier.executeModification();
   }
 
+  /**
+   * Modifies the start time of the event using a command pattern.
+   *
+   * @param newStartTime The new start time for the event.
+   * @throws IllegalArgumentException if the new start time is null.
+   */
   public void modifyStartTime(DayTime newStartTime) {
     if (newStartTime== null){
       throw new IllegalArgumentException("Start Time can't be null");
@@ -184,6 +253,12 @@ public class Event implements IEvent{
     modifier.executeModification();
   }
 
+  /**
+   * Modifies the end time of the event using a command pattern.
+   *
+   * @param newEndTime The new end time for the event.
+   * @throws IllegalArgumentException if the new end time is null.
+   */
   public void modifyEndTime(DayTime newEndTime) {
     if (newEndTime== null){
       throw new IllegalArgumentException("End Time can't be null");
@@ -193,42 +268,83 @@ public class Event implements IEvent{
     modifier.executeModification();
   }
 
+  /**
+   * Retrieves the start time of the event.
+   *
+   * @return The start time of the event.
+   */
   @Override
   public DayTime startTime() {
     return this.startTime;
   }
 
 
+  /**
+   * Retrieves the name of the event.
+   *
+   * @return The name of the event.
+   */
   @Override
   public String name() {
     return this.name;
   }
 
+  /**
+   * Retrieves the online status of the event.
+   *
+   * @return {@code true} if the event is online, otherwise {@code false}.
+   */
   @Override
   public boolean online() {
     return this.online;
   }
 
+
+  /**
+   * Retrieves the location of the event.
+   *
+   * @return The location of the event.
+   */
   @Override
   public String location() {
     return this.location;
   }
 
+  /**
+   * Retrieves the end time of the event.
+   *
+   * @return The end time of the event.
+   */
   @Override
   public DayTime endTime() {
     return this.endTime;
   }
 
+  /**
+   * Retrieves the duration (time slot) of the event.
+   *
+   * @return The duration of the event.
+   */
   @Override
   public TimeSlot duration() {
     return this.duration;
   }
 
+  /**
+   * Retrieves the ID of the host user for the event.
+   *
+   * @return The ID of the host user.
+   */
   @Override
   public String hostID() {
     return this.hostId;
   }
 
+  /**
+   * Generates an XML string representation of the event.
+   *
+   * @return An XML string representation of the event.
+   */
   @Override
   public String giveXMLString() {
     String result= "";
@@ -261,8 +377,11 @@ public class Event implements IEvent{
     return result;
   }
 
-
-  //Move to textview
+  /**
+   * Returns a string representation of the event.
+   *
+   * @return A string representation of the event.
+   */
   public String toString(){
     String result = "";
     result += "name: " + this.name + "\n";

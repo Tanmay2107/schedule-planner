@@ -4,11 +4,13 @@ import model.Day;
 import model.DayTime;
 import model.Event;
 import model.IUsers;
+import model.InactiveUser;
 import model.TimeSlot;
 import model.CentralSystem;
 import model.UserSchedule;
 import model.Utils;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -17,10 +19,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TestPlanner {
 
-  // Examples and tests for TimeToInt
   @Test
   public void testTimeToIntValidInputs(){
     DayTime t1 = new DayTime(9, 30, Day.MONDAY);
@@ -38,24 +40,23 @@ public class TestPlanner {
     DayTime t13 = new DayTime(1, 2, Day.SUNDAY);
     DayTime t14 = new DayTime(7, 56, Day.SUNDAY);
 
-    assertEquals(10930, t1.toInt());
-    assertEquals(11045, t2.toInt());
-    assertEquals(22345, t3.toInt());
-    assertEquals(20734, t4.toInt());
-    assertEquals(30000, t5.toInt());
-    assertEquals(30345, t6.toInt());
-    assertEquals(40459, t7.toInt());
-    assertEquals(40416, t8.toInt());
-    assertEquals(50227, t9.toInt());
-    assertEquals(50600, t10.toInt());
-    assertEquals(61324, t11.toInt());
-    assertEquals(62222, t12.toInt());
-    assertEquals(70102, t13.toInt());
-    assertEquals(70756, t14.toInt());
+    assertEquals(20930, t1.toInt());
+    assertEquals(21045, t2.toInt());
+    assertEquals(32345, t3.toInt());
+    assertEquals(30734, t4.toInt());
+    assertEquals(40000, t5.toInt());
+    assertEquals(40345, t6.toInt());
+    assertEquals(50459, t7.toInt());
+    assertEquals(50416, t8.toInt());
+    assertEquals(60227, t9.toInt());
+    assertEquals(60600, t10.toInt());
+    assertEquals(71324, t11.toInt());
+    assertEquals(72222, t12.toInt());
+    assertEquals(10102, t13.toInt());
+    assertEquals(10756, t14.toInt());
 
   }
 
-  // Invalid examples throw errors in the constructors itself:
   @Test (expected = IllegalArgumentException.class)
   public void testTimeBadMinutes() {
     DayTime t1 = new DayTime(19, 77, Day.MONDAY);
@@ -68,7 +69,6 @@ public class TestPlanner {
   @Test (expected = IllegalArgumentException.class)
   public void testTimeHourLessThan0(){
     DayTime t1 = new DayTime(-10, 9, Day.THURSDAY);
-
   }
 
   @Test (expected = IllegalArgumentException.class)
@@ -211,57 +211,51 @@ public class TestPlanner {
 
   // tests for Event:
 
-  // Event constructor tests:
-
-  @Test
-  public void testValidOnlineEventConstruction(){
-
+  // Test for event construction with a null name
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionBadName() {
+    new Event(null, "Location", true,
+            new DayTime(10, 0, Day.MONDAY),
+            new DayTime(12, 0, Day.MONDAY), "hostID");
   }
 
-  @Test
-  public void testValidInPersonEventConstruction(){
-
+  // Test for event construction with a null location
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionBadLocation() {
+    new Event("EventName", null, true,
+            new DayTime(10, 0, Day.MONDAY),
+            new DayTime(12, 0, Day.MONDAY), "hostID");
   }
 
-  @Test
-  public void testEventConstructionBadName(){
-
+  // Test for event construction with a null start time
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionBadStartTime() {
+    new Event("EventName", "Location", true,
+            null, new DayTime(12, 0, Day.MONDAY), "hostID");
   }
 
-
-  @Test
-  public void testEventConstructionBadLocation(){
-
+  // Test for event construction with a null end time
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionBadEndTime() {
+    new Event("EventName", "Location", true,
+            new DayTime(10, 0, Day.MONDAY), null, "hostID");
   }
 
-  @Test
-  public void testEventConstructionBadStartTime(){
-
+  // Test for event construction with a null host ID
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionNullHost() {
+    new Event("EventName", "Location", true,
+            new DayTime(10, 0, Day.MONDAY),
+            new DayTime(12, 0, Day.MONDAY), null);
   }
 
-  @Test
-  public void testEventConstructionBadEndTime(){
-
+  // Test for event construction with bad invitees
+  @Test(expected = IllegalArgumentException.class)
+  public void testEventConstructionBadInvitees() {
+    new Event("EventName", "Location", true,
+            new DayTime(10, 0, Day.MONDAY),
+            new DayTime(12, 0, Day.MONDAY), null, "Hamsa");
   }
-
-  @Test
-  public void testEventConstructionInactiveHost(){
-
-  }
-
-  @Test
-  public void testEventConstructionNullHost(){
-
-  }
-
-  @Test
-  public void testEventConstructionBadInvitees(){
-
-  }
-
-
-
-
 
   @Test
   public void testValidModifyName() {
@@ -306,19 +300,72 @@ public class TestPlanner {
   }
 
   @Test
-  public void testActiveAddInvitee(){}
+  public void testActiveAddInvitee() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Nunez");
+    IUsers hamsa = new UserSchedule("Hamsa");
+
+    Event event = new Event("Event", "Location", true, startTime, endTime,
+            host.userID());
+
+    event.addInvitee(host);
+    event.addInvitee(hamsa);
+    assertTrue(event.listOfInvitees().contains(host.userID()));
+    assertTrue(event.listOfInvitees().contains(hamsa.userID()));
+  }
 
   @Test
-  public void testInactiveAddInvitee(){}
+  public void testInactiveAddInvitee() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Nunez");
+    IUsers tanmay = new InactiveUser("Tanmay");
+
+    Event event = new Event("Event", "Location", true, startTime, endTime,
+            host.userID());
+
+    event.addInvitee(host);
+    assertTrue(event.listOfInvitees().contains(host.userID()));
+
+    try {
+      event.addInvitee(tanmay);
+    } catch (IllegalStateException e) {
+      // activate works since user was not active but now is.
+      fail("Activation should not throw an IllegalStateException");
+    }
+    assertTrue(event.listOfInvitees().contains(tanmay.userID()));
+  }
+
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullAddInvitee() {
+    IUsers activeUser = new UserSchedule("Hamsa");
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    Event event = new Event("Statistics", "Snell", true, startTime, endTime,
+            activeUser.userID());
+    event.addInvitee(null);
+  }
 
   @Test
-  public void testNonExistingUserAddInvitee(){}
+  public void testAlreadyInvitedAddInvitee(){
+    Event event = new Event("Test Event", "Location", true,
+            new DayTime(10, 0, Day.MONDAY), new DayTime(12, 0, Day.MONDAY),
+            "host");
 
-  @Test
-  public void testNullAddInvitee(){}
+    IUsers invitedUser1 = new UserSchedule("hamsa");
+    IUsers invitedUser2 = new UserSchedule("tanmay");
+    event.addInvitee(invitedUser1);
+    event.addInvitee(invitedUser2);
 
-  @Test
-  public void testAlreadyInvitedAddInvitee(){}
+    try {
+      event.addInvitee(invitedUser1);
+    } catch (IllegalArgumentException e) {
+      // IllegalArgumentException to add an added user.
+    }
+    assertEquals(2, event.listOfInvitees().size());
+  }
 
   @Test
   public void testValidDeleteEvent(){}
@@ -336,39 +383,75 @@ public class TestPlanner {
   public void testDeleteEventByHost(){}
 
   @Test
-  public void testIsHostTrue(){}
-
-
-  @Test
-  public void testIsHostFalse(){}
-
-  @Test
-  public void testEventAtGivenTimeTrue(){
+  public void testIsHostTrue() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Hamsa Madhira");
+    Event event = new Event("Event", "Location", true, startTime, endTime,
+            host.userID());
+    assertTrue(event.isHost(host));
   }
 
   @Test
-  public void testEventAtGivenTimeFalse(){
+  public void testIsHostFalse() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Hamsa Madhira");
+    IUsers otherUser = new UserSchedule("Tanmay Shah");
+
+    Event event = new Event("Event", "Location", true, startTime, endTime,
+            host.userID());
+    assertFalse(event.isHost(otherUser));
   }
 
   @Test
-  public void testRemoveInviteeForHost(){
+  public void testRemoveInviteeForHost() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Nunez");
+
+
+    Event event = new Event("OOD", "Churchill", true, startTime, endTime,
+            host.userID());
+    event.addInvitee(host);
+    event.removeInvitee(host);
+
+    assertFalse(event.listOfInvitees().contains(host.userID()));
+    assertFalse(host.scheduledEvents().contains(event));
   }
 
   @Test
   public void testRemoveInviteeForOtherUsers(){
+
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Nunez");
+    IUsers invitee1 = new UserSchedule("Hamsa");
+    IUsers invitee2 = new UserSchedule("Tanmay");
+
+    Event event = new Event("OOD", "Churchill", true, startTime, endTime,
+            host.userID());
+    event.addInvitee(invitee1);
+    event.addInvitee(invitee2);
+
+    event.removeInvitee(invitee1);
+
+    assertFalse(event.listOfInvitees().contains(invitee1.userID()));
+    assertTrue(event.listOfInvitees().contains(invitee2.userID()));
+    assertFalse(invitee1.scheduledEvents().contains(event));
   }
 
-  @Test
-  public void testRemoveInviteeForNonExistentUsers(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testRemoveInviteeForNullUsers() {
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    IUsers host = new UserSchedule("Hamsa");
+
+    Event event = new Event("Music", "Curry", true, startTime, endTime,
+            host.userID());
+
+    event.removeInvitee(null);
   }
-
-  @Test
-  public void testRemoveInviteeForNullUsers(){
-  }
-
-
-
-
 
   // No change. Just returns same name as is.
   @Test
@@ -460,59 +543,77 @@ public class TestPlanner {
   }
 
   @Test
-  public void testModifyStartTimeIncreaseDuration(){
-
-  }
-
-  @Test
   public void testModifyNullStartTime(){
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
 
-  }
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
 
-  @Test
-  public void testModifyStartTimeGreaterThanEndTime(){
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
 
-  }
+    Event event = new Event("OriginalName", "Churchill", true,
+            startTime, endTime, host.userID());
 
-  @Test
-  public void testModifyStartTimeReduceDuration(){
-
-  }
-
-  @Test
-  public void testModifyStartTimeEqualEndTime(){
-
-  }
-
-  @Test
-  public void testModifyEndTimeReduceDuration(){
-
-  }
-
-  @Test
-  public void testModifyEndTimeIncreaseDuration(){
-
-  }
-
-  @Test
-  public void testModifyEndTimeSmallerThanStartTime(){
+    assertThrows(IllegalArgumentException.class, () -> event.modifyStartTime(null));
 
   }
 
   @Test
   public void testModifyEndTimeEqualStartTime(){
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
 
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
+
+    Event event = new Event("OriginalName", "Churchill", true,
+            startTime, endTime, host.userID());
+
+    assertThrows(IllegalStateException.class, () -> event.modifyEndTime(startTime));
   }
-
   @Test
   public void testModifyNullEndTime(){
+    DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
+    DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
+    UserSchedule host = new UserSchedule("Nunez");
 
+    UserSchedule invitee1 = new UserSchedule("Hamsa");
+    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    UserSchedule invitee3 = new UserSchedule("Chloe");
+
+    ArrayList<IUsers> invitees = new ArrayList<IUsers>();
+    invitees.add(invitee1);
+    invitees.add(invitee2);
+    invitees.add(invitee3);
+    invitees.add(host);
+
+    Event event = new Event("OriginalName", "Churchill", true,
+            startTime, endTime, host.userID());
+
+    assertThrows(IllegalArgumentException.class, () -> event.modifyEndTime(null));
   }
 
   @Test
   public void testUtilsWriteXML(){
     Utils.writeToFile();
   }
+
+
 
 
 

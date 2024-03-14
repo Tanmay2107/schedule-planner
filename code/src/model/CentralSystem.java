@@ -7,10 +7,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.io.Writer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,12 +21,9 @@ import javax.xml.parsers.ParserConfigurationException;
  * Represents the central system that manages all the users and their schedules.
  */
 public class CentralSystem implements CentralSystemModel{
-//
 
   private ArrayList<UserSchedule> users;
-
   private HashMap<String,UserSchedule> activeUserMap;
-
   private HashMap<String,InactiveUser> inactiveUserMap;
 
   /**
@@ -69,6 +67,18 @@ public class CentralSystem implements CentralSystemModel{
     }
   }
 
+
+  /**
+   * Schedules an event with the specified details.
+   *
+   * @param host_uid   The user ID of the event host.
+   * @param name       The name of the event.
+   * @param location   The location of the event.
+   * @param online     Indicates if the event is online or not.
+   * @param startTime  The start time of the event.
+   * @param endTime    The end time of the event.
+   * @param invitees   The list of user IDs of invitees to the event.
+   */
   @Override
   public void scheduleEvent(String host_uid, String name, String location, boolean online,
                             DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
@@ -90,6 +100,16 @@ public class CentralSystem implements CentralSystemModel{
 
   }
 
+  /**
+   * Schedules an event with the specified details.
+   *
+   * @param name      The name of the event.
+   * @param location  The location of the event.
+   * @param online    Indicates if the event is online or not.
+   * @param startTime The start time of the event.
+   * @param endTime   The end time of the event.
+   * @param invitees  The list of user IDs of invitees to the event.
+   */
   @Override
   public void scheduleEvent(String name, String location, boolean online,
                             DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
@@ -109,8 +129,6 @@ public class CentralSystem implements CentralSystemModel{
       u.inviteUser(e);
     }
   }
-
-
 
 
   private void checkForActiveUser(String uid){
@@ -136,35 +154,96 @@ public class CentralSystem implements CentralSystemModel{
   }
 
 
+  /**
+   * Removes the specified event associated with the given user ID from the central system.
+   *
+   * @param uid The user ID of the user who owns the event.
+   * @param e   The event to remove.
+   */
   public void removeEvent(String uid, IEvent e){
     this.checkForActiveUser(uid);
     UserSchedule user = activeUserMap.get(uid);
     user.removeEvent(e);
   }
 
-  public void modifyEvent(Event event, EventCommand command) {
-    EventModifier modifier = new EventModifier(command);
-    modifier.executeModification();
-  }
-
-
-
-
-  @Override
-  public List<ReadOnlyUsers> getUsers(String uid) {
-    List<ReadOnlyUsers> userList = new ArrayList<>();
-
-    for (UserSchedule user : activeUserMap.values()) {
-      if (user.userID().equals(uid)) {
-        userList.add(user);
-      }
+  /**
+   * Modifies the specified event using the provided command.
+   *
+   * @param event   The event to modify.
+   * @param command The command to execute for modifying the event.
+   */
+  public void modifyEvent(Event event, EventCommand command, String uid) {
+    if(!activeUserMap.containsKey(uid)){
+      throw new IllegalStateException("User not active ");
     }
 
-    return userList;
+    IUsers currentuser = activeUserMap.get(uid);
+    currentuser.modifyEvent(event,command);
   }
 
+  /**
+   * Retrieves a list of user IDs registered in the central system.
+   *
+   * @return An ArrayList containing the user IDs.
+   */
+  @Override
+  public ArrayList<String> getUserIds(){
+    ArrayList<String> userIds = new ArrayList<>();
+
+    for (UserSchedule user : activeUserMap.values()) {
+      userIds.add(user.userID());
+    }
+    return userIds;
+  }
+
+
+  /**
+   * Retrieves the user with the specified user ID.
+   *
+   * @param uid The ID of the user to retrieve.
+   * @return The user with the specified user ID.
+   * @throws IllegalArgumentException If the user ID is null or if no user exists with the given ID.
+   */
+  @Override
+  public ReadOnlyUsers getUser(String uid) {
+    if (uid == null) {
+      throw new IllegalArgumentException("User ID can't be null");
+    }
+
+    if (activeUserMap.containsKey(uid)) {
+      return activeUserMap.get(uid);
+    } else {
+      throw new IllegalArgumentException("User with the given ID does not exist");
+    }
+  }
+
+  /**
+   * Writes the user's data to an XML file specified by the given path.
+   *
+   * @param uid  The user ID of the user whose data is to be written.
+   * @param path The file path where the XML file will be written.
+   */
   @Override
   public void writeUserToXMLFile(String uid, String path) {
+    if(uid == null || path == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
+    if(!activeUserMap.containsKey(uid)){
+      throw new IllegalArgumentException("There is no active user with the given ID.");
+    }
+    try {
+      Writer file = new FileWriter(path);
+
+      file.write("<?xml version=\"1.0\"?>\n");
+      file.write("<schedule id=\"" + uid +"\">");
+      UserSchedule user = activeUserMap.get(uid);
+      file.write(user.giveXMLString());
+      file.write("</schedule>");
+      file.close();
+    } catch (IOException ex) {
+      throw new RuntimeException(ex.getMessage());
+    }
+
 
   }
 
@@ -177,11 +256,14 @@ public class CentralSystem implements CentralSystemModel{
   }
 
   public void loadUserFromXML(String xmlPath) {
+    if (xmlPath == null) {
+      throw new IllegalArgumentException("Path can't be null");
+    }
     try {
       DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
       Document xmlDoc = builder.parse(new File(xmlPath));
       xmlDoc.getDocumentElement().normalize();
-      NodeList nodeList = xmlDoc.getElementsByTagName("calendar");
+      NodeList nodeList = xmlDoc.getElementsByTagName("schedule");
       Node first = nodeList.item(0);
       NamedNodeMap attrList = first.getAttributes();
       System.out.println("User Details");
@@ -262,8 +344,8 @@ public class CentralSystem implements CentralSystemModel{
     if(day == null || time == null){
       throw new IllegalArgumentException("fields can't be null");
     }
-    if(day.length() != 4){
-      throw new IllegalArgumentException("Invalid day");
+    if(time.length() != 4){
+      throw new IllegalArgumentException("Invalid time");
     }
     String hours = time.substring(0,2);
     String minutes = time.substring(2,4);
@@ -287,7 +369,6 @@ public class CentralSystem implements CentralSystemModel{
       default:
         throw new IllegalArgumentException("Invalid day");
     }
-
-  }
+    }
 
 }

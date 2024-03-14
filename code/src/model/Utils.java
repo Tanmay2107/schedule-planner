@@ -111,6 +111,18 @@ public class Utils {
     }
   }
 
+  /**
+   * Reads user details from an XML file and prints them to the console.
+   * The XML file should follow a specific format with user details and event information.
+   * It parses the XML file, extracts user details, and iterates through each event to
+   * print its details.
+   * Expected XML structure:
+   * - <calendar> element containing user details as attributes.
+   * - <event> elements containing details of each event.
+   *   - Each <event> element contains child elements for event details.
+   * @throws IllegalStateException if there are errors in creating the XML document builder,
+   * opening the file, or parsing the file.
+   */
   public static void readUserXML(){
     try {
       DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -169,18 +181,11 @@ public class Utils {
         for(int k=0; k<numInvitees; k++){
           currentInvitee = inviteesNodeList.item(k);
           if(currentInvitee.getNodeType() == Node.ELEMENT_NODE) {
-
             users.add(currentInvitee.getTextContent());
           }
         }
-
         System.out.println("Users: " + users);
-
-
       }
-
-
-
     } catch (ParserConfigurationException ex) {
       throw new IllegalStateException("Error in creating the builder");
     } catch (IOException ioEx) {
