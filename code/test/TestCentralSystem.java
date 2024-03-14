@@ -10,6 +10,7 @@ import model.Event;
 import model.EventCommand;
 import model.EventModifier;
 import model.IUsers;
+import model.InactiveUser;
 import model.ModifyEventStartTimeCommand;
 import model.UserSchedule;
 
@@ -21,7 +22,6 @@ public class TestCentralSystem {
   @Before
   public void setUp(){
     // Set up a central system
-
   }
 
   @Test
@@ -63,26 +63,29 @@ public class TestCentralSystem {
   @Test
   public void testAddEventNullUsers(){}
 
-  /*
-  public void removeEvent(String uid, IEvent e){
-    this.checkForActiveUser(uid);
-    UserSchedule user = activeUserMap.get(uid);
-    user.removeEvent(e);
-  }
-
-
-
-  public void modifyEvent(Event event, EventCommand command) {
-    EventModifier modifier = new EventModifier(command);
-    modifier.executeModification();
-  }
-   */
+  @Test
+  public void testRemoveExistingEventNonHost(){}
 
   @Test
-  public void testModifyEventChangeStartTime() {
+  public void testRemoveNonExistingEventHost(){}
+
+  @Test
+  public void testRemoveNonExistingEventNotHost(){}
+
+  @Test
+  public void testRemoveExistingEventNotHost(){}
+
+  @Test
+  public void testModifyEventLocation(){}
+
+  @Test
+  public void testModifyEventNullLocation(){}
+
+  @Test
+  public void testModifyEventStartTime() {
     UserSchedule host = new UserSchedule("Prof Nunez");
-    UserSchedule invitee1 = new UserSchedule("Hamsa");
-    UserSchedule invitee2 = new UserSchedule("Tanmay");
+    IUsers invitee1 = new UserSchedule("Hamsa");
+    IUsers invitee2 = new UserSchedule("Tanmay");
     ArrayList<IUsers> invitees = new ArrayList<IUsers>();
     invitees.add(invitee1);
     invitees.add(invitee2);
@@ -94,8 +97,17 @@ public class TestCentralSystem {
     DayTime newStartTime = new DayTime(13, 25, Day.TUESDAY);
 
     EventCommand command = new ModifyEventStartTimeCommand(event, newStartTime);
-    //CentralSystem centralSystem = new CentralSystem(invitees);
-    //centralSystem.modifyEvent(event, command);
+    CentralSystem centralSystem = new CentralSystem();
+    centralSystem.modifyEvent(event, command);
     assertEquals(newStartTime, event.startTime());
   }
+
+  @Test
+  public void testModifyEventNullStartTime(){}
+  @Test
+  public void testModifyEventEndTime(){}
+  @Test
+  public void testModifyEventNullEndTime(){}
+
+
 }

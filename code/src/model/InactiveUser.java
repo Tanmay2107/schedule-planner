@@ -9,7 +9,8 @@ public class InactiveUser extends AUsers{
   }
 
   @Override
-  public void hostEvent(String name, String location, boolean online, DayTime startTime, DayTime endTime, ArrayList<IUsers> invitedUsers) {
+  public void hostEvent(String name, String location, boolean online, DayTime startTime,
+                        DayTime endTime, ArrayList<IUsers> invitedUsers) {
     throw new IllegalStateException("Inactive user can not host");
   }
 

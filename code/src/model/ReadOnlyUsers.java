@@ -7,5 +7,4 @@ public interface ReadOnlyUsers {
 
   public ArrayList<ReadOnlyEvent> scheduledEvents();
 
-
 }
