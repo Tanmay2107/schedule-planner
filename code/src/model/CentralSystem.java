@@ -69,15 +69,49 @@ public class CentralSystem implements CentralSystemModel{
     }
   }
 
+  @Override
+  public void scheduleEvent(String host_uid, String name, String location, boolean online,
+                            DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
+    if(name == null || location == null || startTime == null || endTime == null || invitees == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
 
-  public void addEvent(String host_uid, String name, String location, boolean online,
-                       DayTime startTime, DayTime endTime, ArrayList<String> invitees){
-    this.checkForActiveUser(host_uid);
+    if(invitees.size() == 0){
+      throw new IllegalArgumentException("There must be at least one invitee");
+    }
 
     ArrayList<IUsers> invitedUsers = getInvitees(invitees);
-    IUsers hostUser = activeUserMap.get(host_uid);
-    hostUser.hostEvent(name, location, online, startTime, endTime, invitedUsers);
+
+    Event e = new Event(name, location, online, startTime, endTime,host_uid);
+
+    for(IUsers u: invitedUsers){
+      u.inviteUser(e);
+    }
+
   }
+
+  @Override
+  public void scheduleEvent(String name, String location, boolean online,
+                            DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
+    if(name == null || location == null || startTime == null || endTime == null || invitees == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
+
+    if(invitees.size() == 0){
+      throw new IllegalArgumentException("There must be at least one invitee");
+    }
+
+    ArrayList<IUsers> invitedUsers = getInvitees(invitees);
+
+    Event e = new Event(name, location, online, startTime, endTime,invitees.get(0));
+
+    for(IUsers u: invitedUsers){
+      u.inviteUser(e);
+    }
+  }
+
+
+
 
   private void checkForActiveUser(String uid){
     if(!activeUserMap.containsKey(uid)){
@@ -113,15 +147,7 @@ public class CentralSystem implements CentralSystemModel{
     modifier.executeModification();
   }
 
-  @Override
-  public List<ReadOnlyEvent> getEvents(String uid) {
-    if(!activeUserMap.containsKey(uid)){
-      throw new IllegalArgumentException("There is no active user with the given ID.");
-    }
 
-    UserSchedule user = activeUserMap.get(uid);
-    return user.scheduledEvents();
-  }
 
 
   @Override
@@ -135,6 +161,11 @@ public class CentralSystem implements CentralSystemModel{
     }
 
     return userList;
+  }
+
+  @Override
+  public void writeUserToXMLFile(String uid, String path) {
+
   }
 
   public String toString(){
@@ -211,8 +242,10 @@ public class CentralSystem implements CentralSystemModel{
         }
 
         System.out.println("Users: " + users);
-        this.addEvent(uid, eventName, locationPlace, locationOnline.equals("true"),
+
+        this.scheduleEvent(users.get(0), eventName, locationPlace, locationOnline.equals("true"),
                 stringToDayTime(startDay,startTime), stringToDayTime(endDay,endTime), users);
+
       }
 
     } catch (ParserConfigurationException ex) {

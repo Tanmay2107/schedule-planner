@@ -1,5 +1,6 @@
 package view;
 
+import model.CentralSystemModel;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyUsers;
 import model.Day;
@@ -9,9 +10,9 @@ import model.ReadOnlyEvent;
 
 public class CentralSystemTextView implements CentralSystemView{
 
-  ReadOnlyCentralSystem model;
+  CentralSystemModel model;
 
-  public CentralSystemTextView(ReadOnlyCentralSystem model) {
+  public CentralSystemTextView(CentralSystemModel model) {
     this.model = model;
   }
 
@@ -74,6 +75,4 @@ public class CentralSystemTextView implements CentralSystemView{
       return startTimeString + " -> " + endTime.day() + ": " + endTimeString;
     }
   }
-  //
-
 }

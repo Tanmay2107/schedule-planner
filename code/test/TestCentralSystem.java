@@ -93,7 +93,7 @@ public class TestCentralSystem {
 
     Event event = new Event("CS 3500", "Churchill 101", false,
             new DayTime(13, 35, Day.TUESDAY),
-            new DayTime(3, 25, Day.TUESDAY), host, invitees);
+            new DayTime(3, 25, Day.TUESDAY), invitees, host.userID());
     DayTime newStartTime = new DayTime(13, 25, Day.TUESDAY);
 
     EventCommand command = new ModifyEventStartTimeCommand(event, newStartTime);
