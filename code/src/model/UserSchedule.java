@@ -38,8 +38,6 @@ public class UserSchedule extends AUsers{
 
     Event e = new Event(name, location, online, startTime, endTime, this);
 
-    //add the host as an invitee
-    this.inviteUser(e);
 
     //invite the other users
     for(IUsers i: invitedUsers){

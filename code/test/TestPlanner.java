@@ -7,6 +7,8 @@ import model.IUsers;
 import model.TimeSlot;
 import model.CentralSystem;
 import model.UserSchedule;
+import model.Utils;
+
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -506,6 +508,12 @@ public class TestPlanner {
   public void testModifyNullEndTime(){
 
   }
+
+  @Test
+  public void testUtilsWriteXML(){
+    Utils.writeToFile();
+  }
+
 
 
 
