@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 
@@ -25,9 +26,9 @@ public interface IEvent extends ReadOnlyEvent{
   /**
    * Checking if the given user is the host.
    * @param u
-   * @return true if given userschedule is the host of this event.
+   * @return true if given user is the host of this event.
    */
-  public boolean isHost(UserSchedule u);
+  public boolean isHost(IUsers u);
 
   /**
    * Returns is the event occurs at the given time.
@@ -79,4 +80,7 @@ public interface IEvent extends ReadOnlyEvent{
   public String hostID();
 
 
+
+
+  String giveXMLString();
 }

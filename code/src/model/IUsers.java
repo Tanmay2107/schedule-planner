@@ -1,13 +1,12 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public interface IUsers extends ReadOnlyUsers{
 
   public String userID();
 
-  public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime, ArrayList<IUsers> invitedUsers);
 
   public void removeEvent(IEvent e);
 
@@ -18,6 +17,9 @@ public interface IUsers extends ReadOnlyUsers{
   public UserSchedule activate();
 
   public ArrayList<ReadOnlyEvent> scheduledEvents();
+
+  public String giveXMLString();
+
   // public modify ();
 
 }

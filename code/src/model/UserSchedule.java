@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -27,39 +28,6 @@ public class UserSchedule extends AUsers{
 
 
 
-  //same fields as event constructor
-
-  // user can host an event.
-  public void hostEvent(String name, String location, boolean online, DayTime startTime,
-                        DayTime endTime, ArrayList<IUsers> invitedUsers){
-    if (name == null || location == null || startTime == null || endTime == null || invitedUsers== null) {
-      throw new IllegalArgumentException("fields can't be null");
-    }
-
-    Event e = new Event(name, location, online, startTime, endTime, this);
-
-
-    //invite the other users
-    for(IUsers i: invitedUsers){
-      i.inviteUser(e);
-    }
-  }
-
-  /**
-   * Removes the given event from the users schedule.
-   * @param e
-   */
-  public void removeEvent(IEvent e){
-    if(e.isHost(this)){
-      events.remove(e);
-      e.removeInvitee(this);
-      e.deleteEvent();
-    } else {
-      events.remove(e);
-      e.removeInvitee(this);
-
-    }
-  }
 
 
   /**
@@ -75,6 +43,20 @@ public class UserSchedule extends AUsers{
   public UserSchedule activate() {
     throw new IllegalStateException("User is already active");
   }
+
+
+  @Override
+  public String giveXMLString() {
+    String result  = "" + "\n";
+    for(IEvent e: events){
+      result += e.giveXMLString();
+    }
+
+
+    return result;
+  }
+
+
 
 
 }

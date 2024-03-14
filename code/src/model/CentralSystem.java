@@ -20,8 +20,12 @@ import javax.xml.parsers.ParserConfigurationException;
  * Represents the central system that manages all the users and their schedules.
  */
 public class CentralSystem implements CentralSystemModel{
+//
+
   private ArrayList<UserSchedule> users;
+
   private HashMap<String,UserSchedule> activeUserMap;
+
   private HashMap<String,InactiveUser> inactiveUserMap;
 
   /**
@@ -35,22 +39,6 @@ public class CentralSystem implements CentralSystemModel{
       activeUserMap.put(user.userID(), user);
     }
   }
-
-//  public CentralSystem(ArrayList<IUsers> users) {
-//    this.users = new ArrayList<UserSchedule>();
-//    this.activeUserMap = new HashMap<String, UserSchedule>();
-//    this.inactiveUserMap = new HashMap<String, InactiveUser>();
-//
-//    for (IUsers user : users) {
-//      try {
-//        UserSchedule activeUser = ((UserSchedule) user).activate();
-//        activeUserMap.put(activeUser.userID(), activeUser);
-//      } catch (IllegalStateException e) {
-//        // User is already active, add to inactiveUserMap
-//        inactiveUserMap.put(user.userID(), (InactiveUser) user);
-//      }
-//    }
-//  }
 
   /**
    * Creates a new central system from scratch.
@@ -126,13 +114,25 @@ public class CentralSystem implements CentralSystemModel{
   }
 
   @Override
+  public List<ReadOnlyEvent> getEvents(String uid) {
+    if(!activeUserMap.containsKey(uid)){
+      throw new IllegalArgumentException("There is no active user with the given ID.");
+    }
+
+    UserSchedule user = activeUserMap.get(uid);
+    return user.scheduledEvents();
+  }
+
+
+  @Override
   public List<ReadOnlyUsers> getUsers(String uid) {
     List<ReadOnlyUsers> userList = new ArrayList<>();
 
     for (UserSchedule user : activeUserMap.values()) {
       if (user.userID().equals(uid)) {
         userList.add(user);
-      }}
+      }
+    }
 
     return userList;
   }
@@ -254,6 +254,7 @@ public class CentralSystem implements CentralSystemModel{
       default:
         throw new IllegalArgumentException("Invalid day");
     }
+
   }
 
 }

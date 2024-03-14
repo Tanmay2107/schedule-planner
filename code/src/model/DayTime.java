@@ -41,6 +41,10 @@ public class DayTime {
     return this.day;
   }
 
+  public String timeAsString(){
+    return this.hours + "" + this.minutes;
+  }
+
 
 
 

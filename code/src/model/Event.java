@@ -1,9 +1,26 @@
 package model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 public class Event implements IEvent{
   private String name;
   private boolean online;
@@ -11,15 +28,18 @@ public class Event implements IEvent{
   private DayTime startTime;
   private DayTime endTime;
   private TimeSlot duration;
-  private UserSchedule host;
+
   private List<IUsers> invitedUsers;
 
+  private String hostId;
 
-  // constructor:
+
+
+
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-               UserSchedule host,  List<IUsers> invitedUsers) {
+               String hostId) {
     if (name == null || location == null || startTime == null
-            || endTime == null || host == null || invitedUsers == null) {
+            || endTime == null || hostId == null || invitedUsers == null) {
       throw new IllegalArgumentException("fields can't be null");
     }
     this.name = name;
@@ -27,27 +47,12 @@ public class Event implements IEvent{
     this.online = online;
     this.startTime = startTime;
     this.endTime = endTime;
-    this.host = host;
-    this.duration = new TimeSlot(startTime, endTime);
-    this.invitedUsers = invitedUsers;
-
-  }
-
-  public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-               UserSchedule host) {
-    if (name == null || location == null || startTime == null
-            || endTime == null || host == null || invitedUsers == null) {
-      throw new IllegalArgumentException("fields can't be null");
-    }
-    this.name = name;
-    this.location = location;
-    this.online = online;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.host = host;
     this.duration = new TimeSlot(startTime, endTime);
     this.invitedUsers = new ArrayList<IUsers>();
+    this.hostId = hostId;
   }
+
+
 
   @Override
   public void addInvitee(IUsers u) {
@@ -72,8 +77,8 @@ public class Event implements IEvent{
 
 
   @Override
-  public boolean isHost(UserSchedule u){
-    return u.userID().equals(this.host.userID());
+  public boolean isHost(IUsers u){
+    return u.userID().equals(this.hostId);
   }
 
   @Override
@@ -202,7 +207,39 @@ public class Event implements IEvent{
 
   @Override
   public String hostID() {
-    return this.host.userID();
+    return this.hostId;
+  }
+
+  @Override
+  public String giveXMLString() {
+    String result= "";
+    result += "<event>\n";
+    result += "<name>" + this.name + "</name>\n";
+    result += "<time>\n" + "<start-day>"+ this.startTime.day().toString() +"</start-day>\n" +
+            "<start>" + this.startTime.timeAsString() + "</start>\n" +
+            "<end-day>" + this.endTime.day().toString() + "</end-day>\n" +
+            "<end>" + this.endTime.timeAsString() + "</end>\n" + "</time>\n";
+    String online;
+    if(this.online){
+      online = "true";
+    } else {
+      online = "false";
+    }
+
+    result += "<location>\n";
+    result += "<online>" + online + "</online>\n";
+    result += "<place>" + this.location + "</place>\n";
+    result += "</location>\n";
+
+    result += "<users>\n";
+
+    for (IUsers i: invitedUsers){
+      result += "<uid>" + i.userID() + "</uid>\n";
+    }
+
+    result += "</users>\n";
+    result += "</event>\n";
+    return result;
   }
 
 
