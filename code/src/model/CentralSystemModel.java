@@ -13,7 +13,7 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
 
   public void modifyEvent(Event event, EventCommand command);
 
-  public List<ReadOnlyEvent> getEvents(String uid);
+
 
   public List<ReadOnlyUsers> getUsers(String uid);
 }
