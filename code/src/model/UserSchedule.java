@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -47,5 +48,19 @@ public class UserSchedule extends AUsers{
   public ArrayList<ReadOnlyEvent> scheduledEvents() {
     return new ArrayList<ReadOnlyEvent>(this.events);
   }
+
+  @Override
+  public String giveXMLString() {
+    String result  = "" + "\n";
+    for(IEvent e: events){
+      result += e.giveXMLString();
+    }
+
+
+    return result;
+  }
+
+
+
 
 }

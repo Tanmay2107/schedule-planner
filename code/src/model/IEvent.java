@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 
@@ -79,4 +80,7 @@ public interface IEvent extends ReadOnlyEvent{
   public String hostID();
 
 
+
+
+  String giveXMLString();
 }

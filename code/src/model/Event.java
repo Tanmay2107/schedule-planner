@@ -1,9 +1,26 @@
 package model;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 public class Event implements IEvent{
   private String name;
   private boolean online;
@@ -191,6 +208,38 @@ public class Event implements IEvent{
   @Override
   public String hostID() {
     return this.hostId;
+  }
+
+  @Override
+  public String giveXMLString() {
+    String result= "";
+    result += "<event>\n";
+    result += "<name>" + this.name + "</name>\n";
+    result += "<time>\n" + "<start-day>"+ this.startTime.day().toString() +"</start-day>\n" +
+            "<start>" + this.startTime.timeAsString() + "</start>\n" +
+            "<end-day>" + this.endTime.day().toString() + "</end-day>\n" +
+            "<end>" + this.endTime.timeAsString() + "</end>\n" + "</time>\n";
+    String online;
+    if(this.online){
+      online = "true";
+    } else {
+      online = "false";
+    }
+
+    result += "<location>\n";
+    result += "<online>" + online + "</online>\n";
+    result += "<place>" + this.location + "</place>\n";
+    result += "</location>\n";
+
+    result += "<users>\n";
+
+    for (IUsers i: invitedUsers){
+      result += "<uid>" + i.userID() + "</uid>\n";
+    }
+
+    result += "</users>\n";
+    result += "</event>\n";
+    return result;
   }
 
 

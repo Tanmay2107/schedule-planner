@@ -7,7 +7,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+
+
 
 /**
  * Represents the central system that manages all the users and their schedules.
@@ -278,6 +283,26 @@ public class CentralSystem implements CentralSystemModel{
         throw new IllegalArgumentException("Invalid day");
     }
 
+  }
+
+  public void writeUserToXMLFile(String uid, String path) {
+    if(uid == null || path == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
+    if(!activeUserMap.containsKey(uid)){
+      throw new IllegalArgumentException("There is no active user with the given ID.");
+    }
+    try {
+      Writer file = new FileWriter(path);
+      file.write("<?xml version=\"1.0\"?>\n");
+      file.write("<schedule id=\"" + uid +"\">");
+      UserSchedule user = activeUserMap.get(uid);
+      file.write(user.giveXMLString());
+      file.write("</schedule>");
+      file.close();
+    } catch (IOException ex) {
+      throw new RuntimeException(ex.getMessage());
+    }
   }
 
 }

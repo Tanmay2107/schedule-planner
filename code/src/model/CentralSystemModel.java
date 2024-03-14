@@ -21,4 +21,8 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
 
 
   public List<ReadOnlyUsers> getUsers(String uid);
+
+  public void writeUserToXMLFile(String uid, String path);
+
+  public void loadUserFromXML(String xmlPath);
 }

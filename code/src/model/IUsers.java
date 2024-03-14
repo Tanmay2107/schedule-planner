@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public interface IUsers extends ReadOnlyUsers{
@@ -16,6 +17,8 @@ public interface IUsers extends ReadOnlyUsers{
   public UserSchedule activate();
 
   public ArrayList<ReadOnlyEvent> scheduledEvents();
+
+  public String giveXMLString();
 
   // public modify ();
 
