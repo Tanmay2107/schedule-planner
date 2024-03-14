@@ -436,18 +436,22 @@ public class TestCentralSystem {
   @Test
   public void testModifyEventToOnline(){
     ArrayList<IUsers> invitees = new ArrayList<>();
-    invitees.add(new UserSchedule(
-            "Tanmay Shah"));
-    invitees.add(new UserSchedule(
-            "Hamsa Madhira"));
-
+    IUsers tanmay = new UserSchedule("Tanmay Shah");
     Event e = new Event("OOD Grind", "WVH Lab", false,
             new DayTime(12, 0, Day.FRIDAY),
-            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+            new DayTime(17, 0, Day.FRIDAY), invitees, tanmay.userID());
+    e.addInvitee(new UserSchedule(
+            "Tanmay Shah"));
+    e.addInvitee(new UserSchedule(
+            "Hamsa Madhira"));
 
+    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
-    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
-  assertTrue(e.online());
+    centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
+    command.execute();
+    assertTrue(e.online());
   }
 
   @Test

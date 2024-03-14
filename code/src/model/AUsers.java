@@ -63,7 +63,7 @@ public abstract class AUsers implements IUsers{
    * @throws IllegalArgumentException if an event overlaps with an existing event in the user's schedule.
    */
   public void inviteUser(IEvent e) {
-    if (this.eventAlreadyExists(e)) {
+    if (!this.eventAlreadyExists(e)) {
       if (overlappingEventExists(e)) {
         throw new IllegalArgumentException("Event overlaps with existing event");
       }
