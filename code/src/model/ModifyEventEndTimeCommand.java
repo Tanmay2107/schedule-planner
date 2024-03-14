@@ -34,4 +34,9 @@ public class ModifyEventEndTimeCommand implements EventCommand {
     }
   }
 
+  @Override
+  public void giveEvent(IEvent e){
+    this.event = e;
+  }
+
 }

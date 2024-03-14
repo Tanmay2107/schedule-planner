@@ -398,4 +398,19 @@ public class Event implements IEvent{
     return result;
   }
 
+  public boolean eventEquals(ReadOnlyEvent e){
+    boolean nameEquals = this.name.equals(e.name());
+    boolean locationEquals = this.location.equals(e.location());
+    boolean onlineEquals = this.online == e.online();
+    boolean startTimeEquals = this.startTime.equals(e.startTime());
+    boolean endTimeEquals = this.endTime.equals(e.endTime());
+    boolean hostIdEquals = this.hostId.equals(e.hostID());
+    boolean inviteesEquals = this.listOfInvitees().equals(e.listOfInvitees());
+    return this.name.equals(e.name()) && this.location.equals(e.location()) &&
+            this.online == e.online() && this.startTime.equals(e.startTime()) &&
+            this.endTime.equals(e.endTime()) && this.hostId.equals(e.hostID()) &&
+            this.listOfInvitees().equals(e.listOfInvitees());
+
+  }
+
 }

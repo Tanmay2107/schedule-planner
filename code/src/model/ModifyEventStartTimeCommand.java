@@ -29,6 +29,11 @@ public class ModifyEventStartTimeCommand implements EventCommand {
     event.changeStartTime(newStartTime);
   }
 
+  @Override
+  public void giveEvent(IEvent e){
+    this.event = e;
+  }
+
 }
 
 

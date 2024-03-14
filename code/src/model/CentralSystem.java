@@ -52,6 +52,9 @@ public class CentralSystem implements CentralSystemModel{
    * @param uid
    */
   public void addUser(String uid) {
+    if (uid == null) {
+      throw new IllegalArgumentException("User ID can't be null");
+    }
     UserSchedule u = new UserSchedule(uid);
 
     if (activeUserMap.containsKey(uid)) {
@@ -161,6 +164,9 @@ public class CentralSystem implements CentralSystemModel{
    * @param e   The event to remove.
    */
   public void removeEvent(String uid, IEvent e){
+    if(uid == null || e == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
     this.checkForActiveUser(uid);
     UserSchedule user = activeUserMap.get(uid);
     user.removeEvent(e);

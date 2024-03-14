@@ -72,6 +72,15 @@ public abstract class AUsers implements IUsers{
     }
   }
 
+  private boolean eventAlreadyExists(IEvent e) {
+    for (IEvent event : events) {
+      if (event.eventEquals(e)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Checks if there is an overlapping event in the user's schedule with the given event.
    * @param e The event to check for overlap.

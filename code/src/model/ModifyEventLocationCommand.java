@@ -30,4 +30,10 @@ public class ModifyEventLocationCommand implements EventCommand {
     event.changeLocation(newLocation);
   }
 
+
+  @Override
+  public void giveEvent(IEvent e){
+    this.event = e;
+  }
+
 }
