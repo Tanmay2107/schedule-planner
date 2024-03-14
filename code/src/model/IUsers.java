@@ -18,7 +18,6 @@ public interface IUsers extends ReadOnlyUsers{
   public UserSchedule activate();
 
   public ArrayList<ReadOnlyEvent> scheduledEvents();
-
   // public modify ();
 
 }

@@ -78,9 +78,5 @@ public class UserSchedule extends AUsers{
     throw new IllegalStateException("User is already active");
   }
 
-  @Override
-  public ArrayList<ReadOnlyEvent> scheduledEvents() {
-    return new ArrayList<ReadOnlyEvent>(this.events);
-  }
 
 }

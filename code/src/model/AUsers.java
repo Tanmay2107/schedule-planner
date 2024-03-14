@@ -50,5 +50,7 @@ public abstract class AUsers implements IUsers{
   public abstract UserSchedule activate();
 
 
-
+  public ArrayList<ReadOnlyEvent> scheduledEvents() {
+    return new ArrayList<ReadOnlyEvent>(this.events);
+  }
 }

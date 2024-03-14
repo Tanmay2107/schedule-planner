@@ -101,15 +101,6 @@ public class CentralSystem implements CentralSystemModel{
     modifier.executeModification();
   }
 
-  @Override
-  public List<ReadOnlyEvent> getEvents(String uid) {
-    if(!activeUserMap.containsKey(uid)){
-      throw new IllegalArgumentException("There is no active user with the given ID.");
-    }
-
-    UserSchedule user = activeUserMap.get(uid);
-    return user.scheduledEvents();
-  }
 
 
   @Override
@@ -119,8 +110,7 @@ public class CentralSystem implements CentralSystemModel{
     for (UserSchedule user : activeUserMap.values()) {
       if (user.userID().equals(uid)) {
         userList.add(user);
-      }
-    }
+      }}
 
     return userList;
   }
