@@ -17,10 +17,23 @@ public abstract class AUsers implements IUsers{
   }
 
 
-   public abstract void hostEvent(String name, String location, boolean online, DayTime startTime,
-                                  DayTime endTime, ArrayList<IUsers> invitedUsers);
 
-  public abstract void removeEvent(IEvent e) ;
+
+  /**
+   * Removes the given event from the users schedule.
+   * @param e
+   */
+  public void removeEvent(IEvent e){
+    if(e.isHost(this)){
+      events.remove(e);
+      e.removeInvitee(this);
+      e.deleteEvent();
+    } else {
+      events.remove(e);
+      e.removeInvitee(this);
+
+    }
+  }
 
   public Event eventAtGiveTime(DayTime dt0) {
     return null;

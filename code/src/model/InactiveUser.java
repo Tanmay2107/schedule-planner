@@ -8,17 +8,10 @@ public class InactiveUser extends AUsers{
     super(uid);
   }
 
-  @Override
-  public void hostEvent(String name, String location, boolean online, DayTime startTime, DayTime endTime, ArrayList<IUsers> invitedUsers) {
-    throw new IllegalStateException("Inactive user can not host");
-  }
 
 
-  @Override
-  public void removeEvent(IEvent e) {
-    events.remove(e);
-    e.removeInvitee(this);
-  }
+
+
 
   @Override
   public UserSchedule activate() {

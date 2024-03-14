@@ -11,15 +11,18 @@ public class Event implements IEvent{
   private DayTime startTime;
   private DayTime endTime;
   private TimeSlot duration;
-  private UserSchedule host;
+
   private List<IUsers> invitedUsers;
 
+  private String hostId;
 
-  // constructor:
+
+
+
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-               UserSchedule host,  List<IUsers> invitedUsers) {
+               String hostId) {
     if (name == null || location == null || startTime == null
-            || endTime == null || host == null || invitedUsers == null) {
+            || endTime == null || hostId == null || invitedUsers == null) {
       throw new IllegalArgumentException("fields can't be null");
     }
     this.name = name;
@@ -27,27 +30,12 @@ public class Event implements IEvent{
     this.online = online;
     this.startTime = startTime;
     this.endTime = endTime;
-    this.host = host;
-    this.duration = new TimeSlot(startTime, endTime);
-    this.invitedUsers = invitedUsers;
-
-  }
-
-  public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-               UserSchedule host) {
-    if (name == null || location == null || startTime == null
-            || endTime == null || host == null || invitedUsers == null) {
-      throw new IllegalArgumentException("fields can't be null");
-    }
-    this.name = name;
-    this.location = location;
-    this.online = online;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.host = host;
     this.duration = new TimeSlot(startTime, endTime);
     this.invitedUsers = new ArrayList<IUsers>();
+    this.hostId = hostId;
   }
+
+
 
   @Override
   public void addInvitee(IUsers u) {
@@ -72,8 +60,8 @@ public class Event implements IEvent{
 
 
   @Override
-  public boolean isHost(UserSchedule u){
-    return u.userID().equals(this.host.userID());
+  public boolean isHost(IUsers u){
+    return u.userID().equals(this.hostId);
   }
 
   @Override
@@ -202,7 +190,7 @@ public class Event implements IEvent{
 
   @Override
   public String hostID() {
-    return this.host.userID();
+    return this.hostId;
   }
 
 
