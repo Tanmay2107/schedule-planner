@@ -33,18 +33,21 @@ public class DayTime {
     return this.day.dayToInt() == d.dayToInt();
   }
 
-  public String toString(){
-    return this.day.toString() + ": " + this.hours + "" + this.minutes;
-  }
-
   public Day day(){
     return this.day;
   }
 
-  public String timeAsString(){
-    return this.hours + "" + this.minutes;
+  public String toString(){
+    return this.day.toString() + ": " + formatTime(this.hours) + ":" + formatTime(this.minutes);
   }
 
+  public String timeAsString(){
+    return formatTime(this.hours) + ":" + formatTime(this.minutes);
+  }
+
+  private String formatTime(int timeValue) {
+    return timeValue < 10 ? "0" + timeValue : String.valueOf(timeValue);
+  }
 
 
 

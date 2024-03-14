@@ -1,6 +1,16 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import model.CentralSystem;
+import model.Day;
+import model.DayTime;
+import model.ReadOnlyUsers;
+import model.UserSchedule;
+
+import static org.junit.Assert.assertEquals;
+
 // Checks methods with Central System specifically.
 public class TestCentralSystem {
 
@@ -65,4 +75,30 @@ public class TestCentralSystem {
    */
 
 
+  @Test
+  public void testScheduleEvent() {
+    CentralSystem centralSystem = new CentralSystem();
+    String userId = "Hamsa Madhira";
+    centralSystem.addUser(userId);
+
+    String eventName = "Cognition";
+    String location = "Dodge Hall";
+    boolean online = true;
+    DayTime startTime = new DayTime(10, 0, Day.MONDAY);
+    DayTime endTime = new DayTime(11, 0, Day.MONDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add(userId);
+
+    centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
+
+    for (ReadOnlyUsers user : centralSystem.getUsers(userId)) {
+      UserSchedule userSchedule = (UserSchedule) user;
+      assertEquals(1, userSchedule.scheduledEvents().size());
+      assertEquals(eventName, userSchedule.scheduledEvents().get(0).name());
+      assertEquals(location, userSchedule.scheduledEvents().get(0).location());
+      assertEquals(online, userSchedule.scheduledEvents().get(0).online());
+      assertEquals(startTime, userSchedule.scheduledEvents().get(0).startTime());
+      assertEquals(endTime, userSchedule.scheduledEvents().get(0).endTime());
+    }
+  }
 }
