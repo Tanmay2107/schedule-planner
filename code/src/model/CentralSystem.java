@@ -1,8 +1,20 @@
 package model;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Represents the central system that manages all the users and their schedules.
@@ -121,6 +133,118 @@ public class CentralSystem implements CentralSystemModel{
       result += u.toString() + "\n";
     }
     return result;
+  }
+
+  public void loadUserFromXML(String xmlPath) {
+    try {
+      DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      Document xmlDoc = builder.parse(new File(xmlPath));
+      xmlDoc.getDocumentElement().normalize();
+      NodeList nodeList = xmlDoc.getElementsByTagName("calendar");
+      Node first = nodeList.item(0);
+      NamedNodeMap attrList = first.getAttributes();
+      System.out.println("User Details");
+
+      System.out.println( attrList.item(0).getNodeName() + " : " +
+              attrList.item(0).getNodeValue());
+      String uid = attrList.item(0).getNodeValue();
+      this.addUser(uid);
+
+      NodeList eventNodeList = xmlDoc.getElementsByTagName("event");
+
+      for(int j=0; j<eventNodeList.getLength(); j++){
+        Node firstEvent = eventNodeList.item(j);
+
+        NodeList eventChildNodeList = firstEvent.getChildNodes();
+
+        int n =  eventChildNodeList.getLength();
+        Node current;
+        System.out.println("Event " + j + " Details");
+
+        xmlDoc.getElementsByTagName("name").item(j).getTextContent();
+
+        String eventName = xmlDoc.getElementsByTagName("name").item(j).getTextContent();
+        System.out.println("Event Name: " + eventName);
+
+        String startDay = xmlDoc.getElementsByTagName("start-day").item(j).getTextContent();
+
+        String startTime = xmlDoc.getElementsByTagName("start").item(j).getTextContent();
+
+        String endDay = xmlDoc.getElementsByTagName("end-day").item(j).getTextContent();
+
+        String endTime = xmlDoc.getElementsByTagName("end").item(j).getTextContent();
+        System.out.println("Time-Start Day: " + startDay);
+        System.out.println("Time-Start Time: " + startTime);
+        System.out.println("Time-End Day: " + endDay);
+        System.out.println("Time-End Time: " + endTime);
+
+        String locationOnline = xmlDoc.getElementsByTagName("online").item(j).getTextContent();
+
+        String locationPlace = xmlDoc.getElementsByTagName("place").item(j).getTextContent();
+        System.out.println("Location-Online: " + locationOnline);
+        System.out.println("Location-Place: " + locationPlace);
+
+        Node inviteesNode = xmlDoc.getElementsByTagName("users").item(j);
+        NodeList inviteesNodeList = inviteesNode.getChildNodes();
+
+        ArrayList<String> users = new ArrayList<>();
+
+
+        int numInvitees = inviteesNodeList.getLength();
+        Node currentInvitee;
+        for(int k=0; k<numInvitees; k++){
+          currentInvitee = inviteesNodeList.item(k);
+          if(currentInvitee.getNodeType() == Node.ELEMENT_NODE) {
+
+            users.add(currentInvitee.getTextContent());
+          }
+        }
+
+        System.out.println("Users: " + users);
+        this.addEvent(uid, eventName, locationPlace, locationOnline.equals("true"),
+                stringToDayTime(startDay,startTime), stringToDayTime(endDay,endTime), users);
+      }
+
+    } catch (ParserConfigurationException ex) {
+      throw new IllegalStateException("Error in creating the builder");
+    } catch (IOException ioEx) {
+      throw new IllegalStateException("Error in opening the file");
+    } catch (SAXException saxEx) {
+      throw new IllegalStateException("Error in parsing the file");
+    }
+
+  }
+
+  private DayTime stringToDayTime(String day,String time){
+    if(day == null || time == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
+    if(day.length() != 4){
+      throw new IllegalArgumentException("Invalid day");
+    }
+    String hours = time.substring(0,2);
+    String minutes = time.substring(2,4);
+    int h = Integer.parseInt(hours);
+    int m = Integer.parseInt(minutes);
+    switch (day){
+      case "Monday":
+        return new DayTime(h,m,Day.MONDAY);
+      case "Tuesday":
+        return new DayTime(h,m,Day.TUESDAY);
+      case "Wednesday":
+        return new DayTime(h,m,Day.WEDNESDAY);
+      case "Thursday":
+        return new DayTime(h,m,Day.THURSDAY);
+      case "Friday":
+        return new DayTime(h,m,Day.FRIDAY);
+      case "Saturday":
+        return new DayTime(h,m,Day.SATURDAY);
+      case "Sunday":
+        return new DayTime(h,m,Day.SUNDAY);
+      default:
+        throw new IllegalArgumentException("Invalid day");
+    }
+
   }
 
 }

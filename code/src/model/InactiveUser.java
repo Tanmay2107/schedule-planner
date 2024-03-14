@@ -25,4 +25,8 @@ public class InactiveUser extends AUsers{
     return new UserSchedule(uid, events);
   }
 
+  @Override
+  public ArrayList<ReadOnlyEvent> scheduledEvents() {
+    throw new IllegalStateException("Inactive user can not check scheduled events");
+  }
 }
