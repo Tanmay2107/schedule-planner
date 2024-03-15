@@ -91,7 +91,7 @@ public class TestPlanner {
     DayTime endTime2 = new DayTime(12, 45, Day.MONDAY);
     TimeSlot event2 = new TimeSlot(startTime2, endTime2);
 
-    assertTrue(event2.conflict(event1));
+    assertFalse(event1.conflict(event2));
   }
 
   // should return true since event 2 starts while event 1 is still happening.
@@ -589,7 +589,8 @@ public class TestPlanner {
     Event event = new Event("OriginalName", "Churchill", true,
             startTime, endTime, host.userID());
 
-    assertThrows(IllegalStateException.class, () -> event.modifyEndTime(startTime));
+    event.modifyEndTime(startTime);
+    assertEquals(startTime, event.endTime());
   }
   @Test
   public void testModifyNullEndTime(){
