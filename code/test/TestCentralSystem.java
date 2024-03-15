@@ -429,7 +429,7 @@ public class TestCentralSystem {
               new DayTime(12, 0, Day.FRIDAY),
               new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
 
-      EventCommand command = new ModifyEventEndTimeCommand(e, null);
+    EventCommand command = new ModifyEventEndTimeCommand(e, null);
       centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
   }
 
@@ -438,8 +438,8 @@ public class TestCentralSystem {
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
     Event e = new Event("OOD Grind", "WVH Lab", false,
-            new DayTime(12, 0, Day.FRIDAY),
-            new DayTime(17, 0, Day.FRIDAY), invitees, tanmay.userID());
+            new DayTime(5, 0, Day.FRIDAY),
+            new DayTime(7, 0, Day.FRIDAY), invitees, tanmay.userID());
     e.addInvitee(new UserSchedule(
             "Tanmay Shah"));
     e.addInvitee(new UserSchedule(
@@ -449,9 +449,89 @@ public class TestCentralSystem {
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
+    String expected ="User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 05:00 -> Friday : 07:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 05:00 -> Friday : 07:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    String actual = view.displayScheduleAsString(tanmay.userID());
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
-    command.execute();
-    assertTrue(e.online());
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -462,13 +542,22 @@ public class TestCentralSystem {
     invitees.add(new UserSchedule(
             "Hamsa Madhira"));
 
+    ArrayList<String> invitee = new ArrayList<>();
+    invitee.add("Tanmay Shah");
+    invitee.add("Hamsa Madhira");
     Event e = new Event("OOD Grind", "WVH Lab", true,
-            new DayTime(12, 0, Day.FRIDAY),
-            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+            new DayTime(6, 0, Day.SATURDAY),
+            new DayTime(8, 0, Day.SATURDAY), invitees, "Tanmay Shah");
+
+    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), invitee);
 
     EventCommand command = new ModifyEventOnlineStatus(e);
-    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
-    assertFalse(e.online());
+    centralSystemWith3User.modifyEvent(e, command, e.hostID());
+
+
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
   }
 
   @Test(expected = IllegalStateException.class)

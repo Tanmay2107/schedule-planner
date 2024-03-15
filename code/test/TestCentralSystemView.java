@@ -413,32 +413,6 @@ public class TestCentralSystemView {
             "  invitees: Hamsa Madhira, Tanmay Shah\n";
 
     assertEquals(expected, actual);
-  }
-
-  @Test
-  public void testDisplayScheduleForConflict(){
 
   }
-
-  @Test
-  public void testDisplayAfterEventRemoved(){
-
-  }
-
-
-  @Test
-  public void testDisplayAfterEventNameModified(){}
-
-  @Test
-  public void testDisplayAfterEventLocationModified(){}
-
-  @Test
-  public void testDisplayAfterEventStartTimeModified(){}
-
-  @Test
-  public void testDisplayAfterEventEndTimeModified(){}
-
-
-
-
 }

@@ -46,7 +46,7 @@ public class Event implements IEvent{
     this.startTime = startTime;
     this.endTime = endTime;
     this.duration = new TimeSlot(startTime, endTime);
-    this.invitedUsers = new ArrayList<IUsers>();
+    this.invitedUsers = invitedUsers;
     this.hostId = hostId;
   }
 
