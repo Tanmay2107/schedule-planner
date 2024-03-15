@@ -1,104 +1,208 @@
+# README
+
 ## Introduction
 
-The Planner Application is a system designed to help users manage their schedules and
-vents efficiently. It provides functionalities for scheduling, removing and modifying events and
-managing user schedules and their associated responsibilities.
+The Planner Application is a system designed to help users manage their schedules and events
+efficiently.
 
-## Users:
-Our System has two types of possible users.
-- **User Schedule**: In our model this is the main type of user we work with. User Schedule and user
-- **Inactive User**:
+## Key Features of the Schedule Planner
 
-    Design Decisions:
-    Differentiation between Active and Inactive U
+- **User Management**: Users can create accounts and manage their schedules in the central system.
+- **Conflict Prevention:** The system ensures that users do not schedule, or get added to
+events that they have a conflict for. The only exception to this is if the startTime of one event
+ is the same as the endTime of the previous event.
+- **Event Scheduling**: Users can schedule events with specified details such as name,
+location, online status, start time, end time, and invitees.
+- **Event Modification**: Invited Users can modify events using different commands, such as
+changing the start time or end time. The only component that can not be modified for an event is
+the host (More on this design decision explained in events).
+- **Event Inviting:** Users can invite other users to existing events in the system, provided
+ they don’t have any prior conflicts.
+- **Event Removal:** All invited users have the power to remove events from their schedule. H
+owever, if the host of an event removes the event from their schedule, the event gets deleted for
+all invitees.
+- **XML Data Handling**: The application supports importing and exporting
+ user data in XML format.
 
-## Features
+## Key Components of the Schedule Planner:
 
-- **User Management**: Users can create accounts and manage their schedules.
-- **Event Scheduling**: Users can schedule events with specified details such as name, location,
-start time, end time, and invitees.
-- **Event Modification**: Users can modify events using different commands, such as changing the
-start time or end time.
-- **XML Data Handling**: The application supports importing and exporting user data in XML format.
+- **Central System:** The central system is the core management system used to store all users and
+their schedules. The central system is composed of multiple user schedules.
+
+A Central System can be constructed like this:
+
+`centralSystem = new CentralSystem();`
+
+- **AUsers:** For the scope of this code, users and their schedules are one and the same. All users
+are defined by a unique identifier and the list of events in their schedules. Therefore, in terms
+of both functionality and semantics they are the same.
+- **Event:** The ****event represents the event that a user must attend. All events are defined by
+various components including a name for the event, location, start time, end time, invitees and
+whether it is online.
+- **TimeSlot:** TimeSlot ****is a class that represents how we handle time. It is concerned with
+the conversion of time inputs provided into useful  values for the code. It helps convert the start
+and end time of an event into a duration that can check for conflicts and help with scheduling
+events in the future.
+
+A TimeSlot can be made like this:
+
+`TimeSlot newDuration = new TimeSlot(DayTime startTime, DayTime endTime);`
+
+The constructor ensures `startTime` and `endTime` can not be null.
+
+- **DayTime:**  The dayTime class is our representation of time. It is an hour and minute and
+Day representation of time. It’s constructor is:
+
+`DayTime newDayTime = new DayTime(int hour, int min, DAY day)`
+
+The constructor ensures that none of the fields can be null.
+
+- **Day:** Day is an enum class we created to represent the 7 days of a week and map out
+associated integers for easy conversions.
+
+A Day is accessed like this:
+
+`DAY.MONDAY;`
 
 ## Components
 
 ### Central System
 
-The `CentralSystem` class represents the core component of the application. It manages all the users
-and their schedules. Key functionalities include:
+The `CentralSystem` class represents the core component of the application. It manages all
+the users and their schedules. Key functionalities include:
 
-- Adding users to the system
-- Scheduling events
-- Modifying events
-- Removing events
-- Exporting user data to XML files
+- Adding users to the system:
+    - An active user (UserSchedule) can not be added again. AddUser throws an error.
+    - Calling an adding on an inactive user,  allows user becomes activated. This means that
+     they now get added into the system with their schedule and have all the same rights as
+     an active user.
+    - A third user, that is neither in the system as active of inactive gets added as an
+    active user to the system with an empty schedule (no events).
+    - The signature for addUser is:
 
-### User Interface
+    `public void addUser(String uid);`
 
-The application provides a user-friendly interface for interacting with the system.
-Users can perform various operations such as creating accounts, scheduling events,
-and viewing their schedules.
+    A user can be initially added to the system just by their userid.
 
-### User Schedule
+    `centralSystem.addUser(uid);`
 
-The `UserSchedule` class represents the schedule of a particular user. It contains a list
-of events scheduled for the user and provides methods for managing these events.
+- Creating events:
+    - All users can create events in the system.
+    - The signature for createEvent is:
+
+    `public void createEvent(String host_uid, String name, String location, boolean online,
+    DayTime startTime, DayTime endTime, ArrayList<String> invitees)`;
+
+    Events can be created and added to the respective schedules like this:
+
+    `centralSystem.createEvent(host_uid, name, location, online, startTime, endTime, invitees);`
+
+- Removing events:
+    - Any invited user can remove an event from their own schedule.
+    - If the user that removes the event is the host, the event gets deleted for everyone.
+    - The signature for removeEvent is:
+    `public void removeEvent(String uid, IEvent e);`
+
+    Events can be removed like this:
+
+    `centralSystem.removeEvent(uid, e);`
+
+- Modifying events:
+    - The modifyEvent function allows all invited users to make changes to an event,
+    including changing the startTime, endTime, name of the event, location and whether
+     it is online.
+    - The only aspect of an event that can’t be changed is the host. This design decision
+    was made to prevent malicious manipulations of an event since currently beyond this
+    the system does not make any distinctions between regular invitees and the host.
+    - The signature of modifyEvent looks like this:
+    `public void modifyEvent(Event event, EventCommand command, String uid);`
+
+    An event can be modified by:
+
+    `centralSystem.modifyEvent(event, command, uid);`
+
+- Reading user data to XML files:
+    - User XML files can be read by loadUserFromXML();
+    - Once the file is loaded, the user is added an active user in the system with their events.
+    - The signature
+
+    `public void loadUserFromXML(String xmlPath);`
+
+    User XML can be loaded by:
+
+    `centralSystem.loadUserFromXMLFile(xmlPath);`
+
+- Writing user data to XML files:
+    - All active user data can be written into XML files.
+    - The signature is:
+
+    `public void writeUserToXMLFile(String uid, String path);`
+
+    User data can be written into an XML file:
+
+    `centralSystem.writeUserToXMLFile(uid, path);`
+
+- Inviting users to events:
+    - This function allows new invitees to be added to an existing event.
+    - Only users in the system can invite any users (active or inactive or completely new).
+    - The signature is :
+
+    `public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event);`
+
+    Users can be invited by:
+
+    `centralSystem.inviteUserToEvent(inviter_uid, invitee_uid, event);`
+
+
+## Users:
+
+Design Decisions and some Assumptions:
+
+- The first and foremost design decision we made is that there is no differentiation between a
+user and their schedule. One user has only one schedule according to the assignment, therefore,
+ any changes made to the User account apply to the schedule and vice versa.
+- We decided to have two types of users, to ensure that users that may not be stored in the
+central system can still be invited to events, and eventually also become active users once
+ loaded into our Central system.
+- The primary differentiation between an Active user (interchangeable with UserSchedule) and
+an inactive user (someone not added in the system), is not their ability to attend events,
+but rather to modify, invite other users to events and convert their schedule into an XML
+format catered to and created by our system.
+- Now in terms of Components of a User:
+    - All users have a unique id by which they can be identified by.
+    - All users also have a list of events that they are taking part.
+
+There are two types of users in our system as shown in IUsers interface and AUsers abstract class:
+
+- UserSchedule (or active users): Active users have the right to all functionalities in the
+schedule planner. They can create remove and modify events in their own schedules. Clients
+can also create events for others. The users and their schedules are also represented together
+ in this class.
+- Inactive: Inactive users are essentially users that have not been added into the system yet.
+They can be invited to events and can attend, however there are some functionalities they are not
+allowed to do. For example, an inactive user can not invite another user to an event, they can not
+ modify events either. Inactive users however can be activated (added to the system) and gain all
+ the same rights as an active user.
+
+### Connecting to other classes:
+
+- The central system stores all the users. This means users and their schedules are directly
+accessed through the system.
+- A UserSchedule is marked by its unique id and the list events a user has in their schedule.
+Therefore, the functionalities of the specific events is already attributed and connected to the users.
+- This data representation was chosen since it allowed us to create ReadOnly instances of
+all three classes and prevent improper data accession. Since each class is passed through the other,
+ all access rights could be streamlined through central system.
+- Our data access dogma looks like this:
+    - ICentral SystemModel —> IUsers —> IEvent
 
 ### Event
 
-The `Event` class represents an event in the system. It contains details such as name,
- location, start time, end time, and invitees.
+The `IEvent` interface defines the features and functionalities of an event in the system.
+It includes methods for managing event details, handling invitees, and checking for conflicts.
 
-### Event Command
-
-The `EventCommand` interface defines commands for modifying events. Concrete implementations
-of this interface provide specific commands such as changing the start time or end time of an event.
-
-### XML Data Handling
-
-The application supports importing and exporting user data in XML format.
-It uses XML parsing techniques to read and write user data from/to XML files.
-
-## Usage
-
-1. **Adding Users**: Users can create accounts by providing a unique user ID.
-2. **Scheduling Events**: Users can schedule events by specifying details such as name,
-location, start time, end time, and invitees.
-3. **Modifying Events**: Users can modify events using different commands, such as
-changing the start time or end time.
-4. **Exporting Data**: Users can export their schedule data to XML files for backup
-or sharing purposes.
-5. **Importing Data**: Users can import schedule data from XML files to restore their schedules.
-
-## Example Code
-
-```java
-// Creating a new CentralSystem instance
-CentralSystem centralSystem = new CentralSystem();
-
-// Adding a new user to the system
-centralSystem.addUser("john_doe");
-
-// Scheduling an event for the user
-centralSystem.scheduleEvent("john_doe", "Meeting", "Office", true,
-        new DayTime(9, 0, Day.MONDAY), new DayTime(10, 0, Day.MONDAY),
-        new ArrayList<>(Collections.singletonList("jane_smith")));
-
-// Modifying an event
-Event event = /* retrieve event */;
-EventCommand command = /* create command */;
-centralSystem.modifyEvent(event, command, "john_doe");
-
-// Exporting user data to an XML file
-centralSystem.writeUserToXMLFile("john_doe", "user_data.xml");
-
-
-## Components
-
-### Event Interface (`IEvent`)
-
-The `IEvent` interface defines the features and functionalities of an event in the system. It includes methods for managing event details, handling invitees, and checking for conflicts.
+The `Event` class represents an event in the system. It contains details such as name, location,
+start time, end time, and invitees.
 
 ### Features
 
@@ -109,8 +213,71 @@ The `IEvent` interface defines the features and functionalities of an event in t
 - **Invitee List**: Retrieves a list of user IDs of invitees for the event.
 - **Remove Invitee**: Removes a specified invitee from the event.
 - **String Representation**: Generates a string representation of the event.
-- **Accessors**: Provides methods to access various attributes of the event such as name, location, start time, end time, duration, and host ID.
+- **Accessors**: Provides methods to access various attributes of the event such as name, location,
+start time, end time, duration, and host ID.
 - **XML Serialization**: Generates an XML string representation of the event.
-- **Modification Operations**: Allows for modifications to event details such as name, location, start time, end time, and online status.
+- **Modification Operations**: Allows for modifications to event details such as name, location,
+start time, end time, and online status.The reason for this design decision is because in the
+assignment, it was
 - **Equality Check**: Compares two events for equality based on their attributes.
-- **User Replacement**: Replaces an inactive user with an activated user in the event's invitee list.
+- **User Replacement**: Replaces an inactive user with an activated user in the event's invitee
+list.
+
+### Event Modification:
+
+In order to modify the event in a clean and efficient manner, we created an EventCommand interface.
+ Drawing inspiration from the command builder patter, we created specific functionalities to modify
+  different fields on an event in the event class. We then them all to converge through the event
+  command interface allowing for central system to only have one clean modifyEvent function();
+
+### **CentralSystemView Interface**
+
+The **`CentralSystemView`** interface defines the various views of the central system.
+
+### **Features**
+
+- **displayScheduleAsString()**: Displays the schedule for a given user as a string.
+ Formatted based on textual view in the assignment.
+
+
+
+```java
+// Creating a new CentralSystem instance
+CentralSystem centralSystem = new CentralSystem();
+
+String userId1 = "Prof. Nunez";
+String userId2 = "Hamsa Madhira";
+String userId3 = "Tanmay Shah";
+    
+    centralSystem.addUser(userId1);
+    centralSystem.addUser(userId2);
+    centralSystem.addUser(userId3);
+
+// add invitees
+ArrayList<IUsers> invitees = new ArrayList<>();
+    invitees.add(user2);
+    invitees.add(user3);
+    
+// new event 
+Event event = new Event("OOD Grind", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+
+// create that event in the system            
+centralSystemWith3User.createEvent("Tanmay Shah", event.name(), event.location(), e.online(),
+            event.startTime(),
+            event.endTime(), event.listOfInvitees());            
+
+// create name modification command
+EventCommand command = new ModifyEventNameCommand(e, "OOD Homework Session")
+centralSystem.modifyEvent(event, command);
+
+// create a view
+CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+
+// display as a text
+view.displayScheduleAsString()
+
+// write it as XML file
+centralSystem.writeUserToXMLFile("Prof. Nunez", "nunez.xml");
+```
