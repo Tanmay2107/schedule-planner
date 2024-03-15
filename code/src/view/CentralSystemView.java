@@ -14,7 +14,6 @@ public interface CentralSystemView {
 
   /**
    * Displays the schedule for a given user as a string.
-   * @param userid The ID of the user whose schedule to display.
    * @return A string representation of the user's schedule.
    */
   public String displayScheduleAsString();
