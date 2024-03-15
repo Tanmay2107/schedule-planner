@@ -1206,7 +1206,7 @@ public class TestCentralSystem {
 
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalStateException.class)
   public void testScheduleConflict() {
     CentralSystem centralSystem = new CentralSystem();
     String user1 = "User1";
@@ -1396,7 +1396,8 @@ public class TestCentralSystem {
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
     String actual = view.displayScheduleAsString();
-    String expected = "Sunday:\n" +
+    String expected = "User: Hamsa Madhira\n" +
+            "Sunday:\n" +
             "  name: Study Session\n" +
             "  time: Sunday : 05:00 -> Sunday : 09:30\n" +
             "  location: ISEC\n" +
