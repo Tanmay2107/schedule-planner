@@ -1357,6 +1357,7 @@ public class TestCentralSystem {
             "  No events scheduled.\n";
     assertEquals(expected, actual);
   }
+  //
 
   @Test (expected = IllegalArgumentException.class)
   public void testModifyEventNullStartTime(){
