@@ -32,7 +32,7 @@ public interface IEvent extends ReadOnlyEvent{
    * @param e
    * @return true if the given event conflicts with this event.
    */
-  public boolean eventConflict(IEvent e);
+  public boolean eventConflict(ReadOnlyEvent e);
 
   /**
    * Checks if the given time slot conflicts with this event.

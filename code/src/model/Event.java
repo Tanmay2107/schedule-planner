@@ -123,8 +123,8 @@ public class Event implements IEvent{
    * @return true if there is a conflict, otherwise false.
    */
   @Override
-  public boolean eventConflict(IEvent e){
-    return e.eventConflict(this.duration);
+  public boolean eventConflict(ReadOnlyEvent e){
+    return this.eventConflict(e.duration());
   }
 
   /**
@@ -175,32 +175,14 @@ public class Event implements IEvent{
   }
 
   public void changeStartTime(DayTime newStartTime) {
-//    // Create a copy of the invited users list
-//    List<IUsers> otherUsers = new ArrayList<>(this.invitedUsers);
-//
-//    // Iterate over the copy and update the start time
-//    for (IUsers u : otherUsers) {
-//      // Get a copy of the user's events excluding the current event
-//      List<ReadOnlyEvent> otherEvents = new ArrayList<>(u.scheduledEvents());
-//      otherEvents.remove(this);
-//      System.out.print(otherEvents.size());
-//
-//      // Check for overlapping events with the new start time
-//      for (ReadOnlyEvent e : otherEvents) {
-//        if (u.overlappingEventExists(new Event(this.name, this.location,
-//                this.online,newStartTime, this.endTime, invitedUsers, hostId))) {
-//          throw new IllegalArgumentException("Cannot modify this time");
-//        }
-//      }
-   // }
     for (IUsers u : this.invitedUsers) {
       // Check for overlapping events with the new start time
       for (ReadOnlyEvent e : u.scheduledEvents()) {
-        if (e.equals(this)) {
+        if (this.eventEquals(e)) {
           continue;
         }
-        if (u.overlappingEventExists(new Event(this.name, this.location,
-                this.online, newStartTime, this.endTime, invitedUsers, hostId))) {
+        else if ((new Event(this.name, this.location,
+                this.online, newStartTime, this.endTime, invitedUsers, hostId)).eventConflict(e)) {
           throw new IllegalArgumentException("Can not modify this time");
         }
       }
@@ -208,20 +190,22 @@ public class Event implements IEvent{
 
     // Update the start time after ensuring no overlap
     this.startTime = newStartTime;
-    this.startTime = newStartTime;
   }
 
   public void changeEndTime(DayTime newEndTime){
-    for (IUsers u : this.invitedUsers){
-      if (u.overlappingEventExists(new Event(this.name, this.location,
-              this.online,this.startTime, newEndTime, invitedUsers, hostId))) {
-        throw new IllegalArgumentException("Can not modify this time");
-      }
-      else {
-        this.endTime = newEndTime;
+    for (IUsers u : this.invitedUsers) {
+      // Check for overlapping events with the new start time
+      for (ReadOnlyEvent e : u.scheduledEvents()) {
+        if (this.eventEquals(e)) {
+          continue;
+        }
+        else if ((new Event(this.name, this.location,
+                this.online, this.startTime, newEndTime, invitedUsers, hostId)).eventConflict(e)) {
+          throw new IllegalArgumentException("Can not modify this time");
+        }
       }
     }
-
+    this.endTime = newEndTime;
   }
 
   public void changeOnlineStatus(){

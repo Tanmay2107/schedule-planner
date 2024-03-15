@@ -1,5 +1,6 @@
 package model;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 /**
@@ -48,4 +49,9 @@ public interface ReadOnlyEvent {
    * @return The list of IDs of invitees to the event.
    */
   public ArrayList<String> listOfInvitees();
+
+  /**
+   *
+   */
+  public TimeSlot duration();
 }
