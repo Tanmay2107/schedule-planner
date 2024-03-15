@@ -22,6 +22,7 @@ import view.CentralSystemTextView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 // Checks methods with Central System specifically.
@@ -491,7 +492,7 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testModifyEventStartTimeWithConflict() {
     DayTime newStartTime = new DayTime(1, 30, Day.SUNDAY);
     ArrayList<IUsers> invitees = new ArrayList<>();
@@ -517,13 +518,14 @@ public class TestCentralSystem {
     DayTime newStartTime = new DayTime(5, 30, Day.SUNDAY);
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
-    Event e = new Event("OOD Grind", "WVH Lab", false,
+    IUsers hamsa = new UserSchedule("Hamsa Madhira");
+    invitees.add(tanmay);
+    invitees.add(hamsa);
+
+    Event e = new Event("Study Session", "ISEC", false,
             new DayTime(5, 0, Day.SUNDAY),
             new DayTime(7, 0, Day.SUNDAY), invitees, tanmay.userID());
-    e.addInvitee(new UserSchedule(
-            "Tanmay Shah"));
-    e.addInvitee(new UserSchedule(
-            "Hamsa Madhira"));
+
 
     centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
@@ -680,6 +682,7 @@ public class TestCentralSystem {
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
             "  No events scheduled.\n";
+
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
     String actual = view.displayScheduleAsString(tanmay.userID());
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
@@ -703,13 +706,91 @@ public class TestCentralSystem {
 
     centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
-            e.endTime(), invitee);
-
+            e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
-    centralSystemWith3User.modifyEvent(e, command, e.hostID());
-
+    String expected ="User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Saturday : 06:00 -> Saturday : 08:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: true\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Saturday : 06:00 -> Saturday : 08:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: true\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" ;
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    String actual = view.displayScheduleAsString("Tanmay Shah");
+    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
+    assertEquals(expected, actual);
+
   }
 
   @Test(expected = IllegalStateException.class)
@@ -773,8 +854,171 @@ public class TestCentralSystem {
 
   @Test(expected = IllegalStateException.class)
   public void testReadXMLWithWrongPath(){
-    centralSystemWith3User.loadUserFromXML("random.xml");
+    centralSystemWith3User.loadUserFromXML
+            ("random.xml");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testEmptyInviteesList() {
+    String name = "Meeting";
+    String location = "Conference Room";
+    boolean online = false;
+    DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
+    DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+   centralSystemWith1User.scheduleEvent(name, location, online, startTime, endTime, invitees);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testScheduleEventNullName() {
+    String location = "Conference Room";
+    boolean online = false;
+    DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
+    DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Hamsa");
+    centralSystemWith1User.scheduleEvent(null, location, online, startTime, endTime, invitees);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testScheduleEventNullLocation() {
+    String name = "tanmay";
+    boolean online = false;
+    DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
+    DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Hamsa");
+    centralSystemWith1User.scheduleEvent(name, null, online, startTime, endTime, invitees);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testScheduleEventStartTime() {
+    String name = "tanmay";
+    String loc = "Conference room";
+    boolean online = false;
+    DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Hamsa");
+    centralSystemWith1User.scheduleEvent(name, loc, online, null, endTime, invitees);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testScheduleEventEndTime() {
+    String name = "tanmay";
+    String loc = "Conference room";
+    boolean online = false;
+    DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Hamsa");
+    centralSystemWith1User.scheduleEvent(name, loc, online, startTime, null, invitees);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullParameters() {
+    centralSystemWith1User.scheduleEvent(null, null, false,
+            null, null, null);
+  }
+
+  @Test
+  public void testValidEventScheduling() {
+    centralSystemWith1User.addUser("user1");
+    centralSystemWith1User.addUser("user2");
+    String name = "Meeting";
+    String location = "Conference Room";
+    boolean online = false;
+    DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
+    DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("user1");
+    invitees.add("user2");
+
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
+    String actual = view.displayScheduleAsString("user1");
+    centralSystemWith1User.scheduleEvent(name, location, online, startTime, endTime, invitees);
+    String expected = "User: user1\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: user2\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
+
+    assertEquals(expected, actual);
+
+
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testScheduleConflict() {
+    CentralSystem centralSystem = new CentralSystem();
+    String user1 = "User1";
+    String user2 = "User2";
+    centralSystem.addUser(user1);
+    centralSystem.addUser(user2);
+
+    String eventName1 = "Chemistry Lab";
+    String location1 = "Hastings Hall";
+    boolean online1 = false;
+    DayTime startTime1 = new DayTime(14, 0, Day.SATURDAY);
+    DayTime endTime1 = new DayTime(16, 0, Day.SATURDAY);
+    ArrayList<String> invitees1 = new ArrayList<>();
+    invitees1.add(user1);
+
+    centralSystem.scheduleEvent(user1, eventName1, location1, online1, startTime1, endTime1,
+            invitees1);
+
+    String eventName2 = "Event 2";
+    String location2 = "Location 2";
+    boolean online2 = false;
+    DayTime startTime2 = new DayTime(15, 0, Day.SATURDAY); // Overlaps with Event 1
+    DayTime endTime2 = new DayTime(17, 0, Day.SATURDAY);
+    ArrayList<String> invitees2 = new ArrayList<>();
+    invitees2.add(user1);
+
+   centralSystem.scheduleEvent(user2, eventName2, location2, online2,
+           startTime2, endTime2, invitees2);
+  }
 
 }

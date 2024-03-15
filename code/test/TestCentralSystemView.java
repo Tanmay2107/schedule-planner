@@ -413,6 +413,8 @@ public class TestCentralSystemView {
             "  invitees: Hamsa Madhira, Tanmay Shah\n";
 
     assertEquals(expected, actual);
-
   }
+
+
+
 }

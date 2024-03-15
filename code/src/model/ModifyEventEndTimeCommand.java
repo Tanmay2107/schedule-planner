@@ -27,11 +27,7 @@ public class ModifyEventEndTimeCommand implements EventCommand {
    */
   @Override
   public void execute() {
-    if (event.eventConflict(new TimeSlot(event.startTime(), newEndTime))) {
       event.changeEndTime(newEndTime);
-    } else {
-      throw new IllegalStateException("Cannot modify end time because of a conflicting event");
-    }
   }
 
   @Override
