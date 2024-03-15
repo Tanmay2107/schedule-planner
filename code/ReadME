@@ -172,7 +172,8 @@ format catered to and created by our system.
     - All users have a unique id by which they can be identified by.
     - All users also have a list of events that they are taking part.
 
-There are two types of users in our system as shown in IUsers interface and AUsers abstract class:
+There are two types of users in our system as shown in IUsers interface and AUsers abstract class
+The abstract class also prevents code duplication for common user behaviors.
 
 - UserSchedule (or active users): Active users have the right to all functionalities in the
 schedule planner. They can create remove and modify events in their own schedules. Clients
