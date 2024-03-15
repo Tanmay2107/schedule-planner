@@ -59,6 +59,7 @@ public class TestPlanner {
 
   @Test (expected = IllegalArgumentException.class)
   public void testTimeBadMinutes() {
+
     DayTime t1 = new DayTime(19, 77, Day.MONDAY);
   }
   @Test (expected = IllegalArgumentException.class)
@@ -68,11 +69,13 @@ public class TestPlanner {
 
   @Test (expected = IllegalArgumentException.class)
   public void testTimeHourLessThan0(){
+
     DayTime t1 = new DayTime(-10, 9, Day.THURSDAY);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void testTimeHourMoreThan23(){
+
     DayTime t1 = new DayTime(25, 9, Day.TUESDAY);
   }
 
