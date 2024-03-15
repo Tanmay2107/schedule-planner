@@ -346,6 +346,15 @@ public class CentralSystem implements CentralSystemModel{
 
   }
 
+  @Override
+  public ArrayList<ReadOnlyUsers> giveInactiveUsers() {
+    ArrayList<ReadOnlyUsers> result = new ArrayList<ReadOnlyUsers>();
+    for(String uid: inactiveUserMap.keySet()){
+      result.add(inactiveUserMap.get(uid));
+    }
+    return result;
+  }
+
   private DayTime stringToDayTime(String day,String time){
     if(day == null || time == null){
       throw new IllegalArgumentException("fields can't be null");

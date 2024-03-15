@@ -65,7 +65,7 @@ public abstract class AUsers implements IUsers{
   public void inviteUser(IEvent e) {
     if (!this.eventAlreadyExists(e)) {
       if (overlappingEventExists(e)) {
-        throw new IllegalArgumentException("Event overlaps with existing event");
+        throw new IllegalStateException("Event overlaps with existing event");
       }
       events.add(e);
       e.addInvitee(this);

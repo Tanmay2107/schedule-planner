@@ -38,10 +38,7 @@ public class InactiveUser extends AUsers{
    * @return The list of read-only events.
    * @throws IllegalStateException as inactive users cannot check scheduled events.
    */
-  @Override
-  public ArrayList<ReadOnlyEvent> scheduledEvents() {
-    throw new IllegalStateException("Inactive user can not check scheduled events");
-  }
+
 
   /**
    * Generates an XML string representing the inactive user and their events.

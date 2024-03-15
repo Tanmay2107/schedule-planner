@@ -82,5 +82,8 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
    * @param xmlPath The file path of the XML file containing user data.
    */
   public void loadUserFromXML(String xmlPath);
+
+
+  public ArrayList<ReadOnlyUsers> giveInactiveUsers();
 }
 //...

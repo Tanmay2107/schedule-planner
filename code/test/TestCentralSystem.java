@@ -90,6 +90,42 @@ public class TestCentralSystem {
 
   @Test
   public void testAddNewUser(){
+    centralSystemWith1User.addUser("Tanmay Shah");
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -99,7 +135,112 @@ public class TestCentralSystem {
   }
 
   @Test
-  public void testAddInactiveUser(){}
+  public void testAddInactiveUser(){
+    ArrayList<String> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add("Prof. Nunez");
+    inviteesForNewEvent.add("Prof. Park");
+
+    centralSystemWith3User.scheduleEvent("Prof. Nunez",
+            "Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY)
+            , new DayTime(17, 0, Day.FRIDAY),
+            inviteesForNewEvent);
+
+    centralSystemWith3User.addUser("Prof. Park");
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Park\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n", view.displayScheduleAsString("Prof. Park"));
+  }
 
   @Test(expected = IllegalArgumentException.class)
   public void testAddNullUser(){
@@ -111,13 +252,188 @@ public class TestCentralSystem {
   public void testAddValidEvent(){}
 
   @Test
-  public void testAddEventInactiveHost(){}
+  public void testAddEventNonExistantHost(){
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Prof. Nunez");
+    invitees.add("Prof. Park");
+    centralSystemWith3User.scheduleEvent("Prof. Park",
+            "Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY)
+            , new DayTime(17, 0, Day.FRIDAY),
+            invitees);
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" ,view.displayScheduleAsString("Prof. Nunez"));
+  }
+
+
 
   @Test
-  public void testAddEventActiveHost(){}
-
-  @Test
-  public void testAddEventNonExistentHost(){}
+  public void testAddEventNonInactiveHost(){
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add("Prof. Nunez");
+    invitees.add("Prof. Park");
+    centralSystemWith3User.scheduleEvent("Prof. Nunez",
+            "Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY)
+            , new DayTime(17, 0, Day.FRIDAY),
+            invitees);
+    centralSystemWith3User.scheduleEvent("Prof. Park",
+            "Faculty meeting 2","WVH Lab", false,
+            new DayTime(19, 0, Day.FRIDAY)
+            , new DayTime(20, 0, Day.FRIDAY),
+            invitees);
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park\n" +
+            "  name: Faculty meeting 2\n" +
+            "  time: Friday : 19:00 -> Friday : 20:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n",view.displayScheduleAsString("Prof. Nunez"));
+  }
   @Test(expected = IllegalArgumentException.class)
   public void testAddEventNullName(){
     ArrayList<String> invitees = new ArrayList<>();
@@ -370,8 +686,20 @@ public class TestCentralSystem {
     centralSystemWith3User.removeEvent("Prof. Park ", e);
   }
 
-  @Test
-  public void testRemoveNonExistingEvent(){}
+  @Test(expected = IllegalStateException.class)
+  public void testRemoveNonExistingEvent(){
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    invitees.add(new UserSchedule(
+            "Tanmay Shah"));
+    invitees.add(new UserSchedule(
+            "Hamsa Madhira"));
+
+    Event e = new Event("OOD TA Meeting", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY),
+            new DayTime(13, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+
+    centralSystemWith3User.removeEvent("Prof. Nunez", e);
+  }
 
 
   @Test
