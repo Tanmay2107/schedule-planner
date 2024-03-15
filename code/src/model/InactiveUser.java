@@ -24,7 +24,13 @@ public class InactiveUser extends AUsers{
    */
   @Override
   public UserSchedule activate() {
-    return new UserSchedule(uid, events);
+    UserSchedule activatedUser = new UserSchedule(uid, events);
+
+    for(IEvent event : events){
+      event.replaceInactivatedWithActivatedUser(activatedUser,this);
+    }
+
+    return activatedUser;
   }
 
   /**

@@ -82,4 +82,7 @@ public interface IEvent extends ReadOnlyEvent{
   public void changeOnlineStatus();
 
   public boolean eventEquals(ReadOnlyEvent e);
+
+  public void replaceInactivatedWithActivatedUser(UserSchedule activatedUser,
+                                                  InactiveUser inactivatedUser);
 }

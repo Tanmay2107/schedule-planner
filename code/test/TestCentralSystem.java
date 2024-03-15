@@ -100,7 +100,7 @@ public class TestCentralSystem {
   @Test
   public void testAddInactiveUser(){}
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testAddNullUser(){
     centralSystemWith3User.addUser(null);
   }
@@ -188,29 +188,6 @@ public class TestCentralSystem {
     centralSystemWith3User.removeEvent("Hamsa Madhira", e);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    Assert.assertEquals("User: Tanmay Shah\n" +
-            "Sunday:\n" +
-            "  No events scheduled.\n" +
-            "Monday:\n" +
-            "  No events scheduled.\n" +
-            "Tuesday:\n" +
-            "  No events scheduled.\n" +
-            "Wednesday:\n" +
-            "  name: OOD Class\n" +
-            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
-            "  location: Churchill\n" +
-            "  online: true\n" +
-            "  invitees: Prof. Nunez\n" +
-            "Thursday:\n" +
-            "  No events scheduled.\n" +
-            "Friday:\n" +
-            "  name: OOD Grind\n" +
-            "  time: Friday : 12:00 -> Friday : 17:00\n" +
-            "  location: WVH Lab\n" +
-            "  online: false\n" +
-            "  invitees: Tanmay Shah\n" +
-            "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
     Assert.assertEquals("User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
@@ -227,13 +204,56 @@ public class TestCentralSystem {
             "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
             "  location: Churchill\n" +
             "  online: true\n" +
-            "  invitees: Prof. Nunez\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
             "Thursday:\n" +
             "  No events scheduled.\n" +
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Hamsa Madhira"));
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+
   }
 
   @Test
@@ -249,28 +269,11 @@ public class TestCentralSystem {
             new DayTime(12, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
 
+
     centralSystemWith3User.removeEvent("Tanmay Shah", e);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    Assert.assertEquals("User: Tanmay Shah\n" +
-            "Sunday:\n" +
-            "  No events scheduled.\n" +
-            "Monday:\n" +
-            "  No events scheduled.\n" +
-            "Tuesday:\n" +
-            "  No events scheduled.\n" +
-            "Wednesday:\n" +
-            "  name: OOD Class\n" +
-            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
-            "  location: Churchill\n" +
-            "  online: true\n" +
-            "  invitees: Prof. Nunez\n" +
-            "Thursday:\n" +
-            "  No events scheduled.\n" +
-            "Friday:\n" +
-            "  No events scheduled.\n" +
-            "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+    view.displayScheduleAsString("Tanmay Shah");
     Assert.assertEquals("User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
@@ -287,13 +290,52 @@ public class TestCentralSystem {
             "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
             "  location: Churchill\n" +
             "  online: true\n" +
-            "  invitees: Prof. Nunez\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
             "Thursday:\n" +
             "  No events scheduled.\n" +
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Hamsa Madhira"));
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+
   }
 
   @Test(expected = IllegalStateException.class)
@@ -689,16 +731,49 @@ public class TestCentralSystem {
 
   @Test
   public void testReadAndWriteXML(){
-    //this.setUp();
+    this.setUp();
+
     centralSystemWith3User.writeUserToXMLFile("Hamsa Madhira", "Hamsa.xml");
-    centralSystemWith3User.writeUserToXMLFile("Prof. Nunez", "Hamsa.xml");
-    centralSystemWith3User.writeUserToXMLFile("Tanmay Shah", "Hamsa.xml");
+    centralSystemWith3User.writeUserToXMLFile("Prof. Nunez", "Professor.xml");
+    centralSystemWith3User.writeUserToXMLFile("Tanmay Shah", "Tanmay.xml");
+
 
     CentralSystem centralSystemForXML = new CentralSystem();
     centralSystemForXML.loadUserFromXML("Hamsa.xml");
-    centralSystemForXML.loadUserFromXML("Prof. Nunez.xml");
-    centralSystemForXML.loadUserFromXML("Tanmay Shah.xml");
+    centralSystemForXML.loadUserFromXML("Professor.xml");
+    centralSystemForXML.loadUserFromXML("Tanmay.xml");
 
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemForXML);
+    CentralSystemTextView viewPreXML = new CentralSystemTextView(this.centralSystemWith3User);
+    assertEquals(viewPreXML.displayScheduleAsString("Hamsa Madhira"),
+            view.displayScheduleAsString("Hamsa Madhira"));
+    assertEquals(viewPreXML.displayScheduleAsString("Prof. Nunez"),
+            view.displayScheduleAsString("Prof. Nunez"));
+    assertEquals(viewPreXML.displayScheduleAsString("Tanmay Shah"),
+            view.displayScheduleAsString("Tanmay Shah"));
+
+
+
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testWriteXMLNullPath(){
+    centralSystemWith3User.writeUserToXMLFile("Hamsa Madhira", null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testWriteXMLNullUser(){
+    centralSystemWith3User.writeUserToXMLFile(null, "Hamsa.xml");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testReadXMLNullPath(){
+    centralSystemWith3User.loadUserFromXML(null);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testReadXMLWithWrongPath(){
+    centralSystemWith3User.loadUserFromXML("random.xml");
   }
 
 
