@@ -1,0 +1,115 @@
+## Introduction
+
+The Planner Application is a system designed to help users manage their schedules and
+vents efficiently. It provides functionalities for scheduling, removing and modifying events and
+managing user schedules and their associated responsibilities.
+
+## Users:
+Our System has two types of possible users.
+- **User Schedule**: In our model this is the main type of user we work with. User Schedule and user
+- **Inactive User**:
+
+    Design Decisions:
+
+## Features
+
+- **User Management**: Users can create accounts and manage their schedules.
+- **Event Scheduling**: Users can schedule events with specified details such as name, location,
+start time, end time, and invitees.
+- **Event Modification**: Users can modify events using different commands, such as changing the
+start time or end time.
+- **XML Data Handling**: The application supports importing and exporting user data in XML format.
+
+## Components
+
+### Central System
+
+The `CentralSystem` class represents the core component of the application. It manages all the users
+and their schedules. Key functionalities include:
+
+- Adding users to the system
+- Scheduling events
+- Modifying events
+- Removing events
+- Exporting user data to XML files
+
+### User Interface
+
+The application provides a user-friendly interface for interacting with the system.
+Users can perform various operations such as creating accounts, scheduling events,
+and viewing their schedules.
+
+### User Schedule
+
+The `UserSchedule` class represents the schedule of a particular user. It contains a list
+of events scheduled for the user and provides methods for managing these events.
+
+### Event
+
+The `Event` class represents an event in the system. It contains details such as name,
+ location, start time, end time, and invitees.
+
+### Event Command
+
+The `EventCommand` interface defines commands for modifying events. Concrete implementations
+of this interface provide specific commands such as changing the start time or end time of an event.
+
+### XML Data Handling
+
+The application supports importing and exporting user data in XML format.
+It uses XML parsing techniques to read and write user data from/to XML files.
+
+## Usage
+
+1. **Adding Users**: Users can create accounts by providing a unique user ID.
+2. **Scheduling Events**: Users can schedule events by specifying details such as name,
+location, start time, end time, and invitees.
+3. **Modifying Events**: Users can modify events using different commands, such as
+changing the start time or end time.
+4. **Exporting Data**: Users can export their schedule data to XML files for backup
+or sharing purposes.
+5. **Importing Data**: Users can import schedule data from XML files to restore their schedules.
+
+## Example Code
+
+```java
+// Creating a new CentralSystem instance
+CentralSystem centralSystem = new CentralSystem();
+
+// Adding a new user to the system
+centralSystem.addUser("john_doe");
+
+// Scheduling an event for the user
+centralSystem.scheduleEvent("john_doe", "Meeting", "Office", true,
+        new DayTime(9, 0, Day.MONDAY), new DayTime(10, 0, Day.MONDAY),
+        new ArrayList<>(Collections.singletonList("jane_smith")));
+
+// Modifying an event
+Event event = /* retrieve event */;
+EventCommand command = /* create command */;
+centralSystem.modifyEvent(event, command, "john_doe");
+
+// Exporting user data to an XML file
+centralSystem.writeUserToXMLFile("john_doe", "user_data.xml");
+
+
+## Components
+
+### Event Interface (`IEvent`)
+
+The `IEvent` interface defines the features and functionalities of an event in the system. It includes methods for managing event details, handling invitees, and checking for conflicts.
+
+### Features
+
+- **Add Invitee**: Adds a user to the list of invitees for the event.
+- **Delete Event**: Deletes the event from the system by removing it from every invitee's schedule.
+- **Host Identification**: Checks if a given user is the host of the event.
+- **Conflict Detection**: Checks if another event or time slot conflicts with this event.
+- **Invitee List**: Retrieves a list of user IDs of invitees for the event.
+- **Remove Invitee**: Removes a specified invitee from the event.
+- **String Representation**: Generates a string representation of the event.
+- **Accessors**: Provides methods to access various attributes of the event such as name, location, start time, end time, duration, and host ID.
+- **XML Serialization**: Generates an XML string representation of the event.
+- **Modification Operations**: Allows for modifications to event details such as name, location, start time, end time, and online status.
+- **Equality Check**: Compares two events for equality based on their attributes.
+- **User Replacement**: Replaces an inactive user with an activated user in the event's invitee list.

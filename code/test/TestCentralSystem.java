@@ -253,7 +253,7 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+            "  No events scheduled.\n", view.displayScheduleAsString());
 
   }
 
@@ -274,7 +274,7 @@ public class TestCentralSystem {
     centralSystemWith3User.removeEvent("Tanmay Shah", e);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    view.displayScheduleAsString("Tanmay Shah");
+    view.displayScheduleAsString();
     Assert.assertEquals("User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
@@ -335,7 +335,7 @@ public class TestCentralSystem {
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+            "  No events scheduled.\n", view.displayScheduleAsString());
 
   }
 
@@ -392,7 +392,7 @@ public class TestCentralSystem {
     EventCommand command = new ModifyEventLocationCommand(e, "Snell Library");
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
-    String actual = view.displayScheduleAsString(tanmay.userID());
+    String actual = view.displayScheduleAsString();
     String expected = "User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
@@ -493,101 +493,6 @@ public class TestCentralSystem {
   }
 
   @Test
-  public void testModifyEventStartTimeWithConflict() {
-    DayTime newStartTime = new DayTime(1, 30, Day.SUNDAY);
-    ArrayList<IUsers> invitees = new ArrayList<>();
-    IUsers tanmay = new UserSchedule("Tanmay Shah");
-    Event e = new Event("OOD Grind", "WVH Lab", false,
-            new DayTime(5, 0, Day.FRIDAY),
-            new DayTime(7, 0, Day.FRIDAY), invitees, tanmay.userID());
-    e.addInvitee(new UserSchedule(
-            "Tanmay Shah"));
-    e.addInvitee(new UserSchedule(
-            "Hamsa Madhira"));
-
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
-            e.startTime(),
-            e.endTime(), e.listOfInvitees());
-    EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
-    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
-  }
-
-  @Test
-  public void testModifyEventStartTime() {
-    DayTime newStartTime = new DayTime(5, 30, Day.SUNDAY);
-    ArrayList<IUsers> invitees = new ArrayList<>();
-    IUsers tanmay = new UserSchedule("Tanmay Shah");
-    IUsers hamsa = new UserSchedule("Hamsa Madhira");
-    invitees.add(tanmay);
-    invitees.add(hamsa);
-
-    Event e = new Event("Study Session", "ISEC", false,
-            new DayTime(5, 0, Day.SUNDAY),
-            new DayTime(7, 0, Day.SUNDAY), invitees, tanmay.userID());
-
-
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
-            e.startTime(),
-            e.endTime(), e.listOfInvitees());
-    EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
-    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
-    String actual = view.displayScheduleAsString(tanmay.userID());
-    String expected = "";
-    assertEquals(expected, actual);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testModifyEventNullStartTime(){
-
-    ArrayList<IUsers> invitees = new ArrayList<>();
-    invitees.add(new UserSchedule(
-            "Tanmay Shah"));
-    invitees.add(new UserSchedule(
-            "Hamsa Madhira"));
-
-    Event e = new Event("OOD Grind", "WVH Lab", false,
-            new DayTime(12, 0, Day.FRIDAY),
-            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
-
-    EventCommand command = new ModifyEventStartTimeCommand(e, null);
-    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
-  }
-  @Test
-  public void testModifyEventEndTime(){
-    ArrayList<IUsers> invitees = new ArrayList<>();
-    invitees.add(new UserSchedule(
-            "Tanmay Shah"));
-    invitees.add(new UserSchedule(
-            "Hamsa Madhira"));
-
-    Event e = new Event("OOD Grind", "WVH Lab", false,
-            new DayTime(12, 0, Day.FRIDAY),
-            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
-
-    DayTime newTime = new DayTime(4, 30, Day.FRIDAY);
-    EventCommand command = new ModifyEventEndTimeCommand(e, newTime);
-    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
-    assertEquals(newTime, e.endTime());
-  }
-  @Test (expected = IllegalArgumentException.class)
-  public void testModifyEventNullEndTime(){
-      ArrayList<IUsers> invitees = new ArrayList<>();
-      invitees.add(new UserSchedule(
-              "Tanmay Shah"));
-      invitees.add(new UserSchedule(
-              "Hamsa Madhira"));
-
-      Event e = new Event("OOD Grind", "WVH Lab", false,
-              new DayTime(12, 0, Day.FRIDAY),
-              new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
-
-    EventCommand command = new ModifyEventEndTimeCommand(e, null);
-      centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
-  }
-
-  @Test
   public void testModifyEventToOnline(){
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
@@ -684,7 +589,7 @@ public class TestCentralSystem {
             "  No events scheduled.\n";
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    String actual = view.displayScheduleAsString(tanmay.userID());
+    String actual = view.displayScheduleAsString();
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
     assertEquals(expected, actual);
   }
@@ -787,28 +692,11 @@ public class TestCentralSystem {
             "  invitees: Tanmay Shah, Hamsa Madhira\n" ;
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
-    String actual = view.displayScheduleAsString("Tanmay Shah");
+    String actual = view.displayScheduleAsString();
     centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
     assertEquals(expected, actual);
 
   }
-
-  @Test(expected = IllegalStateException.class)
-  public void testModifyStartTimeWithOverlap() {
-    DayTime startTime1 = new DayTime(10, 0, Day.MONDAY);
-    DayTime endTime1 = new DayTime(12, 0, Day.MONDAY);
-    Event event1 = new Event("Event 1", "Location 1",
-            true, startTime1, endTime1, "Hamsa");
-
-    DayTime startTime2 = new DayTime(11, 0, Day.MONDAY);
-    DayTime endTime2 = new DayTime(13, 0, Day.MONDAY);
-    Event event2 = new Event("Event 2", "Location 2",
-            true, startTime2, endTime2, "Hamsa");
-
-    ModifyEventStartTimeCommand command = new ModifyEventStartTimeCommand(event1, startTime2);
-    command.execute();
-  }
-
 
   @Test
   public void testReadAndWriteXML(){
@@ -826,12 +714,12 @@ public class TestCentralSystem {
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemForXML);
     CentralSystemTextView viewPreXML = new CentralSystemTextView(this.centralSystemWith3User);
-    assertEquals(viewPreXML.displayScheduleAsString("Hamsa Madhira"),
-            view.displayScheduleAsString("Hamsa Madhira"));
-    assertEquals(viewPreXML.displayScheduleAsString("Prof. Nunez"),
-            view.displayScheduleAsString("Prof. Nunez"));
-    assertEquals(viewPreXML.displayScheduleAsString("Tanmay Shah"),
-            view.displayScheduleAsString("Tanmay Shah"));
+    assertEquals(viewPreXML.displayScheduleAsString(),
+            view.displayScheduleAsString());
+    assertEquals(viewPreXML.displayScheduleAsString(),
+            view.displayScheduleAsString());
+    assertEquals(viewPreXML.displayScheduleAsString(),
+            view.displayScheduleAsString());
 
 
 
@@ -933,7 +821,7 @@ public class TestCentralSystem {
     invitees.add("user2");
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
-    String actual = view.displayScheduleAsString("user1");
+    String actual = view.displayScheduleAsString();
     centralSystemWith1User.scheduleEvent(name, location, online, startTime, endTime, invitees);
     String expected = "User: user1\n" +
             "Sunday:\n" +
@@ -1019,6 +907,117 @@ public class TestCentralSystem {
 
    centralSystem.scheduleEvent(user2, eventName2, location2, online2,
            startTime2, endTime2, invitees2);
+  }
+
+  @Test
+  public void testModifyEventStartTimeWithConflict() {
+    DayTime newStartTime = new DayTime(1, 30, Day.SUNDAY);
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    IUsers tanmay = new UserSchedule("Tanmay Shah");
+    Event e = new Event("OOD Grind", "WVH Lab", false,
+            new DayTime(5, 0, Day.FRIDAY),
+            new DayTime(7, 0, Day.FRIDAY), invitees, tanmay.userID());
+    e.addInvitee(new UserSchedule(
+            "Tanmay Shah"));
+    e.addInvitee(new UserSchedule(
+            "Hamsa Madhira"));
+
+    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+    EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
+  }
+
+  @Test
+  public void testModifyEventValidStartTime() {
+    DayTime newStartTime = new DayTime(5, 30, Day.SUNDAY);
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    IUsers tanmay = new UserSchedule("Tanmay Shah");
+    IUsers hamsa = new UserSchedule("Hamsa Madhira");
+    invitees.add(tanmay);
+    invitees.add(hamsa);
+
+    Event e = new Event("Study Session", "ISEC", false,
+            new DayTime(5, 0, Day.SUNDAY),
+            new DayTime(7, 0, Day.SUNDAY), invitees, tanmay.userID());
+
+
+    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+    EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
+    String actual = view.displayScheduleAsString();
+    String expected = "";
+    assertEquals(expected, actual);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testModifyEventNullStartTime(){
+
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    invitees.add(new UserSchedule(
+            "Tanmay Shah"));
+    invitees.add(new UserSchedule(
+            "Hamsa Madhira"));
+
+    Event e = new Event("OOD Grind", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+
+    EventCommand command = new ModifyEventStartTimeCommand(e, null);
+    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
+  }
+  @Test
+  public void testModifyEventValidEndTime(){
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    invitees.add(new UserSchedule(
+            "Tanmay Shah"));
+    invitees.add(new UserSchedule(
+            "Hamsa Madhira"));
+
+    Event e = new Event("OOD Grind", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+
+    DayTime newTime = new DayTime(4, 30, Day.FRIDAY);
+    EventCommand command = new ModifyEventEndTimeCommand(e, newTime);
+    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
+    assertEquals(newTime, e.endTime());
+  }
+  @Test (expected = IllegalArgumentException.class)
+  public void testModifyEventNullEndTime(){
+    ArrayList<IUsers> invitees = new ArrayList<>();
+    invitees.add(new UserSchedule(
+            "Tanmay Shah"));
+    invitees.add(new UserSchedule(
+            "Hamsa Madhira"));
+
+    Event e = new Event("OOD Grind", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), invitees, "Tanmay Shah");
+
+    EventCommand command = new ModifyEventEndTimeCommand(e, null);
+    centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testModifyEndTimeWithConflict() {
+    DayTime startTime1 = new DayTime(10, 0, Day.MONDAY);
+    DayTime endTime1 = new DayTime(12, 0, Day.MONDAY);
+    Event event1 = new Event("Event 1", "Location 1",
+            true, startTime1, endTime1, "Hamsa");
+
+    DayTime startTime2 = new DayTime(11, 0, Day.MONDAY);
+    DayTime endTime2 = new DayTime(13, 0, Day.MONDAY);
+    Event event2 = new Event("Event 2", "Location 2",
+            true, startTime2, endTime2, "Hamsa");
+
+    ModifyEventStartTimeCommand command = new ModifyEventStartTimeCommand(event1, startTime2);
+    command.execute();
   }
 
 }

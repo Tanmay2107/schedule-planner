@@ -14,13 +14,10 @@ public interface IEvent extends ReadOnlyEvent{
   public void addInvitee(IUsers u);
 
 
-
-
   /**
    * Deletes the event from the system by removing it from every invitee's schedule.
    */
   public void deleteEvent();
-
 
 
   /**

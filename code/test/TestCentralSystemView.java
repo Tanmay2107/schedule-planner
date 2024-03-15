@@ -37,7 +37,7 @@ public class TestCentralSystemView {
     centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
 
-    String actual = view.displayScheduleAsString(userId);
+    String actual = view.displayScheduleAsString();
 
     String expected = "User: Hamsa Madhira\n" +
             "Sunday:\n" +
@@ -91,7 +91,7 @@ public class TestCentralSystemView {
             endTime2, invitees2);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(hamsa);
+    String actual = view.displayScheduleAsString();
 
       String expected = "User: Hamsa Madhira\n" +
               "Sunday:\n" +
@@ -150,7 +150,7 @@ public class TestCentralSystemView {
             endTime2, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(hamsa);
+    String actual = view.displayScheduleAsString();
 
 
     String expected = "User: Hamsa Madhira\n" +
@@ -199,7 +199,7 @@ public class TestCentralSystemView {
     centralSystem.scheduleEvent(hamsa, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(tanmay);
+    String actual = view.displayScheduleAsString();
 
     String expected = "User: Hamsa Madhira\n" +
             "Sunday:\n" +
@@ -260,7 +260,7 @@ public class TestCentralSystemView {
     centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(userId);
+    String actual = view.displayScheduleAsString();
 
       String expected = "User: Tanmay Shah\n" +
               "Sunday:\n" +
@@ -302,7 +302,7 @@ public class TestCentralSystemView {
     centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(userId);
+    String actual = view.displayScheduleAsString();
 
       String expected = "User: Tanmay Shah\n" +
               "Sunday:\n" +
@@ -349,7 +349,7 @@ public class TestCentralSystemView {
     centralSystem.scheduleEvent(hamsa, eventName1, location1, online1, startTime1, endTime1, invitees1);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
-    String actual = view.displayScheduleAsString(tanmay);
+    String actual = view.displayScheduleAsString();
 
     String eventName2 = "Hackathon";
     String location2 = "ISEC";

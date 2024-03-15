@@ -371,7 +371,9 @@ public class TestPlanner {
   }
 
   @Test
-  public void testValidDeleteEvent(){}
+  public void testValidDeleteEvent(){
+
+  }
 
   @Test
   public void testNonExistentDeleteEvent(){}
