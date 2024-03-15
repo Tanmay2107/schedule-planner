@@ -28,12 +28,7 @@ public abstract class AUsers implements IUsers{
     return this.uid;
   }
 
-
-  /**
-   * Removes the given event from the users schedule.
-   * @param e
-   */
-  public void removeEvent(IEvent e){
+  private IEvent getEventForThisUser(IEvent e){
     IEvent eventForThisUser = null;
     for (IEvent event : events) {
       if (event.eventEquals(e)) {
@@ -44,6 +39,19 @@ public abstract class AUsers implements IUsers{
     if(eventForThisUser == null){
       throw new IllegalStateException("Event does not exist in user's schedule");
     }
+
+    return eventForThisUser;
+  }
+
+
+
+
+  /**
+   * Removes the given event from the users schedule.
+   * @param e
+   */
+  public void removeEvent(IEvent e){
+    IEvent eventForThisUser = this.getEventForThisUser(e);
 
 
     if(eventForThisUser.isHost(this)){
@@ -110,5 +118,10 @@ public abstract class AUsers implements IUsers{
    */
   public ArrayList<ReadOnlyEvent> scheduledEvents() {
     return new ArrayList<ReadOnlyEvent>(this.events);
+  }
+
+  public void inviteAUserToAnEvent(IUsers invitee, IEvent e){
+    IEvent actualevent = this.getEventForThisUser(e);
+    invitee.inviteUser(actualevent);
   }
 }

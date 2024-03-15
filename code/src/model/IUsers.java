@@ -52,4 +52,6 @@ public interface IUsers extends ReadOnlyUsers{
   public boolean overlappingEventExists(IEvent e);
 
   public void modifyEvent(ReadOnlyEvent event, EventCommand command);
+
+  public void inviteAUserToAnEvent(IUsers invitee, IEvent e);
 }

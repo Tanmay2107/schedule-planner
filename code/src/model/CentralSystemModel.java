@@ -85,5 +85,7 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
 
 
   public ArrayList<ReadOnlyUsers> giveInactiveUsers();
+
+  public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event);
 }
 //...

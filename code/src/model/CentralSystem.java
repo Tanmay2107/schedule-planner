@@ -386,4 +386,23 @@ public class CentralSystem implements CentralSystemModel{
     }
     }
 
+  public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event){
+    if(inviter_uid == null || invitee_uid == null || event == null){
+      throw new IllegalArgumentException("fields can't be null");
+    }
+
+    ArrayList<String> mockInvitees = new ArrayList<String>();
+    mockInvitees.add(inviter_uid);
+    mockInvitees.add(invitee_uid);
+    ArrayList<IUsers> mockInviteesList = getInvitees(mockInvitees);
+
+    IUsers inviter = mockInviteesList.get(0);
+    IUsers invitee = mockInviteesList.get(1);
+
+    inviter.inviteAUserToAnEvent(invitee, event);
+
+
+
+  }
+
 }
