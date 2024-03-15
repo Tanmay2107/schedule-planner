@@ -125,7 +125,7 @@ public class TestCentralSystem {
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Tanmay Shah"));
+            "  No events scheduled.\n", view.displayScheduleAsString());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -239,7 +239,7 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n", view.displayScheduleAsString("Prof. Park"));
+            "  No events scheduled.\n", view.displayScheduleAsString());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -334,7 +334,7 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n" ,view.displayScheduleAsString("Prof. Nunez"));
+            "  No events scheduled.\n" ,view.displayScheduleAsString());
   }
 
 
@@ -432,7 +432,7 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n",view.displayScheduleAsString("Prof. Nunez"));
+            "  No events scheduled.\n",view.displayScheduleAsString());
   }
   @Test(expected = IllegalArgumentException.class)
   public void testAddEventNullName(){
