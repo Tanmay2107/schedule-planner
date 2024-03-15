@@ -83,8 +83,8 @@ public class CentralSystem implements CentralSystemModel{
    * @param invitees   The list of user IDs of invitees to the event.
    */
   @Override
-  public void scheduleEvent(String host_uid, String name, String location, boolean online,
-                            DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
+  public void createEvent(String host_uid, String name, String location, boolean online,
+                          DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
     if(name == null || location == null || startTime == null || endTime == null || invitees == null){
       throw new IllegalArgumentException("fields can't be null");
     }
@@ -114,8 +114,8 @@ public class CentralSystem implements CentralSystemModel{
    * @param invitees  The list of user IDs of invitees to the event.
    */
   @Override
-  public void scheduleEvent(String name, String location, boolean online,
-                            DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
+  public void createEvent(String name, String location, boolean online,
+                          DayTime startTime, DayTime endTime, ArrayList<String> invitees) {
     if(name == null || location == null || startTime == null || endTime == null || invitees == null){
       throw new IllegalArgumentException("fields can't be null");
     }
@@ -331,7 +331,7 @@ public class CentralSystem implements CentralSystemModel{
 
         System.out.println("Users: " + users);
 
-        this.scheduleEvent(users.get(0), eventName, locationPlace, locationOnline.equals("true"),
+        this.createEvent(users.get(0), eventName, locationPlace, locationOnline.equals("true"),
                 stringToDayTime(startDay,startTime), stringToDayTime(endDay,endTime), users);
 
       }

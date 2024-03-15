@@ -166,7 +166,7 @@ public class IUsersTest {
             ,new DayTime(12, 00, Day.MONDAY),
             new DayTime(13, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e1);
-    Assert.assertEquals("\nevent>\n" +
+    Assert.assertEquals("\n<event>\n" +
             "<name>event</name>\n" +
             "<time>\n" +
             "<start-day>Monday</start-day>\n" +

@@ -26,8 +26,8 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
    * @param endTime    The end time of the event.
    * @param invitees   The list of user IDs of invitees to the event.
    */
-  public void scheduleEvent(String host_uid, String name, String location, boolean online,
-                            DayTime startTime, DayTime endTime, ArrayList<String> invitees);
+  public void createEvent(String host_uid, String name, String location, boolean online,
+                          DayTime startTime, DayTime endTime, ArrayList<String> invitees);
 
 
   /**
@@ -40,8 +40,8 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
    * @param endTime   The end time of the event.
    * @param invitees  The list of user IDs of invitees to the event.
    */
-  public void scheduleEvent(String name, String location, boolean online,
-                            DayTime startTime, DayTime endTime, ArrayList<String> invitees);
+  public void createEvent(String name, String location, boolean online,
+                          DayTime startTime, DayTime endTime, ArrayList<String> invitees);
 
 
   /**

@@ -9,7 +9,6 @@ import model.Day;
 import model.DayTime;
 import model.Event;
 import model.EventCommand;
-import model.EventModifier;
 import model.IEvent;
 import model.IUsers;
 import model.InactiveUser;
@@ -47,7 +46,7 @@ public class TestCentralSystem {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add(userId);
 
-    centralSystemWith1User.scheduleEvent(userId, eventName, location, online, startTime, endTime,
+    centralSystemWith1User.createEvent(userId, eventName, location, online, startTime, endTime,
             invitees);
 
     centralSystemWith3User = new CentralSystem();
@@ -55,7 +54,7 @@ public class TestCentralSystem {
     centralSystemWith3User.addUser(userId);
 
 
-    centralSystemWith3User.scheduleEvent(userId1,
+    centralSystemWith3User.createEvent(userId1,
             "Cognition","Dodge Hall", true,
             new DayTime(10, 0, Day.MONDAY)
             , new DayTime(11, 0, Day.MONDAY),
@@ -66,7 +65,7 @@ public class TestCentralSystem {
     invitees2.add(userId2);
     invitees2.add(userId1);
 
-    centralSystemWith3User.scheduleEvent(userId2,
+    centralSystemWith3User.createEvent(userId2,
             "OOD Grind","WVH Lab", false,
             new DayTime(12, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
@@ -79,7 +78,7 @@ public class TestCentralSystem {
     invitees3.add(userId2);
     invitees3.add(userId1);
 
-    centralSystemWith3User.scheduleEvent(userId3,
+    centralSystemWith3User.createEvent(userId3,
             "OOD Class","Churchill", true,
             new DayTime(9, 50, Day.WEDNESDAY)
             , new DayTime(11, 45, Day.WEDNESDAY),
@@ -140,7 +139,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add("Prof. Nunez");
     inviteesForNewEvent.add("Prof. Park");
 
-    centralSystemWith3User.scheduleEvent("Prof. Nunez",
+    centralSystemWith3User.createEvent("Prof. Nunez",
             "Faculty meeting","WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
@@ -256,7 +255,7 @@ public class TestCentralSystem {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Prof. Nunez");
     invitees.add("Prof. Park");
-    centralSystemWith3User.scheduleEvent("Prof. Park",
+    centralSystemWith3User.createEvent("Prof. Park",
             "Faculty meeting","WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
@@ -344,12 +343,12 @@ public class TestCentralSystem {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Prof. Nunez");
     invitees.add("Prof. Park");
-    centralSystemWith3User.scheduleEvent("Prof. Nunez",
+    centralSystemWith3User.createEvent("Prof. Nunez",
             "Faculty meeting","WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
             invitees);
-    centralSystemWith3User.scheduleEvent("Prof. Park",
+    centralSystemWith3User.createEvent("Prof. Park",
             "Faculty meeting 2","WVH Lab", false,
             new DayTime(19, 0, Day.FRIDAY)
             , new DayTime(20, 0, Day.FRIDAY),
@@ -438,7 +437,7 @@ public class TestCentralSystem {
   public void testAddEventNullName(){
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
-    centralSystemWith3User.scheduleEvent("Tanmay Shah",
+    centralSystemWith3User.createEvent("Tanmay Shah",
             null,"Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(11, 0, Day.WEDNESDAY),
@@ -449,7 +448,7 @@ public class TestCentralSystem {
   public void testAddEventNullLocation(){
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
-    centralSystemWith3User.scheduleEvent("Tanmay Shah",
+    centralSystemWith3User.createEvent("Tanmay Shah",
             "DD",null, true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(110, 0, Day.WEDNESDAY),
@@ -460,7 +459,7 @@ public class TestCentralSystem {
   public void testAddEventNullStartTime(){
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
-    centralSystemWith3User.scheduleEvent("Tanmay Shah",
+    centralSystemWith3User.createEvent("Tanmay Shah",
             "DD","Hastings Hall", true,
             null
             , new DayTime(110, 0, Day.WEDNESDAY),
@@ -471,7 +470,7 @@ public class TestCentralSystem {
   public void testAddEventNullEndTime(){
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
-    centralSystemWith3User.scheduleEvent("Tanmay Shah",
+    centralSystemWith3User.createEvent("Tanmay Shah",
             "DD","Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , null,
@@ -482,7 +481,7 @@ public class TestCentralSystem {
   public void testAddEventNullUsers(){
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
-    centralSystemWith3User.scheduleEvent("Tanmay Shah",
+    centralSystemWith3User.createEvent("Tanmay Shah",
             "DD","Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(110, 0, Day.WEDNESDAY),
@@ -714,7 +713,7 @@ public class TestCentralSystem {
     e.addInvitee(new UserSchedule(
             "Hamsa Madhira"));
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventLocationCommand(e, "Snell Library");
@@ -832,7 +831,7 @@ public class TestCentralSystem {
     e.addInvitee(new UserSchedule(
             "Hamsa Madhira"));
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
@@ -937,7 +936,7 @@ public class TestCentralSystem {
             new DayTime(6, 0, Day.SATURDAY),
             new DayTime(8, 0, Day.SATURDAY), invitees, "Tanmay Shah");
 
-    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
@@ -1082,7 +1081,7 @@ public class TestCentralSystem {
     DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
     DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
-   centralSystemWith1User.scheduleEvent(name, location, online, startTime, endTime, invitees);
+   centralSystemWith1User.createEvent(name, location, online, startTime, endTime, invitees);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -1093,7 +1092,7 @@ public class TestCentralSystem {
     DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Hamsa");
-    centralSystemWith1User.scheduleEvent(null, location, online, startTime, endTime, invitees);
+    centralSystemWith1User.createEvent(null, location, online, startTime, endTime, invitees);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -1104,7 +1103,7 @@ public class TestCentralSystem {
     DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Hamsa");
-    centralSystemWith1User.scheduleEvent(name, null, online, startTime, endTime, invitees);
+    centralSystemWith1User.createEvent(name, null, online, startTime, endTime, invitees);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -1115,7 +1114,7 @@ public class TestCentralSystem {
     DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Hamsa");
-    centralSystemWith1User.scheduleEvent(name, loc, online, null, endTime, invitees);
+    centralSystemWith1User.createEvent(name, loc, online, null, endTime, invitees);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -1126,12 +1125,12 @@ public class TestCentralSystem {
     DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Hamsa");
-    centralSystemWith1User.scheduleEvent(name, loc, online, startTime, null, invitees);
+    centralSystemWith1User.createEvent(name, loc, online, startTime, null, invitees);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNullParameters() {
-    centralSystemWith1User.scheduleEvent(null, null, false,
+    centralSystemWith1User.createEvent(null, null, false,
             null, null, null);
   }
 
@@ -1150,7 +1149,7 @@ public class TestCentralSystem {
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
     String actual = view.displayScheduleAsString();
-    centralSystemWith1User.scheduleEvent(name, location, online, startTime, endTime, invitees);
+    centralSystemWith1User.createEvent(name, location, online, startTime, endTime, invitees);
     String expected = "User: user1\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
@@ -1222,7 +1221,7 @@ public class TestCentralSystem {
     ArrayList<String> invitees1 = new ArrayList<>();
     invitees1.add(user1);
 
-    centralSystem.scheduleEvent(user1, eventName1, location1, online1, startTime1, endTime1,
+    centralSystem.createEvent(user1, eventName1, location1, online1, startTime1, endTime1,
             invitees1);
 
     String eventName2 = "Event 2";
@@ -1233,7 +1232,7 @@ public class TestCentralSystem {
     ArrayList<String> invitees2 = new ArrayList<>();
     invitees2.add(user1);
 
-   centralSystem.scheduleEvent(user2, eventName2, location2, online2,
+   centralSystem.createEvent(user2, eventName2, location2, online2,
            startTime2, endTime2, invitees2);
   }
 
@@ -1250,7 +1249,7 @@ public class TestCentralSystem {
     e.addInvitee(new UserSchedule(
             "Hamsa Madhira"));
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
@@ -1271,7 +1270,7 @@ public class TestCentralSystem {
             new DayTime(7, 0, Day.SUNDAY), invitees, tanmay.userID());
 
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventStartTimeCommand(e, newStartTime);
@@ -1389,7 +1388,7 @@ public class TestCentralSystem {
             new DayTime(7, 0, Day.SUNDAY), invitees, tanmay.userID());
 
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventEndTimeCommand(e, newEndTime);
@@ -1504,7 +1503,7 @@ public class TestCentralSystem {
     e.addInvitee(new UserSchedule(
             "Hamsa Madhira"));
 
-    centralSystemWith3User.scheduleEvent("Tanmay Shah", e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent("Tanmay Shah", e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventEndTimeCommand(e, newEndTime);
@@ -1526,11 +1525,11 @@ public class TestCentralSystem {
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
-    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
 
-    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+    centralSystemWith3User.inviteUserToEvent(nunez.userID(), lenner.userID(), e);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
     String expected = "User: Hamsa Madhira\n" +
@@ -1623,10 +1622,10 @@ public class TestCentralSystem {
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
-    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
-    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+    centralSystemWith3User.inviteUserToEvent(nunez.userID(), lenner.userID(), e);
 
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
@@ -1719,7 +1718,7 @@ public class TestCentralSystem {
     IEvent e = new Event("Faculty meeting","WVH Lab", false,
             new DayTime(9, 0, Day.WEDNESDAY),
             new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
-    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
 
@@ -1739,7 +1738,7 @@ public class TestCentralSystem {
     IEvent e = new Event("Faculty meeting","WVH Lab", false,
             new DayTime(9, 0, Day.WEDNESDAY),
             new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
-    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
             e.startTime(),
             e.endTime(), e.listOfInvitees());
 
@@ -1761,6 +1760,44 @@ public class TestCentralSystem {
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+  }
+
+  @Test (expected = IllegalStateException.class)
+  public void testInvitedByInactiveUser(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new InactiveUser("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
+
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+    centralSystemWith3User.inviteUserToEvent(lenner.userID(), park.userID(), e);
+  }
+
+  @Test (expected = IllegalStateException.class)
+  public void testInvitedByUserNotInSystem(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new InactiveUser("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
+
+    centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
     centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
   }
 

@@ -1,19 +1,10 @@
 import org.junit.Test;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;
-import model.Event;
-import model.IUsers;
-import model.ReadOnlyEvent;
-import model.ReadOnlyUsers;
-import model.UserSchedule;
 import view.CentralSystemTextView;
 
 import static org.junit.Assert.assertEquals;
@@ -34,7 +25,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add(userId);
 
-    centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
+    centralSystem.createEvent(userId, eventName, location, online, startTime, endTime, invitees);
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
 
     String actual = view.displayScheduleAsString();
@@ -76,7 +67,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees1 = new ArrayList<>();
     invitees1.add(hamsa);
 
-    centralSystem.scheduleEvent(hamsa, eventName1, location1, online, startTime1, endTime1,
+    centralSystem.createEvent(hamsa, eventName1, location1, online, startTime1, endTime1,
             invitees1);
 
     String eventName2 = "Neurobiology";
@@ -87,7 +78,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees2 = new ArrayList<>();
     invitees2.add(hamsa);
 
-    centralSystem.scheduleEvent(hamsa, eventName2, location2, online, startTime2,
+    centralSystem.createEvent(hamsa, eventName2, location2, online, startTime2,
             endTime2, invitees2);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
@@ -135,7 +126,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees1 = new ArrayList<>();
     invitees1.add(hamsa);
 
-    centralSystem.scheduleEvent(hamsa, eventName1, location1, online, startTime1, endTime1,
+    centralSystem.createEvent(hamsa, eventName1, location1, online, startTime1, endTime1,
             invitees1);
 
     String eventName2 = "Neurobiology";
@@ -146,7 +137,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add(hamsa);
 
-    centralSystem.scheduleEvent(hamsa, eventName2, location2, online2, startTime2,
+    centralSystem.createEvent(hamsa, eventName2, location2, online2, startTime2,
             endTime2, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
@@ -196,7 +187,7 @@ public class TestCentralSystemView {
     invitees.add(hamsa);
     invitees.add(tanmay);
 
-    centralSystem.scheduleEvent(hamsa, eventName, location, online, startTime, endTime, invitees);
+    centralSystem.createEvent(hamsa, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
@@ -257,7 +248,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add(userId);
 
-    centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
+    centralSystem.createEvent(userId, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
@@ -299,7 +290,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add(userId);
 
-    centralSystem.scheduleEvent(userId, eventName, location, online, startTime, endTime, invitees);
+    centralSystem.createEvent(userId, eventName, location, online, startTime, endTime, invitees);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
@@ -346,7 +337,7 @@ public class TestCentralSystemView {
     invitees1.add(tanmay);
 
 
-    centralSystem.scheduleEvent(hamsa, eventName1, location1, online1, startTime1, endTime1, invitees1);
+    centralSystem.createEvent(hamsa, eventName1, location1, online1, startTime1, endTime1, invitees1);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
@@ -359,7 +350,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees2 = new ArrayList<>();
     invitees2.add(tanmay);
 
-    centralSystem.scheduleEvent(tanmay, eventName2, location2, online2, startTime2,
+    centralSystem.createEvent(tanmay, eventName2, location2, online2, startTime2,
             endTime2, invitees2);
 
     String eventName3 = "Neurobiology";
@@ -370,7 +361,7 @@ public class TestCentralSystemView {
     ArrayList<String> invitees3 = new ArrayList<>();
     invitees3.add(hamsa);
 
-    centralSystem.scheduleEvent(hamsa, eventName3, location3, online3, startTime3,
+    centralSystem.createEvent(hamsa, eventName3, location3, online3, startTime3,
             endTime3, invitees3);
 
     String expected = "User: Hamsa Madhira\n" +
