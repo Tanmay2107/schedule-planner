@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 
 // Checks methods with Central System specifically.
+
 /**
  * Tests the CentralSystem model.
  */
@@ -35,7 +36,7 @@ public class TestCentralSystem {
    * Sets up the central system for testing.
    */
   @Before
-  public void setUp(){
+  public void setUp() {
     // Set up a central system
 
     centralSystemWith1User = new CentralSystem();
@@ -59,7 +60,7 @@ public class TestCentralSystem {
 
 
     centralSystemWith3User.createEvent(userId1,
-            "Cognition","Dodge Hall", true,
+            "Cognition", "Dodge Hall", true,
             new DayTime(10, 0, Day.MONDAY)
             , new DayTime(11, 0, Day.MONDAY),
             invitees);
@@ -70,7 +71,7 @@ public class TestCentralSystem {
     invitees2.add(userId1);
 
     centralSystemWith3User.createEvent(userId2,
-            "OOD Grind","WVH Lab", false,
+            "OOD Grind", "WVH Lab", false,
             new DayTime(12, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
             invitees2);
@@ -83,7 +84,7 @@ public class TestCentralSystem {
     invitees3.add(userId1);
 
     centralSystemWith3User.createEvent(userId3,
-            "OOD Class","Churchill", true,
+            "OOD Class", "Churchill", true,
             new DayTime(9, 50, Day.WEDNESDAY)
             , new DayTime(11, 45, Day.WEDNESDAY),
             invitees3);
@@ -91,8 +92,11 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests the add user method.
+   */
   @Test
-  public void testAddNewUser(){
+  public void testAddNewUser() {
     centralSystemWith1User.addUser("Tanmay Shah");
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
     Assert.assertEquals("User: Hamsa Madhira\n" +
@@ -131,20 +135,26 @@ public class TestCentralSystem {
             "  No events scheduled.\n", view.displayScheduleAsString());
   }
 
+  /**
+   * Tests the add user method for adding an already active user.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddExistingActiveUser(){
+  public void testAddExistingActiveUser() {
     centralSystemWith3User.addUser("Prof. Nunez");
 
   }
 
+  /**
+   * Tests the add user method for adding an inactive user.
+   */
   @Test
-  public void testAddInactiveUser(){
+  public void testAddInactiveUser() {
     ArrayList<String> inviteesForNewEvent = new ArrayList<>();
     inviteesForNewEvent.add("Prof. Nunez");
     inviteesForNewEvent.add("Prof. Park");
 
     centralSystemWith3User.createEvent("Prof. Nunez",
-            "Faculty meeting","WVH Lab", false,
+            "Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
             inviteesForNewEvent);
@@ -245,22 +255,176 @@ public class TestCentralSystem {
             "  No events scheduled.\n", view.displayScheduleAsString());
   }
 
+  /**
+   * Tests the add user method for adding a null user.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddNullUser(){
+  public void testAddNullUser() {
     centralSystemWith3User.addUser(null);
   }
 
 
+  /**
+   * Tests the add event method for adding a valid event.
+   */
   @Test
-  public void testAddValidEvent(){}
+  public void testAddValidEvent() {
+    centralSystemWith1User = new CentralSystem();
+    String userId = "Hamsa Madhira";
+    centralSystemWith1User.addUser(userId);
 
+    String eventName = "Cognition";
+    String location = "Dodge Hall";
+    boolean online = true;
+    DayTime startTime = new DayTime(10, 0, Day.MONDAY);
+    DayTime endTime = new DayTime(11, 0, Day.MONDAY);
+    ArrayList<String> invitees = new ArrayList<>();
+    invitees.add(userId);
+
+    centralSystemWith1User.createEvent(userId, eventName, location, online, startTime, endTime,
+            invitees);
+
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith1User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n",view.displayScheduleAsString());
+    ;;
+
+
+
+            centralSystemWith3User = new CentralSystem();
+    String userId1 = "Hamsa Madhira";
+    centralSystemWith3User.addUser(userId);
+
+
+    centralSystemWith3User.createEvent(userId1,
+            "Cognition", "Dodge Hall", true,
+            new DayTime(10, 0, Day.MONDAY)
+            , new DayTime(11, 0, Day.MONDAY),
+            invitees);
+
+    String userId2 = "Tanmay Shah";
+    ArrayList<String> invitees2 = new ArrayList<>();
+    invitees2.add(userId2);
+    invitees2.add(userId1);
+
+    centralSystemWith3User.createEvent(userId2,
+            "OOD Grind", "WVH Lab", false,
+            new DayTime(12, 0, Day.FRIDAY)
+            , new DayTime(17, 0, Day.FRIDAY),
+            invitees2);
+
+    String userId3 = "Prof. Nunez";
+    centralSystemWith3User.addUser(userId3);
+    ArrayList<String> invitees3 = new ArrayList<>();
+    invitees3.add(userId3);
+    invitees3.add(userId2);
+    invitees3.add(userId1);
+
+    centralSystemWith3User.createEvent(userId3,
+            "OOD Class", "Churchill", true,
+            new DayTime(9, 50, Day.WEDNESDAY)
+            , new DayTime(11, 45, Day.WEDNESDAY),
+            invitees3);
+    centralSystemWith3User.addUser(userId2);
+    CentralSystemTextView view1 = new CentralSystemTextView(centralSystemWith3User);
+    Assert.assertEquals("User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n",view1.displayScheduleAsString());
+  }
+
+  /**
+   * Tests the add event method for adding an event with a non-existent host.
+   */
   @Test
-  public void testAddEventNonExistantHost(){
+  public void testAddEventNonExistantHost() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Prof. Nunez");
     invitees.add("Prof. Park");
     centralSystemWith3User.createEvent("Prof. Park",
-            "Faculty meeting","WVH Lab", false,
+            "Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
             invitees);
@@ -337,23 +501,25 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n" ,view.displayScheduleAsString());
+            "  No events scheduled.\n", view.displayScheduleAsString());
   }
 
 
-
+  /**
+   * Tests the add event method for adding an event with an inactive host.
+   */
   @Test
-  public void testAddEventNonInactiveHost(){
+  public void testAddEventNonInactiveHost() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Prof. Nunez");
     invitees.add("Prof. Park");
     centralSystemWith3User.createEvent("Prof. Nunez",
-            "Faculty meeting","WVH Lab", false,
+            "Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY)
             , new DayTime(17, 0, Day.FRIDAY),
             invitees);
     centralSystemWith3User.createEvent("Prof. Park",
-            "Faculty meeting 2","WVH Lab", false,
+            "Faculty meeting 2", "WVH Lab", false,
             new DayTime(19, 0, Day.FRIDAY)
             , new DayTime(20, 0, Day.FRIDAY),
             invitees);
@@ -435,65 +601,84 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n",view.displayScheduleAsString());
+            "  No events scheduled.\n", view.displayScheduleAsString());
   }
+
+  /**
+   * Tests the add event method for adding an event with a null name.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddEventNullName(){
+  public void testAddEventNullName() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
     centralSystemWith3User.createEvent("Tanmay Shah",
-            null,"Hastings Hall", true,
+            null, "Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(11, 0, Day.WEDNESDAY),
             invitees);
   }
 
+  /**
+   * Tests the add event method for adding an event with a null location.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddEventNullLocation(){
+  public void testAddEventNullLocation() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
     centralSystemWith3User.createEvent("Tanmay Shah",
-            "DD",null, true,
+            "DD", null, true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(110, 0, Day.WEDNESDAY),
             invitees);
   }
 
+  /**
+   * Tests the add event method for adding an event with a null start time.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddEventNullStartTime(){
+  public void testAddEventNullStartTime() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
     centralSystemWith3User.createEvent("Tanmay Shah",
-            "DD","Hastings Hall", true,
+            "DD", "Hastings Hall", true,
             null
             , new DayTime(110, 0, Day.WEDNESDAY),
             invitees);
   }
 
+  /**
+   * Tests the add event method for adding an event with a null end time.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddEventNullEndTime(){
+  public void testAddEventNullEndTime() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
     centralSystemWith3User.createEvent("Tanmay Shah",
-            "DD","Hastings Hall", true,
+            "DD", "Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , null,
             invitees);
   }
 
+  /**
+   * Tests the add event method for adding an event with a null invitees.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testAddEventNullUsers(){
+  public void testAddEventNullUsers() {
     ArrayList<String> invitees = new ArrayList<>();
     invitees.add("Tanmay Shah");
     centralSystemWith3User.createEvent("Tanmay Shah",
-            "DD","Hastings Hall", true,
+            "DD", "Hastings Hall", true,
             new DayTime(9, 0, Day.WEDNESDAY)
             , new DayTime(110, 0, Day.WEDNESDAY),
             null);
   }
 
+  /**
+   * Tests removing the event with a non-host.
+   */
   @Test
-  public void testRemoveExistingEventNotHost(){
+  public void testRemoveExistingEventNotHost() {
 
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
@@ -576,8 +761,11 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests removing the event with a host.
+   */
   @Test
-  public void testRemoveExistingEventHost(){
+  public void testRemoveExistingEventHost() {
 
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
@@ -658,8 +846,11 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests removing the event with a non-invitee.
+   */
   @Test(expected = IllegalStateException.class)
-  public void testRemoveExistingEventNonInvitee(){
+  public void testRemoveExistingEventNonInvitee() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -674,8 +865,11 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests removing the event with a non-existing event.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testRemoveNonExistingUser(){
+  public void testRemoveNonExistingUser() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -689,8 +883,11 @@ public class TestCentralSystem {
     centralSystemWith3User.removeEvent("Prof. Park ", e);
   }
 
+  /**
+   * Tests removing the event with a non-existing event.
+   */
   @Test(expected = IllegalStateException.class)
-  public void testRemoveNonExistingEvent(){
+  public void testRemoveNonExistingEvent() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -705,8 +902,11 @@ public class TestCentralSystem {
   }
 
 
+  /**
+   * Tests the modify event name method for modifying the location of an event.
+   */
   @Test
-  public void testModifyEventLocation(){
+  public void testModifyEventLocation() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
     Event e = new Event("OOD Grind", "WVH Lab", false,
@@ -807,8 +1007,8 @@ public class TestCentralSystem {
 
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testModifyEventNullLocation(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testModifyEventNullLocation() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -823,8 +1023,11 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
   }
 
+  /**
+   * Tests the modify event name method for modifying the online status of an event.
+   */
   @Test
-  public void testModifyEventToOnline(){
+  public void testModifyEventToOnline() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
     Event e = new Event("OOD Grind", "WVH Lab", false,
@@ -839,7 +1042,7 @@ public class TestCentralSystem {
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
-    String expected ="User: Hamsa Madhira\n" +
+    String expected = "User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
             "Monday:\n" +
@@ -925,8 +1128,11 @@ public class TestCentralSystem {
     assertEquals(expected, actual);
   }
 
+  /**
+   * Tests the modify event name method for modifying the online status of an event to offline.
+   */
   @Test
-  public void testModifyEventToOffline(){
+  public void testModifyEventToOffline() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -944,7 +1150,7 @@ public class TestCentralSystem {
             e.startTime(),
             e.endTime(), e.listOfInvitees());
     EventCommand command = new ModifyEventOnlineStatus(e);
-    String expected ="User: Hamsa Madhira\n" +
+    String expected = "User: Hamsa Madhira\n" +
             "Sunday:\n" +
             "  No events scheduled.\n" +
             "Monday:\n" +
@@ -1020,7 +1226,7 @@ public class TestCentralSystem {
             "  time: Saturday : 06:00 -> Saturday : 08:00\n" +
             "  location: WVH Lab\n" +
             "  online: true\n" +
-            "  invitees: Tanmay Shah, Hamsa Madhira\n" ;
+            "  invitees: Tanmay Shah, Hamsa Madhira\n";
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
     String actual = view.displayScheduleAsString();
@@ -1029,8 +1235,11 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests the for reading the writing XML and ensuring the ouptut and input are equal.
+   */
   @Test
-  public void testReadAndWriteXML(){
+  public void testReadAndWriteXML() {
     this.setUp();
 
     centralSystemWith3User.writeUserToXMLFile("Hamsa Madhira", "Hamsa.xml");
@@ -1053,30 +1262,44 @@ public class TestCentralSystem {
             view.displayScheduleAsString());
 
 
-
   }
 
+  /**
+   * Tests for write XML with null path.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testWriteXMLNullPath(){
+  public void testWriteXMLNullPath() {
     centralSystemWith3User.writeUserToXMLFile("Hamsa Madhira", null);
   }
 
+  /**
+   * Tests for write XML with null user.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testWriteXMLNullUser(){
+  public void testWriteXMLNullUser() {
     centralSystemWith3User.writeUserToXMLFile(null, "Hamsa.xml");
   }
 
+  /**
+   * Tests for read XML with null path.
+   */
   @Test(expected = IllegalArgumentException.class)
-  public void testReadXMLNullPath(){
+  public void testReadXMLNullPath() {
     centralSystemWith3User.loadUserFromXML(null);
   }
 
+  /**
+   * Tests for read XML with wrong path.
+   */
   @Test(expected = IllegalStateException.class)
-  public void testReadXMLWithWrongPath(){
+  public void testReadXMLWithWrongPath() {
     centralSystemWith3User.loadUserFromXML
             ("random.xml");
   }
 
+  /**
+   * Tests create event with empty invitee list.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEmptyInviteesList() {
     String name = "Meeting";
@@ -1085,9 +1308,12 @@ public class TestCentralSystem {
     DayTime startTime = new DayTime(20, 30, Day.WEDNESDAY);
     DayTime endTime = new DayTime(20, 40, Day.WEDNESDAY);
     ArrayList<String> invitees = new ArrayList<>();
-   centralSystemWith1User.createEvent(name, location, online, startTime, endTime, invitees);
+    centralSystemWith1User.createEvent(name, location, online, startTime, endTime, invitees);
   }
 
+  /**
+   * Tests create event with null name.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testScheduleEventNullName() {
     String location = "Conference Room";
@@ -1099,6 +1325,9 @@ public class TestCentralSystem {
     centralSystemWith1User.createEvent(null, location, online, startTime, endTime, invitees);
   }
 
+  /**
+   * Tests create event with null location.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testScheduleEventNullLocation() {
     String name = "tanmay";
@@ -1110,6 +1339,9 @@ public class TestCentralSystem {
     centralSystemWith1User.createEvent(name, null, online, startTime, endTime, invitees);
   }
 
+  /**
+   * Tests create event with null start time.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testScheduleEventStartTime() {
     String name = "tanmay";
@@ -1121,6 +1353,9 @@ public class TestCentralSystem {
     centralSystemWith1User.createEvent(name, loc, online, null, endTime, invitees);
   }
 
+  /**
+   * Tests create event with null end time.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testScheduleEventEndTime() {
     String name = "tanmay";
@@ -1132,12 +1367,18 @@ public class TestCentralSystem {
     centralSystemWith1User.createEvent(name, loc, online, startTime, null, invitees);
   }
 
+  /**
+   * Tests create event with null params.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testNullParameters() {
     centralSystemWith1User.createEvent(null, null, false,
             null, null, null);
   }
 
+  /**
+   * Tests create event with valid params.
+   */
   @Test
   public void testValidEventScheduling() {
     centralSystemWith1User.addUser("user1");
@@ -1209,6 +1450,9 @@ public class TestCentralSystem {
 
   }
 
+  /**
+   * Tests create event with valid params but conflict.
+   */
   @Test(expected = IllegalStateException.class)
   public void testScheduleConflict() {
     CentralSystem centralSystem = new CentralSystem();
@@ -1236,11 +1480,14 @@ public class TestCentralSystem {
     ArrayList<String> invitees2 = new ArrayList<>();
     invitees2.add(user1);
 
-   centralSystem.createEvent(user2, eventName2, location2, online2,
-           startTime2, endTime2, invitees2);
+    centralSystem.createEvent(user2, eventName2, location2, online2,
+            startTime2, endTime2, invitees2);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  /**
+   * Tests modify event start time but conflict.
+   */
+  @Test(expected = IllegalArgumentException.class)
   public void testModifyEventStartTimeWithConflict() {
     DayTime newStartTime = new DayTime(1, 30, Day.SUNDAY);
     ArrayList<IUsers> invitees = new ArrayList<>();
@@ -1260,6 +1507,9 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
   }
 
+  /**
+   * Tests modify event start time being valid.
+   */
   @Test
   public void testModifyEventValidStartTime() {
     DayTime newStartTime = new DayTime(5, 30, Day.SUNDAY);
@@ -1362,8 +1612,11 @@ public class TestCentralSystem {
   }
   //
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testModifyEventNullStartTime(){
+  /**
+   * Tests modify event with null start time.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testModifyEventNullStartTime() {
 
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
@@ -1378,8 +1631,12 @@ public class TestCentralSystem {
     EventCommand command = new ModifyEventStartTimeCommand(e, null);
     centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
   }
+
+  /**
+   * Tests modify event with valid end time.
+   */
   @Test
-  public void testModifyEventValidEndTime(){
+  public void testModifyEventValidEndTime() {
     DayTime newEndTime = new DayTime(9, 30, Day.SUNDAY);
     ArrayList<IUsers> invitees = new ArrayList<>();
     IUsers tanmay = new UserSchedule("Tanmay Shah");
@@ -1478,8 +1735,12 @@ public class TestCentralSystem {
             "  No events scheduled.\n";
     assertEquals(expected, actual);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testModifyEventNullEndTime(){
+
+  /**
+   * Tests modify event with null end time.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testModifyEventNullEndTime() {
     ArrayList<IUsers> invitees = new ArrayList<>();
     invitees.add(new UserSchedule(
             "Tanmay Shah"));
@@ -1494,6 +1755,9 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, "Tanmay Shah");
   }
 
+  /**
+   * Tests modify event valid end time but conflict.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testModifyEndTimeWithConflict() {
     DayTime newEndTime = new DayTime(12, 30, Day.FRIDAY);
@@ -1514,8 +1778,11 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
   }
 
+  /**
+   * Test invite active user with no conflict.
+   */
   @Test
-  public void testInviteActiveUserNoConflict(){
+  public void testInviteActiveUserNoConflict() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new UserSchedule("Prof. Lenner");
@@ -1524,8 +1791,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(park);
 
 
-
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
@@ -1612,8 +1878,11 @@ public class TestCentralSystem {
     Assert.assertEquals(expected, view.displayScheduleAsString());
   }
 
+  /**
+   * Tests invite inactive user with no conflict.
+   */
   @Test
-  public void testInviteInactiveUserNoConflict(){
+  public void testInviteInactiveUserNoConflict() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new InactiveUser("Prof. Lenner");
@@ -1622,7 +1891,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(park);
 
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
@@ -1709,8 +1978,11 @@ public class TestCentralSystem {
     Assert.assertEquals(expected, view.displayScheduleAsString());
   }
 
+  /**
+   * Tests invite active user with conflict.
+   */
   @Test(expected = IllegalStateException.class)
-  public void testInviteActiveUserWithConflict(){
+  public void testInviteActiveUserWithConflict() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new UserSchedule("Prof. Lenner");
@@ -1719,7 +1991,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(park);
 
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(9, 0, Day.WEDNESDAY),
             new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
     centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
@@ -1729,8 +2001,11 @@ public class TestCentralSystem {
     centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
   }
 
+  /**
+   * Tests invite inactive user with conflict.
+   */
   @Test(expected = IllegalStateException.class)
-  public void testInviteInactiveUserWithConflict(){
+  public void testInviteInactiveUserWithConflict() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new InactiveUser("Prof. Lenner");
@@ -1739,7 +2014,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(park);
 
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(9, 0, Day.WEDNESDAY),
             new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
     centralSystemWith3User.createEvent(e.hostID(), e.name(), e.location(), e.online(),
@@ -1751,8 +2026,11 @@ public class TestCentralSystem {
   }
 
 
-  @Test (expected = IllegalStateException.class)
-  public void testInviteToNonExistentEvent(){
+  /**
+   * Tests invite active user to non-existent event.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testInviteToNonExistentEvent() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new InactiveUser("Prof. Lenner");
@@ -1760,15 +2038,18 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(nunez);
     inviteesForNewEvent.add(park);
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
     centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
   }
 
-  @Test (expected = IllegalStateException.class)
-  public void testInvitedByInactiveUser(){
+  /**
+   * Tests invite by an inactive user.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testInvitedByInactiveUser() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new InactiveUser("Prof. Lenner");
@@ -1776,7 +2057,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(nunez);
 
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
@@ -1786,8 +2067,11 @@ public class TestCentralSystem {
     centralSystemWith3User.inviteUserToEvent(lenner.userID(), park.userID(), e);
   }
 
-  @Test (expected = IllegalStateException.class)
-  public void testInvitedByUserNotInSystem(){
+  /**
+   * Tests invite by a user not in the system.
+   */
+  @Test(expected = IllegalStateException.class)
+  public void testInvitedByUserNotInSystem() {
     IUsers nunez = new UserSchedule("Prof. Nunez");
     IUsers park = new UserSchedule("Prof. Park");
     IUsers lenner = new InactiveUser("Prof. Lenner");
@@ -1795,7 +2079,7 @@ public class TestCentralSystem {
     inviteesForNewEvent.add(nunez);
 
 
-    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+    IEvent e = new Event("Faculty meeting", "WVH Lab", false,
             new DayTime(16, 0, Day.FRIDAY),
             new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
 
