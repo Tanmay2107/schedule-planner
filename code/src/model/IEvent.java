@@ -14,13 +14,10 @@ public interface IEvent extends ReadOnlyEvent{
   public void addInvitee(IUsers u);
 
 
-
-
   /**
    * Deletes the event from the system by removing it from every invitee's schedule.
    */
   public void deleteEvent();
-
 
 
   /**
@@ -35,7 +32,7 @@ public interface IEvent extends ReadOnlyEvent{
    * @param e
    * @return true if the given event conflicts with this event.
    */
-  public boolean eventConflict(IEvent e);
+  public boolean eventConflict(ReadOnlyEvent e);
 
   /**
    * Checks if the given time slot conflicts with this event.

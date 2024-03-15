@@ -69,7 +69,7 @@ public class CentralSystemTextView implements CentralSystemView{
    * @return A string representation of the schedules for all users.
    */
   @Override
-  public String displayScheduleAsString(String userid) {
+  public String displayScheduleAsString() {
     StringBuilder scheduleString = new StringBuilder();
     ArrayList<String> userIds = this.model.getUserIds();
     for (String userId : userIds) {
