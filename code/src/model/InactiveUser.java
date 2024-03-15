@@ -54,4 +54,10 @@ public class InactiveUser extends AUsers{
     throw new IllegalStateException("Inactive user can not modify");
   }
 
+  @Override
+  public void inviteAUserToAnEvent(IUsers invitee, IEvent e) {
+    throw new IllegalStateException("Inactive user can not invite");
+  }
+
+
 }
