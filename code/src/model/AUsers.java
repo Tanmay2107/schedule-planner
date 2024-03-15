@@ -125,6 +125,13 @@ public abstract class AUsers implements IUsers{
     return new ArrayList<ReadOnlyEvent>(this.events);
   }
 
+
+  /**
+   * Invites a user to an event.
+   *
+   * @param invitee The user to invite to the event.
+   * @param e       The event to which the user will be invited.
+   */
   public void inviteAUserToAnEvent(IUsers invitee, IEvent e){
     IEvent actualevent = this.getEventForThisUser(e);
     invitee.inviteUser(actualevent);

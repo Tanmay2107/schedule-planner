@@ -12,7 +12,7 @@ public interface EventCommand {
 
 
 
-  /*
+  /**
   * Takes in the event to execute the command on
    */
   public void giveEvent(IEvent e);

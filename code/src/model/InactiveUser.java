@@ -50,13 +50,27 @@ public class InactiveUser extends AUsers{
     throw new IllegalStateException("Inactive user can not give XML string");
   }
 
-  public void modifyEvent(ReadOnlyEvent event, EventCommand command){
-    throw new IllegalStateException("Inactive user can not modify");
+  /**
+   * Modifies the event based on the provided command.
+   *
+   * @param event   The event to modify.
+   * @param command The command for modifying the event.
+   * @throws IllegalStateException If an inactive user attempts to modify the event.
+   */
+  public void modifyEvent(ReadOnlyEvent event, EventCommand command) {
+    throw new IllegalStateException("Inactive user cannot modify events.");
   }
 
+  /**
+   * Invites a user to the event.
+   *
+   * @param invitee The user to invite.
+   * @param e       The event to invite the user to.
+   * @throws IllegalStateException If an inactive user attempts to invite another user to the event.
+   */
   @Override
   public void inviteAUserToAnEvent(IUsers invitee, IEvent e) {
-    throw new IllegalStateException("Inactive user can not invite");
+    throw new IllegalStateException("Inactive user cannot invite users to events.");
   }
 
 

@@ -26,6 +26,11 @@ public class ModifyEventOnlineStatus implements EventCommand {
   }
 
 
+  /**
+   * Sets the event for the user.
+   *
+   * @param e The event to set for the user.
+   */
   @Override
   public void giveEvent(IEvent e){
     this.event = e;

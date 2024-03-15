@@ -210,7 +210,6 @@ public class TestPlanner {
     assertFalse(event2.conflict(event1));
   }
 
-  // test with overflow. start time of event 2 == end time of event 1. conflict is false.
   /**
    * Tests for no conflict for 2 non-overflowing time slots.
    */

@@ -104,6 +104,12 @@ public class DayTime {
     return timeValue < 10 ? "0" + timeValue : String.valueOf(timeValue);
   }
 
+  /**
+   * Indicates whether some other object is "equal to" this one.
+   *
+   * @param o The object to compare with.
+   * @return true if the objects are equal, false otherwise.
+   */
   @Override
   public boolean equals(Object o) {
     if (o instanceof DayTime) {

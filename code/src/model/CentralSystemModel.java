@@ -84,8 +84,21 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
   public void loadUserFromXML(String xmlPath);
 
 
+  /**
+   * Retrieves a list of inactive users in the system.
+   *
+   * @return An ArrayList containing read-only representations of inactive users.
+   */
   public ArrayList<ReadOnlyUsers> giveInactiveUsers();
 
+  /**
+   * Invites a user to an event.
+   *
+   * @param inviter_uid The user ID of the inviter.
+   * @param invitee_uid The user ID of the invitee.
+   * @param event       The event to which the user is invited.
+   * @throws IllegalArgumentException if any of the input fields are null.
+   */
   public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event);
 }
 //...

@@ -176,14 +176,30 @@ public class Event implements IEvent{
     invitedUsers.remove(u);
   }
 
+
+  /**
+   * Changes the name of the event.
+   *
+   * @param newName The new name to set for the event.
+   */
   public void changeName(String newName){
     this.name = newName;
   }
 
+  /**
+   * Changes the location of the event.
+   *
+   * @param newLocation The new location to set for the event.
+   */
   public void changeLocation(String newLocation){
     this.location = newLocation;
   }
 
+  /**
+   * Changes the StartTime of the event.
+   *
+   * @param newStartTime The new StartTime to set for the event.
+   */
   public void changeStartTime(DayTime newStartTime) {
     for (IUsers u : this.invitedUsers) {
       // Check for overlapping events with the new start time
@@ -203,6 +219,11 @@ public class Event implements IEvent{
     this.duration = new TimeSlot(this.startTime, this.endTime);
   }
 
+  /**
+   * Changes the newEndTime of the event.
+   *
+   * @param newEndTime The new EndTime to set for the event.
+   */
   public void changeEndTime(DayTime newEndTime){
     for (IUsers u : this.invitedUsers) {
       // Check for overlapping events with the new start time
@@ -220,6 +241,12 @@ public class Event implements IEvent{
     this.duration = new TimeSlot(this.startTime, this.endTime);
   }
 
+
+
+  /**
+   * Changes the online status of the event.
+   *
+   */
   public void changeOnlineStatus(){
     this.online = !this.online;
   }
@@ -423,6 +450,13 @@ public class Event implements IEvent{
     return result;
   }
 
+
+  /**
+   * Checks if the event is equal to the provided event.
+   *
+   * @param e The event to compare with.
+   * @return true if the events are equal, false otherwise.
+   */
   public boolean eventEquals(ReadOnlyEvent e){
     boolean nameEquals = this.name.equals(e.name());
     boolean locationEquals = this.location.equals(e.location());
@@ -437,6 +471,13 @@ public class Event implements IEvent{
 
   }
 
+
+  /**
+   * Replaces an inactive user with an activated user in the list of invited users for this event.
+   *
+   * @param activatedUser   The activated user to replace the inactive user.
+   * @param inactivatedUser The inactive user to be replaced.
+   */
   public void replaceInactivatedWithActivatedUser(UserSchedule activatedUser,
                                                   InactiveUser inactivatedUser){
     List<IUsers> modifiedInvitedUsers = new ArrayList<IUsers>();

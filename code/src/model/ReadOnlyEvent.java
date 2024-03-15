@@ -51,7 +51,7 @@ public interface ReadOnlyEvent {
   public ArrayList<String> listOfInvitees();
 
   /**
-   *
+   * Retrieves the duration of an event.
    */
   public TimeSlot duration();
 }

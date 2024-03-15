@@ -30,6 +30,11 @@ public class ModifyEventEndTimeCommand implements EventCommand {
       event.changeEndTime(newEndTime);
   }
 
+  /**
+   * Sets the event for the user.
+   *
+   * @param e The event to set for the user.
+   */
   @Override
   public void giveEvent(IEvent e){
     this.event = e;

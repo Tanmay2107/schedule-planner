@@ -266,6 +266,11 @@ public class CentralSystem implements CentralSystemModel{
 
   }
 
+  /**
+   * Returns a string representation of the central system, including the schedules of all users.
+   *
+   * @return A string representation of the central system.
+   */
   public String toString(){
     String result = "";
 
@@ -275,6 +280,13 @@ public class CentralSystem implements CentralSystemModel{
     return result;
   }
 
+  /**
+   * Loads user data from an XML file located at the specified path.
+   *
+   * @param xmlPath The path to the XML file containing user data.
+   * @throws IllegalArgumentException If the XML path is null.
+   * @throws IllegalStateException    If an error occurs during parsing or processing of the XML file.
+   */
   public void loadUserFromXML(String xmlPath) {
     if (xmlPath == null) {
       throw new IllegalArgumentException("Path can't be null");
@@ -360,6 +372,11 @@ public class CentralSystem implements CentralSystemModel{
 
   }
 
+  /**
+   * Retrieves a list of inactive users in the central system.
+   *
+   * @return An ArrayList containing read-only representations of inactive users.
+   */
   @Override
   public ArrayList<ReadOnlyUsers> giveInactiveUsers() {
     ArrayList<ReadOnlyUsers> result = new ArrayList<ReadOnlyUsers>();
@@ -400,6 +417,14 @@ public class CentralSystem implements CentralSystemModel{
     }
     }
 
+  /**
+   * Invites a user to an event.
+   *
+   * @param inviter_uid The user ID of the inviter.
+   * @param invitee_uid The user ID of the invitee.
+   * @param event       The event to which the user is invited.
+   * @throws IllegalArgumentException if any of the input fields are null.
+   */
   public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event){
     if(inviter_uid == null || invitee_uid == null || event == null){
       throw new IllegalArgumentException("fields can't be null");
@@ -414,9 +439,6 @@ public class CentralSystem implements CentralSystemModel{
     IUsers invitee = mockInviteesList.get(1);
 
     inviter.inviteAUserToAnEvent(invitee, event);
-
-
-
   }
 
 }

@@ -51,7 +51,19 @@ public interface IUsers extends ReadOnlyUsers{
    */
   public boolean overlappingEventExists(IEvent e);
 
+  /**
+   * Modifies the event based on the provided command.
+   *
+   * @param event   The event to modify.
+   * @param command The command for modifying the event.
+   */
   public void modifyEvent(ReadOnlyEvent event, EventCommand command);
 
+  /**
+   * Invites a user to the event.
+   *
+   * @param invitee The user to invite.
+   * @param e       The event to invite the user to.
+   */
   public void inviteAUserToAnEvent(IUsers invitee, IEvent e);
 }
