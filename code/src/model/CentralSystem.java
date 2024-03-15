@@ -23,8 +23,19 @@ import javax.xml.parsers.ParserConfigurationException;
 public class CentralSystem implements CentralSystemModel{
 
   private ArrayList<UserSchedule> users;
+  //INVARIANT: users != null
+  //INVARIANT: No two users in the list of users have the same user ID
+
   private HashMap<String,UserSchedule> activeUserMap;
+  //INVARIANT: activeUserMap != null
+  //INVARIANT: No two users in the activeUserMap have the same user ID
+  //INVARIANT: All users are stored as values with their user ID as the key
+
+
   private HashMap<String,InactiveUser> inactiveUserMap;
+  //INVARIANT: activeUserMap != null
+  //INVARIANT: No two users in the inactiveUserMap have the same user ID
+  //INVARIANT: All users are stored as values with their user ID as the key
 
   /**
    * Creates a new central system with the given list of users.
@@ -56,6 +67,7 @@ public class CentralSystem implements CentralSystemModel{
       throw new IllegalArgumentException("User ID can't be null");
     }
     UserSchedule u = new UserSchedule(uid);
+    users.add(u);
 
     if (activeUserMap.containsKey(uid)) {
       throw new IllegalArgumentException("User with the given ID already exists and is active.");
@@ -67,6 +79,7 @@ public class CentralSystem implements CentralSystemModel{
     else {
       // User is neither active nor inactive, add as a new user
       activeUserMap.put(u.userID(), u);
+
     }
   }
 
@@ -255,6 +268,7 @@ public class CentralSystem implements CentralSystemModel{
 
   public String toString(){
     String result = "";
+
     for(UserSchedule u: users){
       result += u.toString() + "\n";
     }

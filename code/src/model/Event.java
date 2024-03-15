@@ -9,15 +9,25 @@ import java.util.List;
  */
 public class Event implements IEvent{
   private String name;
+  //INVARIANT: name != null
+
   private boolean online;
   private String location;
+
   private DayTime startTime;
+
   private DayTime endTime;
+
   private TimeSlot duration;
+  //INVARIANT: duration represents the time slot between startTime and endTime
 
   private List<IUsers> invitedUsers;
+  //INVARIANT: invitedUsers contains all the users that are invited to the event
+  //INVARIANT: No two users in the list of invitedUsers are the same
+  //IVARIANT: All the users in the list have this event as a part of their schedule
 
   private String hostId;
+
 
 
 
@@ -190,6 +200,7 @@ public class Event implements IEvent{
 
     // Update the start time after ensuring no overlap
     this.startTime = newStartTime;
+    this.duration = new TimeSlot(this.startTime, this.endTime);
   }
 
   public void changeEndTime(DayTime newEndTime){
@@ -206,6 +217,7 @@ public class Event implements IEvent{
       }
     }
     this.endTime = newEndTime;
+    this.duration = new TimeSlot(this.startTime, this.endTime);
   }
 
   public void changeOnlineStatus(){

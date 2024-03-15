@@ -6,8 +6,9 @@ package model;
  */
 public class TimeSlot {
 
-  private DayTime startTime;
-  private DayTime endTime;
+  private final DayTime startTime;
+
+  private final DayTime endTime;
 
   /**
    * Constructs a time slot with the specified start time and end time.

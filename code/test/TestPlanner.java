@@ -6,23 +6,22 @@ import model.Event;
 import model.IUsers;
 import model.InactiveUser;
 import model.TimeSlot;
-import model.CentralSystem;
 import model.UserSchedule;
-import model.Utils;
-
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * Tests for the planner(backend functionality for conflicts e.t.c).
+ */
 public class TestPlanner {
 
+  /**
+   * Tests for time with valid inpots.
+   */
   @Test
   public void testTimeToIntValidInputs(){
     DayTime t1 = new DayTime(9, 30, Day.MONDAY);
@@ -57,22 +56,35 @@ public class TestPlanner {
 
   }
 
+  /**
+   * Tests for time with minutes more than 59.
+   */
   @Test (expected = IllegalArgumentException.class)
   public void testTimeBadMinutes() {
 
     DayTime t1 = new DayTime(19, 77, Day.MONDAY);
   }
+
+  /**
+   * Tests for time with negative minutes.
+   */
   @Test (expected = IllegalArgumentException.class)
   public void testTimeMinLessThan0(){
     DayTime t1 = new DayTime(19, -1, Day.SATURDAY);
   }
 
+  /**
+   * Tests for time with negative hours.
+   */
   @Test (expected = IllegalArgumentException.class)
   public void testTimeHourLessThan0(){
 
     DayTime t1 = new DayTime(-10, 9, Day.THURSDAY);
   }
 
+  /**
+   * Tests for time with hours more than 23.
+   */
   @Test (expected = IllegalArgumentException.class)
   public void testTimeHourMoreThan23(){
 
@@ -81,6 +93,9 @@ public class TestPlanner {
 
   // tests for conflict
   // should return false since event 2 starts and finishes after event 1 so no overlap.
+  /**
+   * Tests for conflict for valid non overlapping time slots on the same day.
+   */
   @Test
   public void sameDayValidTimeSlot(){
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
@@ -95,6 +110,9 @@ public class TestPlanner {
   }
 
   // should return true since event 2 starts while event 1 is still happening.
+  /**
+   * Tests for conflict for valid overlapping time slots on the same day.
+   */
   @Test
   public void newEventWithinExistingEvent(){
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
@@ -109,6 +127,9 @@ public class TestPlanner {
   }
 
   // should return true since event 2 starts before and after event 1 is.
+  /**
+   * Tests for conflict for valid overlapping time slots on the same day.
+   */
   @Test
   public void newEventStartAndEndOverlapsOldEvent(){
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
@@ -122,6 +143,10 @@ public class TestPlanner {
   }
 
   // returns true. Example with overflowing week.
+
+  /**
+   * Tests for conflict for valid overlapping time slots on different days.
+   */
   @Test
   public void eventExtendsIntoNextWeekPlusConflict(){
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
@@ -135,6 +160,9 @@ public class TestPlanner {
     assertTrue(event2.conflict(event1));
   }
 
+  /**
+   * Tests for not having a conflict for valid non overlapping.
+   */
   @Test
   public void simpleNoConflict(){
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
@@ -149,6 +177,9 @@ public class TestPlanner {
   }
 
   // returns true.
+  /**
+   * Tests for conflict for valid overlapping and overflowwing time slots.
+   */
   @Test
   public void twoOverFlowEvents(){
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
@@ -163,6 +194,9 @@ public class TestPlanner {
   }
 
   // test for with OverFlow, but STart time of event 2 = end time of event 1. conflict is false.
+  /**
+   * Tests for no conflict for 2 overflowing time slots.
+   */
   @Test
   public void TestOverflowNoConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
@@ -177,6 +211,9 @@ public class TestPlanner {
   }
 
   // test with overflow. start time of event 2 == end time of event 1. conflict is false.
+  /**
+   * Tests for no conflict for 2 non-overflowing time slots.
+   */
   @Test
   public void TestNoOverflowNoConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
@@ -189,6 +226,9 @@ public class TestPlanner {
   }
 
   // test for noOverFlow, but Start time of event 2 = end time of event 1, but conflict is true.
+  /**
+   * Tests for conflict for 2 non-overflowing time slots.
+   */
   @Test
   public void SameStartAndEndButWithConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
@@ -201,6 +241,9 @@ public class TestPlanner {
   }
 
   // test with overflow. start time of event 2 == end time of event 1, but conflict is true.
+  /**
+   * Tests for conflict for 2 overflowing time slots.
+   */
   @Test
   public void OverflowWithConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
@@ -215,6 +258,10 @@ public class TestPlanner {
   // tests for Event:
 
   // Test for event construction with a null name
+
+  /**
+   * Tests for event construction with a null name.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionBadName() {
     new Event(null, "Location", true,
@@ -223,6 +270,9 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null location
+  /**
+   * Tests for event construction with a null location.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionBadLocation() {
     new Event("EventName", null, true,
@@ -231,6 +281,9 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null start time
+  /**
+   * Tests for event construction with a null start time.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionBadStartTime() {
     new Event("EventName", "Location", true,
@@ -238,6 +291,9 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null end time
+  /**
+   * Tests for event construction with a null end time.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionBadEndTime() {
     new Event("EventName", "Location", true,
@@ -245,6 +301,9 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null host ID
+  /**
+   * Tests for event construction with a null host ID.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionNullHost() {
     new Event("EventName", "Location", true,
@@ -253,6 +312,9 @@ public class TestPlanner {
   }
 
   // Test for event construction with bad invitees
+  /**
+   * Tests for event construction with null invitees.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testEventConstructionBadInvitees() {
     new Event("EventName", "Location", true,
@@ -260,6 +322,9 @@ public class TestPlanner {
             new DayTime(12, 0, Day.MONDAY), null, "Hamsa");
   }
 
+  /**
+   * Tests for modifying name.
+   */
   @Test
   public void testValidModifyName() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -281,6 +346,9 @@ public class TestPlanner {
     assertEquals("Object Oriented Design", event.name());
   }
 
+  /**
+   * Tests for modifying name with a null name.
+   */
   @Test
   public void testNullModifyName() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -302,6 +370,9 @@ public class TestPlanner {
     assertThrows(IllegalArgumentException.class, () -> event.modifyName(null));
   }
 
+  /**
+   * Tests for adding an active invitee.
+   */
   @Test
   public void testActiveAddInvitee() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -318,6 +389,9 @@ public class TestPlanner {
     assertTrue(event.listOfInvitees().contains(hamsa.userID()));
   }
 
+  /**
+   * Tests for adding an inactive invitee.
+   */
   @Test
   public void testInactiveAddInvitee() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -341,6 +415,9 @@ public class TestPlanner {
   }
 
 
+  /**
+   * Tests for adding a null invitee.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testNullAddInvitee() {
     IUsers activeUser = new UserSchedule("Hamsa");
@@ -351,6 +428,9 @@ public class TestPlanner {
     event.addInvitee(null);
   }
 
+  /**
+   * Tests for adding an already invited invitee.
+   */
   @Test
   public void testAlreadyInvitedAddInvitee(){
     Event event = new Event("Test Event", "Location", true,
@@ -370,23 +450,11 @@ public class TestPlanner {
     assertEquals(2, event.listOfInvitees().size());
   }
 
-  @Test
-  public void testValidDeleteEvent(){
 
-  }
 
-  @Test
-  public void testNonExistentDeleteEvent(){}
-
-  @Test
-  public void testDeleteEventByNonInvitee(){}
-
-  @Test
-  public void testDeleteEventByInvitee(){}
-
-  @Test
-  public void testDeleteEventByHost(){}
-
+  /**
+   * Tests for checkcing for the host returning true.
+   */
   @Test
   public void testIsHostTrue() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -397,6 +465,9 @@ public class TestPlanner {
     assertTrue(event.isHost(host));
   }
 
+  /**
+   * Tests for checkcing for the host returning false.
+   */
   @Test
   public void testIsHostFalse() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -409,6 +480,9 @@ public class TestPlanner {
     assertFalse(event.isHost(otherUser));
   }
 
+  /**
+   * Tests for removing an invitee for the host.
+   */
   @Test
   public void testRemoveInviteeForHost() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -425,6 +499,11 @@ public class TestPlanner {
     assertFalse(host.scheduledEvents().contains(event));
   }
 
+
+
+  /**
+   * Tests for removing an invitee for other users.
+   */
   @Test
   public void testRemoveInviteeForOtherUsers(){
 
@@ -446,6 +525,9 @@ public class TestPlanner {
     assertFalse(invitee1.scheduledEvents().contains(event));
   }
 
+  /**
+   * Tests for removing an invitee for a null user.
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveInviteeForNullUsers() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -459,6 +541,9 @@ public class TestPlanner {
   }
 
   // No change. Just returns same name as is.
+  /**
+   * Tests for modifying name with the same name.
+   */
   @Test
   public void testModifyNameWithSameName() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -479,6 +564,10 @@ public class TestPlanner {
     event.modifyName("CS 3500");
     assertEquals("CS 3500", event.name());
   }
+
+  /**
+   * Tests for modifying location with the valid location.
+   */
   @Test
   public void testValidModifyLocation() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -500,6 +589,9 @@ public class TestPlanner {
     assertEquals("Snell 109", event.location());
   }
 
+  /**
+   * Tests for modifying location with the null location.
+   */
   @Test
   public void testNullModifyLocation() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -523,6 +615,9 @@ public class TestPlanner {
   }
 
   // No error. Just remains unchanged.
+  /**
+   * Tests for modifying location with the same location.
+   */
   @Test
   public void testModifyLocationWithSameLocation() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -547,6 +642,9 @@ public class TestPlanner {
 
   }
 
+  /**
+   * Tests for modifying start time with the null start time.
+   */
   @Test
   public void testModifyNullStartTime(){
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -570,6 +668,9 @@ public class TestPlanner {
 
   }
 
+  /**
+   * Tests for modifying start time equating to the current end time.
+   */
   @Test
   public void testModifyEndTimeEqualStartTime(){
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -592,6 +693,10 @@ public class TestPlanner {
     event.modifyEndTime(startTime);
     assertEquals(startTime, event.endTime());
   }
+
+  /**
+   * Tests for modifying end time with the null end time.
+   */
   @Test
   public void testModifyNullEndTime(){
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
@@ -613,15 +718,5 @@ public class TestPlanner {
 
     assertThrows(IllegalArgumentException.class, () -> event.modifyEndTime(null));
   }
-
-  @Test
-  public void testUtilsWriteXML(){
-    Utils.writeToFile();
-  }
-
-
-
-
-
 
 }

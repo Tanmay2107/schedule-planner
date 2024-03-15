@@ -6,8 +6,13 @@ import java.util.ArrayList;
  * Abstract class representing users. This class represents active and inactive users.
  */
 public abstract class AUsers implements IUsers{
-  protected String uid;
+  protected final String uid;
+
   protected ArrayList<IEvent> events;
+  //INVARIANT: This users is invited to and a part of all the events
+  //INVARIANT: No two events in the list of events overlap with each other
+  //INVARIANT: No two events in the list of events are the same
+
 
 
   /**

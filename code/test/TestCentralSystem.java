@@ -20,16 +20,20 @@ import model.UserSchedule;
 import view.CentralSystemTextView;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+
 
 // Checks methods with Central System specifically.
+/**
+ * Tests the CentralSystem model.
+ */
 public class TestCentralSystem {
 
   CentralSystem centralSystemWith1User;
   CentralSystem centralSystemWith3User;
 
+  /**
+   * Sets up the central system for testing.
+   */
   @Before
   public void setUp(){
     // Set up a central system

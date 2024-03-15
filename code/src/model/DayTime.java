@@ -7,7 +7,11 @@ public class DayTime {
   //fields
 
   private int hours;
+  //INVARIENT: 0 <= hours <= 23
+
   private int minutes;
+  //INVARIENT: 0 <= minutes <= 59
+
   private Day day;
 
   /**

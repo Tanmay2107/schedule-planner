@@ -9,8 +9,14 @@ import view.CentralSystemTextView;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests the CentralSystemTextView class.
+ */
 public class TestCentralSystemView {
 
+  /**
+   * Tests the display schedule method with one event.
+   */
   @Test
   public void testDisplayScheduleOneEvent() {
     CentralSystem centralSystem = new CentralSystem();
@@ -53,6 +59,10 @@ public class TestCentralSystemView {
     assertEquals(expected, actual);
   }
 
+
+  /**
+   * Tests the display schedule method with multiple events on the same day.
+   */
   @Test
   public void testDisplayScheduleMultipleEventsSameDay() {
     CentralSystem centralSystem = new CentralSystem();
@@ -112,6 +122,10 @@ public class TestCentralSystemView {
       assertEquals(expected, actual);
   }
 
+
+  /**
+   * Tests the display schedule method with multiple events on different days.
+   */
   @Test
   public void testDisplayScheduleMultipleEventsDiffDay() {
     CentralSystem centralSystem = new CentralSystem();
@@ -170,6 +184,9 @@ public class TestCentralSystemView {
       assertEquals(expected, actual);
     }
 
+  /**
+   * Tests the display schedule method with multiple users.
+   */
   @Test
   public void testAddEventToMultipleUsers() {
     CentralSystem centralSystem = new CentralSystem();
@@ -234,6 +251,9 @@ public class TestCentralSystemView {
     assertEquals(expected, actual);
   }
 
+  /**
+   * Tests the display schedule method with multiple users and multiple events.
+   */
   @Test
   public void testDisplayScheduleMultiDayEvent() {
     CentralSystem centralSystem = new CentralSystem();
@@ -276,6 +296,9 @@ public class TestCentralSystemView {
       assertEquals(expected, actual);
   }
 
+  /**
+   * Tests the display schedule method with overflowing events.
+   */
   @Test
   public void testDisplayScheduleOverflowEvent() {
     CentralSystem centralSystem = new CentralSystem();
@@ -319,6 +342,9 @@ public class TestCentralSystemView {
   }
 
 
+  /**
+   * Tests the display schedule method with multiple users and multiple events.
+   */
   @Test
   public void testAddEventToMultipleUsersMultipleEvents() {
     CentralSystem centralSystem = new CentralSystem();
