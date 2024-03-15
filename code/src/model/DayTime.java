@@ -82,6 +82,15 @@ public class DayTime {
   }
 
   /**
+   * Returns the time formatted as a string (HHMM).
+   *
+   * @return The time formatted as a string for the XML file.
+   */
+  public String timeAsXMLString(){
+    return formatTime(this.hours) + formatTime(this.minutes);
+  }
+
+  /**
    * Formats the given time value (hours or minutes) to ensure it has two digits.
    *
    * @param timeValue The time value to format.
@@ -89,6 +98,17 @@ public class DayTime {
    */
   private String formatTime(int timeValue) {
     return timeValue < 10 ? "0" + timeValue : String.valueOf(timeValue);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof DayTime) {
+      DayTime that = (DayTime) o;
+      return this.hours == that.hours && this.minutes == that.minutes && this.day.equals(that.day);
+    }
+    else {
+      return false;
+    }
   }
 
 }

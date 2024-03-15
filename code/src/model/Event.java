@@ -351,9 +351,9 @@ public class Event implements IEvent{
     result += "<event>\n";
     result += "<name>" + this.name + "</name>\n";
     result += "<time>\n" + "<start-day>"+ this.startTime.day().toString() +"</start-day>\n" +
-            "<start>" + this.startTime.timeAsString() + "</start>\n" +
+            "<start>" + this.startTime.timeAsXMLString() + "</start>\n" +
             "<end-day>" + this.endTime.day().toString() + "</end-day>\n" +
-            "<end>" + this.endTime.timeAsString() + "</end>\n" + "</time>\n";
+            "<end>" + this.endTime.timeAsXMLString() + "</end>\n" + "</time>\n";
     String online;
     if(this.online){
       online = "true";
@@ -405,11 +405,25 @@ public class Event implements IEvent{
     boolean startTimeEquals = this.startTime.equals(e.startTime());
     boolean endTimeEquals = this.endTime.equals(e.endTime());
     boolean hostIdEquals = this.hostId.equals(e.hostID());
-    boolean inviteesEquals = this.listOfInvitees().equals(e.listOfInvitees());
+
     return this.name.equals(e.name()) && this.location.equals(e.location()) &&
             this.online == e.online() && this.startTime.equals(e.startTime()) &&
-            this.endTime.equals(e.endTime()) && this.hostId.equals(e.hostID()) &&
-            this.listOfInvitees().equals(e.listOfInvitees());
+            this.endTime.equals(e.endTime()) && this.hostId.equals(e.hostID());
+
+  }
+
+  public void replaceInactivatedWithActivatedUser(UserSchedule activatedUser,
+                                                  InactiveUser inactivatedUser){
+    List<IUsers> modifiedInvitedUsers = new ArrayList<IUsers>();
+    for (IUsers i: this.invitedUsers){
+      if (i.userID().equals(inactivatedUser.userID())){
+        modifiedInvitedUsers.add(activatedUser);
+      } else {
+        modifiedInvitedUsers.add(i);
+      }
+    }
+
+    this.invitedUsers = modifiedInvitedUsers;
 
   }
 

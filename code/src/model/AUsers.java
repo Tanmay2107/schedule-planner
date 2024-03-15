@@ -42,7 +42,7 @@ public abstract class AUsers implements IUsers{
     }
 
     if(eventForThisUser == null){
-      throw new IllegalArgumentException("Event does not exist in user's schedule");
+      throw new IllegalStateException("Event does not exist in user's schedule");
     }
 
 
