@@ -1511,4 +1511,257 @@ public class TestCentralSystem {
     centralSystemWith3User.modifyEvent(e, command, tanmay.userID());
   }
 
+  @Test
+  public void testInviteActiveUserNoConflict(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new UserSchedule("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+    inviteesForNewEvent.add(park);
+
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
+
+    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    String expected = "User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park, Prof. Lenner\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
+    Assert.assertEquals(expected, view.displayScheduleAsString());
+  }
+
+  @Test
+  public void testInviteInactiveUserNoConflict(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new InactiveUser("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+    inviteesForNewEvent.add(park);
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
+
+    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+
+
+    CentralSystemTextView view = new CentralSystemTextView(centralSystemWith3User);
+    String expected = "User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Prof. Nunez\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: Faculty meeting\n" +
+            "  time: Friday : 16:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Prof. Nunez, Prof. Park, Prof. Lenner\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n" +
+            "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  name: OOD Class\n" +
+            "  time: Wednesday : 09:50 -> Wednesday : 11:45\n" +
+            "  location: Churchill\n" +
+            "  online: true\n" +
+            "  invitees: Prof. Nunez, Tanmay Shah, Hamsa Madhira\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  name: OOD Grind\n" +
+            "  time: Friday : 12:00 -> Friday : 17:00\n" +
+            "  location: WVH Lab\n" +
+            "  online: false\n" +
+            "  invitees: Tanmay Shah, Hamsa Madhira\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
+    Assert.assertEquals(expected, view.displayScheduleAsString());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInviteActiveUserWithConflict(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new UserSchedule("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+    inviteesForNewEvent.add(park);
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(9, 0, Day.WEDNESDAY),
+            new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
+    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testInviteInactiveUserWithConflict(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new InactiveUser("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+    inviteesForNewEvent.add(park);
+
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(9, 0, Day.WEDNESDAY),
+            new DayTime(10, 0, Day.WEDNESDAY), inviteesForNewEvent, nunez.userID());
+    centralSystemWith3User.scheduleEvent(e.hostID(), e.name(), e.location(), e.online(),
+            e.startTime(),
+            e.endTime(), e.listOfInvitees());
+
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+
+  }
+
+
+  @Test (expected = IllegalStateException.class)
+  public void testInviteToNonExistentEvent(){
+    IUsers nunez = new UserSchedule("Prof. Nunez");
+    IUsers park = new UserSchedule("Prof. Park");
+    IUsers lenner = new InactiveUser("Prof. Lenner");
+    ArrayList<IUsers> inviteesForNewEvent = new ArrayList<>();
+    inviteesForNewEvent.add(nunez);
+    inviteesForNewEvent.add(park);
+
+    IEvent e = new Event("Faculty meeting","WVH Lab", false,
+            new DayTime(16, 0, Day.FRIDAY),
+            new DayTime(17, 0, Day.FRIDAY), inviteesForNewEvent, nunez.userID());
+
+    centralSystemWith3User.inviteUserToEvent(park.userID(), lenner.userID(), e);
+  }
+
 }
