@@ -58,7 +58,6 @@ public interface IEvent extends ReadOnlyEvent {
    * Removes the given invitee from the event.
    *
    * @param u The user to remove from the event.
-   * @return removes the given invitee from the event.
    * @throws IllegalArgumentException if the user is not invited or null.
    */
   public void removeInvitee(IUsers u);
