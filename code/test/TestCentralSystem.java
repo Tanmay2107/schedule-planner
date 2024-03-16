@@ -303,12 +303,11 @@ public class TestCentralSystem {
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n",view.displayScheduleAsString());
-    ;;
+            "  No events scheduled.\n", view.displayScheduleAsString());
 
 
 
-            centralSystemWith3User = new CentralSystem();
+    centralSystemWith3User = new CentralSystem();
     String userId1 = "Hamsa Madhira";
     centralSystemWith3User.addUser(userId);
 
@@ -412,7 +411,7 @@ public class TestCentralSystem {
             "  online: false\n" +
             "  invitees: Tanmay Shah, Hamsa Madhira\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n",view1.displayScheduleAsString());
+            "  No events scheduled.\n", view1.displayScheduleAsString());
   }
 
   /**
@@ -1293,8 +1292,7 @@ public class TestCentralSystem {
    */
   @Test(expected = IllegalStateException.class)
   public void testReadXMLWithWrongPath() {
-    centralSystemWith3User.loadUserFromXML
-            ("random.xml");
+    centralSystemWith3User.loadUserFromXML("random.xml");
   }
 
   /**

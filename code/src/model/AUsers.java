@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Abstract class representing users. This class represents active and inactive users.
  */
-public abstract class AUsers implements IUsers{
+public abstract class AUsers implements IUsers {
   protected final String uid;
 
   protected ArrayList<IEvent> events;
@@ -14,26 +14,27 @@ public abstract class AUsers implements IUsers{
   //INVARIANT: No two events in the list of events are the same
 
 
-
   /**
    * Constructs a new user with the given user ID.
    * Initializes the list of events.
+   *
    * @param uid The user ID.
    */
-  public AUsers(String uid){
+  public AUsers(String uid) {
     this.uid = uid;
     this.events = new ArrayList<IEvent>();
   }
 
   /**
    * Retrieves the user ID.
+   *
    * @return The user ID.
    */
-  public String userID(){
+  public String userID() {
     return this.uid;
   }
 
-  private IEvent getEventForThisUser(IEvent e){
+  private IEvent getEventForThisUser(IEvent e) {
     IEvent eventForThisUser = null;
     for (IEvent event : events) {
       if (event.eventEquals(e)) {
@@ -41,7 +42,7 @@ public abstract class AUsers implements IUsers{
       }
     }
 
-    if(eventForThisUser == null){
+    if (eventForThisUser == null) {
       throw new IllegalStateException("Event does not exist in user's schedule");
     }
 
@@ -49,17 +50,16 @@ public abstract class AUsers implements IUsers{
   }
 
 
-
-
   /**
    * Removes the given event from the users schedule.
-   * @param e
+   *
+   * @param e The event to remove.
    */
-  public void removeEvent(IEvent e){
+  public void removeEvent(IEvent e) {
     IEvent eventForThisUser = this.getEventForThisUser(e);
 
 
-    if(eventForThisUser.isHost(this)){
+    if (eventForThisUser.isHost(this)) {
       events.remove(eventForThisUser);
       eventForThisUser.removeInvitee(this);
       eventForThisUser.deleteEvent();
@@ -72,8 +72,10 @@ public abstract class AUsers implements IUsers{
 
   /**
    * Invites the user to a given event.
+   *
    * @param e The event to invite the user to.
-   * @throws IllegalArgumentException if an event overlaps with an existing event in the user's schedule.
+   * @throws IllegalArgumentException if an event overlaps with an existing event in the
+   *     user's schedule.
    */
   public void inviteUser(IEvent e) {
     if (!this.eventAlreadyExists(e)) {
@@ -96,6 +98,7 @@ public abstract class AUsers implements IUsers{
 
   /**
    * Checks if there is an overlapping event in the user's schedule with the given event.
+   *
    * @param e The event to check for overlap.
    * @return true if an overlapping event exists, false otherwise.
    */
@@ -113,12 +116,14 @@ public abstract class AUsers implements IUsers{
   /**
    * Activates the user.
    * Subclasses must implement this method to return an instance of UserSchedule.
+   *
    * @return The activated user.
    */
   public abstract UserSchedule activate();
 
   /**
    * Retrieves a list of read-only events scheduled for the user.
+   *
    * @return The list of read-only events.
    */
   public ArrayList<ReadOnlyEvent> scheduledEvents() {
@@ -132,7 +137,7 @@ public abstract class AUsers implements IUsers{
    * @param invitee The user to invite to the event.
    * @param e       The event to which the user will be invited.
    */
-  public void inviteAUserToAnEvent(IUsers invitee, IEvent e){
+  public void inviteAUserToAnEvent(IUsers invitee, IEvent e) {
     IEvent actualevent = this.getEventForThisUser(e);
     invitee.inviteUser(actualevent);
   }

@@ -9,12 +9,13 @@ public class ModifyEventNameCommand implements EventCommand {
 
   /**
    * Constructs a command to modify the name of an event.
-   * @param event The event to modify.
+   *
+   * @param event   The event to modify.
    * @param newName The new name for the event.
    * @throws IllegalArgumentException if newName or event is null.
    */
   public ModifyEventNameCommand(IEvent event, String newName) {
-    if (newName == null || event == null){
+    if (newName == null || event == null) {
       throw new IllegalArgumentException("Can not be null ");
     }
     this.event = event;
@@ -35,7 +36,7 @@ public class ModifyEventNameCommand implements EventCommand {
    * @param e The event to set for the user.
    */
   @Override
-  public void giveEvent(IEvent e){
+  public void giveEvent(IEvent e) {
     this.event = e;
   }
 

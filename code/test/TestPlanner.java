@@ -7,7 +7,9 @@ import model.IUsers;
 import model.InactiveUser;
 import model.TimeSlot;
 import model.UserSchedule;
+
 import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
@@ -23,7 +25,7 @@ public class TestPlanner {
    * Tests for time with valid inpots.
    */
   @Test
-  public void testTimeToIntValidInputs(){
+  public void testTimeToIntValidInputs() {
     DayTime t1 = new DayTime(9, 30, Day.MONDAY);
     DayTime t2 = new DayTime(10, 45, Day.MONDAY);
     DayTime t3 = new DayTime(23, 45, Day.TUESDAY);
@@ -59,7 +61,7 @@ public class TestPlanner {
   /**
    * Tests for time with minutes more than 59.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testTimeBadMinutes() {
 
     DayTime t1 = new DayTime(19, 77, Day.MONDAY);
@@ -68,16 +70,16 @@ public class TestPlanner {
   /**
    * Tests for time with negative minutes.
    */
-  @Test (expected = IllegalArgumentException.class)
-  public void testTimeMinLessThan0(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testTimeMinLessThan0() {
     DayTime t1 = new DayTime(19, -1, Day.SATURDAY);
   }
 
   /**
    * Tests for time with negative hours.
    */
-  @Test (expected = IllegalArgumentException.class)
-  public void testTimeHourLessThan0(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testTimeHourLessThan0() {
 
     DayTime t1 = new DayTime(-10, 9, Day.THURSDAY);
   }
@@ -85,19 +87,20 @@ public class TestPlanner {
   /**
    * Tests for time with hours more than 23.
    */
-  @Test (expected = IllegalArgumentException.class)
-  public void testTimeHourMoreThan23(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testTimeHourMoreThan23() {
 
     DayTime t1 = new DayTime(25, 9, Day.TUESDAY);
   }
 
   // tests for conflict
   // should return false since event 2 starts and finishes after event 1 so no overlap.
+
   /**
    * Tests for conflict for valid non overlapping time slots on the same day.
    */
   @Test
-  public void sameDayValidTimeSlot(){
+  public void sameDayValidTimeSlot() {
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -110,11 +113,12 @@ public class TestPlanner {
   }
 
   // should return true since event 2 starts while event 1 is still happening.
+
   /**
    * Tests for conflict for valid overlapping time slots on the same day.
    */
   @Test
-  public void newEventWithinExistingEvent(){
+  public void newEventWithinExistingEvent() {
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -127,11 +131,12 @@ public class TestPlanner {
   }
 
   // should return true since event 2 starts before and after event 1 is.
+
   /**
    * Tests for conflict for valid overlapping time slots on the same day.
    */
   @Test
-  public void newEventStartAndEndOverlapsOldEvent(){
+  public void newEventStartAndEndOverlapsOldEvent() {
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -148,7 +153,7 @@ public class TestPlanner {
    * Tests for conflict for valid overlapping time slots on different days.
    */
   @Test
-  public void eventExtendsIntoNextWeekPlusConflict(){
+  public void eventExtendsIntoNextWeekPlusConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.SATURDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -164,7 +169,7 @@ public class TestPlanner {
    * Tests for not having a conflict for valid non overlapping.
    */
   @Test
-  public void simpleNoConflict(){
+  public void simpleNoConflict() {
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -177,11 +182,12 @@ public class TestPlanner {
   }
 
   // returns true.
+
   /**
    * Tests for conflict for valid overlapping and overflowwing time slots.
    */
   @Test
-  public void twoOverFlowEvents(){
+  public void twoOverFlowEvents() {
     DayTime startTime1 = new DayTime(9, 30, Day.MONDAY);
     DayTime endTime1 = new DayTime(10, 45, Day.MONDAY);
     TimeSlot event1 = new TimeSlot(startTime1, endTime1);
@@ -194,6 +200,7 @@ public class TestPlanner {
   }
 
   // test for with OverFlow, but STart time of event 2 = end time of event 1. conflict is false.
+
   /**
    * Tests for no conflict for 2 overflowing time slots.
    */
@@ -225,6 +232,7 @@ public class TestPlanner {
   }
 
   // test for noOverFlow, but Start time of event 2 = end time of event 1, but conflict is true.
+
   /**
    * Tests for conflict for 2 non-overflowing time slots.
    */
@@ -240,6 +248,7 @@ public class TestPlanner {
   }
 
   // test with overflow. start time of event 2 == end time of event 1, but conflict is true.
+
   /**
    * Tests for conflict for 2 overflowing time slots.
    */
@@ -269,6 +278,7 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null location
+
   /**
    * Tests for event construction with a null location.
    */
@@ -280,6 +290,7 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null start time
+
   /**
    * Tests for event construction with a null start time.
    */
@@ -290,6 +301,7 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null end time
+
   /**
    * Tests for event construction with a null end time.
    */
@@ -300,6 +312,7 @@ public class TestPlanner {
   }
 
   // Test for event construction with a null host ID
+
   /**
    * Tests for event construction with a null host ID.
    */
@@ -311,6 +324,7 @@ public class TestPlanner {
   }
 
   // Test for event construction with bad invitees
+
   /**
    * Tests for event construction with null invitees.
    */
@@ -431,7 +445,7 @@ public class TestPlanner {
    * Tests for adding an already invited invitee.
    */
   @Test
-  public void testAlreadyInvitedAddInvitee(){
+  public void testAlreadyInvitedAddInvitee() {
     Event event = new Event("Test Event", "Location", true,
             new DayTime(10, 0, Day.MONDAY), new DayTime(12, 0, Day.MONDAY),
             "host");
@@ -448,7 +462,6 @@ public class TestPlanner {
     }
     assertEquals(2, event.listOfInvitees().size());
   }
-
 
 
   /**
@@ -499,12 +512,11 @@ public class TestPlanner {
   }
 
 
-
   /**
    * Tests for removing an invitee for other users.
    */
   @Test
-  public void testRemoveInviteeForOtherUsers(){
+  public void testRemoveInviteeForOtherUsers() {
 
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
     DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
@@ -540,6 +552,7 @@ public class TestPlanner {
   }
 
   // No change. Just returns same name as is.
+
   /**
    * Tests for modifying name with the same name.
    */
@@ -614,6 +627,7 @@ public class TestPlanner {
   }
 
   // No error. Just remains unchanged.
+
   /**
    * Tests for modifying location with the same location.
    */
@@ -645,7 +659,7 @@ public class TestPlanner {
    * Tests for modifying start time with the null start time.
    */
   @Test
-  public void testModifyNullStartTime(){
+  public void testModifyNullStartTime() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
     DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
     UserSchedule host = new UserSchedule("Nunez");
@@ -671,7 +685,7 @@ public class TestPlanner {
    * Tests for modifying start time equating to the current end time.
    */
   @Test
-  public void testModifyEndTimeEqualStartTime(){
+  public void testModifyEndTimeEqualStartTime() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
     DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
     UserSchedule host = new UserSchedule("Nunez");
@@ -697,7 +711,7 @@ public class TestPlanner {
    * Tests for modifying end time with the null end time.
    */
   @Test
-  public void testModifyNullEndTime(){
+  public void testModifyNullEndTime() {
     DayTime startTime = new DayTime(9, 50, Day.TUESDAY);
     DayTime endTime = new DayTime(11, 35, Day.TUESDAY);
     UserSchedule host = new UserSchedule("Nunez");

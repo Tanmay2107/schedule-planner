@@ -94,32 +94,32 @@ public class TestCentralSystemView {
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
 
-      String expected = "User: Hamsa Madhira\n" +
-              "Sunday:\n" +
-              "  No events scheduled.\n" +
-              "Monday:\n" +
-              "  name: Cognition\n" +
-              "  time: Monday : 10:00 -> Monday : 11:00\n" +
-              "  location: Dodge Hall\n" +
-              "  online: true\n" +
-              "  invitees: Hamsa Madhira\n" +
-              "  name: Neurobiology\n" +
-              "  time: Monday : 01:35 -> Monday : 02:40\n" +
-              "  location: Shillman Hall\n" +
-              "  online: true\n" +
-              "  invitees: Hamsa Madhira\n" +
-              "Tuesday:\n" +
-              "  No events scheduled.\n" +
-              "Wednesday:\n" +
-              "  No events scheduled.\n" +
-              "Thursday:\n" +
-              "  No events scheduled.\n" +
-              "Friday:\n" +
-              "  No events scheduled.\n" +
-              "Saturday:\n" +
-              "  No events scheduled.\n";
+    String expected = "User: Hamsa Madhira\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Cognition\n" +
+            "  time: Monday : 10:00 -> Monday : 11:00\n" +
+            "  location: Dodge Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "  name: Neurobiology\n" +
+            "  time: Monday : 01:35 -> Monday : 02:40\n" +
+            "  location: Shillman Hall\n" +
+            "  online: true\n" +
+            "  invitees: Hamsa Madhira\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
 
-      assertEquals(expected, actual);
+    assertEquals(expected, actual);
   }
 
 
@@ -180,9 +180,9 @@ public class TestCentralSystemView {
             "Friday:\n" +
             "  No events scheduled.\n" +
             "Saturday:\n" +
-            "  No events scheduled.\n" ;
-      assertEquals(expected, actual);
-    }
+            "  No events scheduled.\n";
+    assertEquals(expected, actual);
+  }
 
   /**
    * Tests the display schedule method with multiple users.
@@ -273,27 +273,27 @@ public class TestCentralSystemView {
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
 
-      String expected = "User: Tanmay Shah\n" +
-              "Sunday:\n" +
-              "  No events scheduled.\n" +
-              "Monday:\n" +
-              "  name: Hackathon\n" +
-              "  time: Monday : 10:00 -> Thursday : 11:00\n" +
-              "  location: ISEC\n" +
-              "  online: true\n" +
-              "  invitees: Tanmay Shah\n" +
-              "Tuesday:\n" +
-              "  No events scheduled.\n" +
-              "Wednesday:\n" +
-              "  No events scheduled.\n" +
-              "Thursday:\n" +
-              "  No events scheduled.\n" +
-              "Friday:\n" +
-              "  No events scheduled.\n" +
-              "Saturday:\n" +
-              "  No events scheduled.\n";
+    String expected = "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  name: Hackathon\n" +
+            "  time: Monday : 10:00 -> Thursday : 11:00\n" +
+            "  location: ISEC\n" +
+            "  online: true\n" +
+            "  invitees: Tanmay Shah\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  No events scheduled.\n";
 
-      assertEquals(expected, actual);
+    assertEquals(expected, actual);
   }
 
   /**
@@ -318,27 +318,27 @@ public class TestCentralSystemView {
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
 
-      String expected = "User: Tanmay Shah\n" +
-              "Sunday:\n" +
-              "  No events scheduled.\n" +
-              "Monday:\n" +
-              "  No events scheduled.\n" +
-              "Tuesday:\n" +
-              "  No events scheduled.\n" +
-              "Wednesday:\n" +
-              "  No events scheduled.\n" +
-              "Thursday:\n" +
-              "  No events scheduled.\n" +
-              "Friday:\n" +
-              "  No events scheduled.\n" +
-              "Saturday:\n" +
-              "  name: Hackathon\n" +
-              "  time: Saturday : 10:00 -> Tuesday : 11:00\n" +
-              "  location: ISEC\n" +
-              "  online: true\n" +
-              "  invitees: Tanmay Shah\n";
+    String expected = "User: Tanmay Shah\n" +
+            "Sunday:\n" +
+            "  No events scheduled.\n" +
+            "Monday:\n" +
+            "  No events scheduled.\n" +
+            "Tuesday:\n" +
+            "  No events scheduled.\n" +
+            "Wednesday:\n" +
+            "  No events scheduled.\n" +
+            "Thursday:\n" +
+            "  No events scheduled.\n" +
+            "Friday:\n" +
+            "  No events scheduled.\n" +
+            "Saturday:\n" +
+            "  name: Hackathon\n" +
+            "  time: Saturday : 10:00 -> Tuesday : 11:00\n" +
+            "  location: ISEC\n" +
+            "  online: true\n" +
+            "  invitees: Tanmay Shah\n";
 
-      assertEquals(expected, actual);
+    assertEquals(expected, actual);
   }
 
 
@@ -363,7 +363,8 @@ public class TestCentralSystemView {
     invitees1.add(tanmay);
 
 
-    centralSystem.createEvent(hamsa, eventName1, location1, online1, startTime1, endTime1, invitees1);
+    centralSystem.createEvent(hamsa, eventName1, location1, online1, startTime1,
+            endTime1, invitees1);
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystem);
     String actual = view.displayScheduleAsString();
@@ -431,7 +432,6 @@ public class TestCentralSystemView {
 
     assertEquals(expected, actual);
   }
-
 
 
 }

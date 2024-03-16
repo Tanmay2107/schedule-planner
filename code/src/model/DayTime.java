@@ -22,16 +22,16 @@ public class DayTime {
    * @param day     The day of the week associated with the time.
    * @throws IllegalArgumentException if hours, minutes are out of range, or if day is null.
    */
-  public DayTime(int hours, int minutes, Day day){
-    if (23 < hours || hours < 0){
+  public DayTime(int hours, int minutes, Day day) {
+    if (23 < hours || hours < 0) {
       throw new IllegalArgumentException("Hours need to be between");
     }
 
-    if (59 < minutes || minutes < 0){
+    if (59 < minutes || minutes < 0) {
       throw new IllegalArgumentException("Hours need to be between");
     }
 
-    if (day == null){
+    if (day == null) {
       throw new IllegalArgumentException("Day cannot be null");
     }
     this.hours = hours;
@@ -44,7 +44,7 @@ public class DayTime {
    *
    * @return The time as an integer value.
    */
-  public int toInt(){
+  public int toInt() {
     return this.minutes + (this.hours * 100) + (this.day.dayToInt() * 10000);
   }
 
@@ -54,7 +54,7 @@ public class DayTime {
    * @param d The Day object to compare with.
    * @return true if the days are equal, false otherwise.
    */
-  public boolean dayEquals(Day d){
+  public boolean dayEquals(Day d) {
     return this.day.dayToInt() == d.dayToInt();
   }
 
@@ -63,7 +63,7 @@ public class DayTime {
    *
    * @return The day associated with this DayTime object.
    */
-  public Day day(){
+  public Day day() {
     return this.day;
   }
 
@@ -72,7 +72,7 @@ public class DayTime {
    *
    * @return A string representation of the DayTime object.
    */
-  public String toString(){
+  public String toString() {
     return this.day.toString() + ": " + formatTime(this.hours) + ":" + formatTime(this.minutes);
   }
 
@@ -81,7 +81,7 @@ public class DayTime {
    *
    * @return The time formatted as a string.
    */
-  public String timeAsString(){
+  public String timeAsString() {
     return formatTime(this.hours) + ":" + formatTime(this.minutes);
   }
 
@@ -90,7 +90,7 @@ public class DayTime {
    *
    * @return The time formatted as a string for the XML file.
    */
-  public String timeAsXMLString(){
+  public String timeAsXMLString() {
     return formatTime(this.hours) + formatTime(this.minutes);
   }
 
@@ -115,10 +115,15 @@ public class DayTime {
     if (o instanceof DayTime) {
       DayTime that = (DayTime) o;
       return this.hours == that.hours && this.minutes == that.minutes && this.day.equals(that.day);
-    }
-    else {
+    } else {
       return false;
     }
+  }
+
+
+  @Override
+  public int hashCode() {
+    return this.toInt();
   }
 
 }

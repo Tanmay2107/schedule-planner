@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.AUsers;
+
 import model.IUsers;
 import model.InactiveUser;
 import model.ReadOnlyEvent;
@@ -11,17 +11,18 @@ import model.Event;
 import model.DayTime;
 import model.Day;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * Tests the IUsers interface.
  */
 public class IUsersTest {
   IUsers activeUser1;
-  IUsers activeUser2 ;
-  IUsers activeUser3 ;
+  IUsers activeUser2;
+  IUsers activeUser3;
   IUsers inactiveUser1;
-  IUsers inactiveUser2 ;
+  IUsers inactiveUser2;
   IUsers inactiveUser3;
 
   /**
@@ -53,12 +54,12 @@ public class IUsersTest {
 
 
   /**
-   *Test for removeEvent
+   * Test for removeEvent.
    */
   @Test
   public void removeEvent() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser2");
     activeUser1.inviteUser(e);
 
@@ -74,16 +75,16 @@ public class IUsersTest {
    */
   @Test(expected = IllegalStateException.class)
   public void removeEventNonExistant() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
 
     ReadOnlyEvent thisEvent = activeUser1.scheduledEvents().get(0);
     Assert.assertEquals(1, activeUser1.scheduledEvents().size());
     Assert.assertTrue(e.eventEquals(thisEvent));
-    Event e1 = new Event("event1","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e1 = new Event("event1", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.removeEvent(e1);
     Assert.assertEquals(0, activeUser1.scheduledEvents().size());
@@ -94,8 +95,8 @@ public class IUsersTest {
    */
   @Test
   public void removeEventByHost() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
     activeUser2.inviteUser(e);
@@ -116,8 +117,8 @@ public class IUsersTest {
    */
   @Test
   public void removeEventByInvitee() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
     activeUser2.inviteUser(e);
@@ -142,8 +143,8 @@ public class IUsersTest {
   public void inviteUser() {
     //Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
     //               String hostId)
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
 
@@ -171,8 +172,8 @@ public class IUsersTest {
    */
   @Test(expected = IllegalStateException.class)
   public void inviteUserWithConflict() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
     activeUser1.scheduledEvents();
@@ -185,12 +186,11 @@ public class IUsersTest {
     Assert.assertEquals(new DayTime(11, 00, Day.MONDAY), thisEvent.endTime());
     Assert.assertTrue(e.eventEquals(thisEvent));
 
-    Event e1 = new Event("event2","location1",false
-            ,new DayTime(10, 20, Day.MONDAY),
+    Event e1 = new Event("event2", "location1", false
+            , new DayTime(10, 20, Day.MONDAY),
             new DayTime(11, 20, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e1);
   }
-
 
 
   /**
@@ -198,13 +198,13 @@ public class IUsersTest {
    */
   @Test
   public void activateInactiveUsers() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     inactiveUser1.inviteUser(e);
-    try{
-    inactiveUser1.giveXMLString();
-    }catch (IllegalStateException ex){
+    try {
+      inactiveUser1.giveXMLString();
+    } catch (IllegalStateException ex) {
       Assert.assertEquals("Inactive user can not give XML string", ex.getMessage());
     }
     IUsers activated = inactiveUser1.activate();
@@ -223,7 +223,7 @@ public class IUsersTest {
             "<users>\n" +
             "<uid>inactiveUser1</uid>\n" +
             "</users>\n" +
-            "</event>\n",activated.giveXMLString());
+            "</event>\n", activated.giveXMLString());
 
   }
 
@@ -240,18 +240,20 @@ public class IUsersTest {
    */
   @Test
   public void scheduledEvents() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
     Assert.assertEquals(1, activeUser1.scheduledEvents().size());
     Assert.assertEquals("event", activeUser1.scheduledEvents().get(0).name());
     Assert.assertEquals("location1", activeUser1.scheduledEvents().get(0).location());
     Assert.assertEquals(false, activeUser1.scheduledEvents().get(0).online());
-    Assert.assertEquals(new DayTime(10, 00, Day.MONDAY), activeUser1.scheduledEvents().get(0).startTime());
-    Assert.assertEquals(new DayTime(11, 00, Day.MONDAY), activeUser1.scheduledEvents().get(0).endTime());
-    Event e1 = new Event("event","location1",false
-            ,new DayTime(12, 00, Day.MONDAY),
+    Assert.assertEquals(new DayTime(10, 00, Day.MONDAY),
+            activeUser1.scheduledEvents().get(0).startTime());
+    Assert.assertEquals(new DayTime(11, 00, Day.MONDAY),
+            activeUser1.scheduledEvents().get(0).endTime());
+    Event e1 = new Event("event", "location1", false
+            , new DayTime(12, 00, Day.MONDAY),
             new DayTime(13, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e1);
     Assert.assertEquals(2, activeUser1.scheduledEvents().size());
@@ -265,12 +267,12 @@ public class IUsersTest {
   @Test
   public void giveXMLString() {
     Assert.assertEquals("\n", activeUser1.giveXMLString());
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
-    Event e1 = new Event("event1","location1",false
-            ,new DayTime(12, 00, Day.MONDAY),
+    Event e1 = new Event("event1", "location1", false
+            , new DayTime(12, 00, Day.MONDAY),
             new DayTime(13, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e1);
     Assert.assertEquals("\n<event>\n" +
@@ -315,7 +317,7 @@ public class IUsersTest {
    * Test is inactve user can give XMLString.
    */
   @Test(expected = IllegalStateException.class)
-  public void giveXMLStringforInactive(){
+  public void giveXMLStringforInactive() {
     inactiveUser1.giveXMLString();
   }
 
@@ -324,17 +326,17 @@ public class IUsersTest {
    */
   @Test
   public void overlappingEventExists() {
-    Event e = new Event("event","location1",false
-            ,new DayTime(10, 00, Day.MONDAY),
+    Event e = new Event("event", "location1", false
+            , new DayTime(10, 00, Day.MONDAY),
             new DayTime(11, 00, Day.MONDAY), "activeUser1");
     activeUser1.inviteUser(e);
 
-    Event e1 = new Event("event","location1",false
-            ,new DayTime(10, 30, Day.MONDAY),
+    Event e1 = new Event("event", "location1", false
+            , new DayTime(10, 30, Day.MONDAY),
             new DayTime(11, 30, Day.MONDAY), "activeUser1");
 
-    Event e2 = new Event("event","location1",false
-            ,new DayTime(11, 00, Day.MONDAY),
+    Event e2 = new Event("event", "location1", false
+            , new DayTime(11, 00, Day.MONDAY),
             new DayTime(17, 30, Day.MONDAY), "activeUser1");
 
     ReadOnlyEvent thisEvent = activeUser1.scheduledEvents().get(0);
@@ -342,7 +344,6 @@ public class IUsersTest {
     Assert.assertFalse(activeUser1.overlappingEventExists(e2));
     Assert.assertFalse(activeUser2.overlappingEventExists(e2));
     Assert.assertFalse(activeUser2.overlappingEventExists(e1));
-
 
 
   }

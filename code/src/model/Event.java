@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Represents an event in the system.
  */
-public class Event implements IEvent{
+public class Event implements IEvent {
   private String name;
   //INVARIANT: name != null
 
@@ -29,8 +29,6 @@ public class Event implements IEvent{
   private String hostId;
 
 
-
-
   /**
    * Constructs an event with the specified attributes.
    *
@@ -45,7 +43,7 @@ public class Event implements IEvent{
    */
 
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
-                List<IUsers> invitedUsers,String hostId) {
+               List<IUsers> invitedUsers, String hostId) {
     if (name == null || location == null || startTime == null
             || endTime == null || hostId == null || invitedUsers == null) {
       throw new IllegalArgumentException("fields can't be null");
@@ -63,12 +61,12 @@ public class Event implements IEvent{
   /**
    * Constructs an event with the specified attributes.
    *
-   * @param name         The name of the event.
-   * @param location     The location of the event.
-   * @param online       A boolean indicating if the event is online.
-   * @param startTime    The start time of the event.
-   * @param endTime      The end time of the event.
-   * @param hostId       The ID of the host user.
+   * @param name      The name of the event.
+   * @param location  The location of the event.
+   * @param online    A boolean indicating if the event is online.
+   * @param startTime The start time of the event.
+   * @param endTime   The end time of the event.
+   * @param hostId    The ID of the host user.
    * @throws IllegalArgumentException if any of the parameters (except invitedUsers) is null.
    */
   public Event(String name, String location, boolean online, DayTime startTime, DayTime endTime,
@@ -89,6 +87,7 @@ public class Event implements IEvent{
 
   /**
    * Adds a user to the list of invitees for this event.
+   *
    * @param u The user to add as an invitee.
    * @throws IllegalArgumentException if the user is already invited or null.
    */
@@ -98,7 +97,7 @@ public class Event implements IEvent{
       throw new IllegalArgumentException("User can't be null");
     }
 
-    if(invitedUsers.contains(u)){
+    if (invitedUsers.contains(u)) {
       throw new IllegalArgumentException("User is already invited");
     }
     invitedUsers.add(u);
@@ -111,7 +110,7 @@ public class Event implements IEvent{
   @Override
   public void deleteEvent() {
     //delete event
-    while(invitedUsers.size() > 0){
+    while (invitedUsers.size() > 0) {
       invitedUsers.get(0).removeEvent(this);
     }
   }
@@ -119,42 +118,46 @@ public class Event implements IEvent{
 
   /**
    * Checks if a user is the host of the event.
+   *
    * @param u The user to check.
    * @return true if the user is the host, otherwise false.
    */
   @Override
-  public boolean isHost(IUsers u){
+  public boolean isHost(IUsers u) {
     return u.userID().equals(this.hostId);
   }
 
   /**
    * Checks if the event conflicts with another event.
+   *
    * @param e The event to check for conflicts with.
    * @return true if there is a conflict, otherwise false.
    */
   @Override
-  public boolean eventConflict(ReadOnlyEvent e){
+  public boolean eventConflict(ReadOnlyEvent e) {
     return this.eventConflict(e.duration());
   }
 
   /**
    * Checks if the event conflicts with a time slot.
+   *
    * @param ts The time slot to check for conflicts with.
    * @return true if there is a conflict, otherwise false.
    */
   @Override
-  public boolean eventConflict(TimeSlot ts){
+  public boolean eventConflict(TimeSlot ts) {
     return ts.conflict(this.duration);
   }
 
   /**
    * Retrieves a list of invitees' IDs.
+   *
    * @return A list of invitees' IDs.
    */
   @Override
-  public ArrayList<String> listOfInvitees(){
+  public ArrayList<String> listOfInvitees() {
     ArrayList<String> invitees = new ArrayList<String>();
-    for(IUsers i: invitedUsers){
+    for (IUsers i : invitedUsers) {
       invitees.add(i.userID());
     }
     return invitees;
@@ -162,15 +165,16 @@ public class Event implements IEvent{
 
   /**
    * Removes a user from the list of invitees for this event.
+   *
    * @param u The user to remove as an invitee.
    * @throws IllegalArgumentException if the user is not invited or null.
    */
   @Override
-  public void removeInvitee(IUsers u){
-    if(u == null){
+  public void removeInvitee(IUsers u) {
+    if (u == null) {
       throw new IllegalArgumentException("User can't be null");
     }
-    if(!invitedUsers.contains(u)){
+    if (!invitedUsers.contains(u)) {
       throw new IllegalArgumentException("User is not invited");
     }
     invitedUsers.remove(u);
@@ -182,7 +186,7 @@ public class Event implements IEvent{
    *
    * @param newName The new name to set for the event.
    */
-  public void changeName(String newName){
+  public void changeName(String newName) {
     this.name = newName;
   }
 
@@ -191,7 +195,7 @@ public class Event implements IEvent{
    *
    * @param newLocation The new location to set for the event.
    */
-  public void changeLocation(String newLocation){
+  public void changeLocation(String newLocation) {
     this.location = newLocation;
   }
 
@@ -206,8 +210,7 @@ public class Event implements IEvent{
       for (ReadOnlyEvent e : u.scheduledEvents()) {
         if (this.eventEquals(e)) {
           continue;
-        }
-        else if ((new Event(this.name, this.location,
+        } else if ((new Event(this.name, this.location,
                 this.online, newStartTime, this.endTime, invitedUsers, hostId)).eventConflict(e)) {
           throw new IllegalArgumentException("Can not modify this time");
         }
@@ -224,14 +227,13 @@ public class Event implements IEvent{
    *
    * @param newEndTime The new EndTime to set for the event.
    */
-  public void changeEndTime(DayTime newEndTime){
+  public void changeEndTime(DayTime newEndTime) {
     for (IUsers u : this.invitedUsers) {
       // Check for overlapping events with the new start time
       for (ReadOnlyEvent e : u.scheduledEvents()) {
         if (this.eventEquals(e)) {
           continue;
-        }
-        else if ((new Event(this.name, this.location,
+        } else if ((new Event(this.name, this.location,
                 this.online, this.startTime, newEndTime, invitedUsers, hostId)).eventConflict(e)) {
           throw new IllegalArgumentException("Can not modify this time");
         }
@@ -242,12 +244,10 @@ public class Event implements IEvent{
   }
 
 
-
   /**
    * Changes the online status of the event.
-   *
    */
-  public void changeOnlineStatus(){
+  public void changeOnlineStatus() {
     this.online = !this.online;
   }
 
@@ -267,7 +267,7 @@ public class Event implements IEvent{
    * @throws IllegalArgumentException if the new name is null.
    */
   public void modifyName(String newName) {
-    if (newName== null){
+    if (newName == null) {
       throw new IllegalArgumentException("Name can't be null");
     }
     EventCommand command = new ModifyEventNameCommand(this, newName);
@@ -282,7 +282,7 @@ public class Event implements IEvent{
    * @throws IllegalArgumentException if the new location is null.
    */
   public void modifyLocation(String newLocation) {
-    if (newLocation== null){
+    if (newLocation == null) {
       throw new IllegalArgumentException("Location can't be null");
     }
     EventCommand command = new ModifyEventLocationCommand(this, newLocation);
@@ -297,7 +297,7 @@ public class Event implements IEvent{
    * @throws IllegalArgumentException if the new start time is null.
    */
   public void modifyStartTime(DayTime newStartTime) {
-    if (newStartTime== null){
+    if (newStartTime == null) {
       throw new IllegalArgumentException("Start Time can't be null");
     }
     EventCommand command = new ModifyEventStartTimeCommand(this, newStartTime);
@@ -312,7 +312,7 @@ public class Event implements IEvent{
    * @throws IllegalArgumentException if the new end time is null.
    */
   public void modifyEndTime(DayTime newEndTime) {
-    if (newEndTime== null){
+    if (newEndTime == null) {
       throw new IllegalArgumentException("End Time can't be null");
     }
     EventCommand command = new ModifyEventEndTimeCommand(this, newEndTime);
@@ -399,15 +399,15 @@ public class Event implements IEvent{
    */
   @Override
   public String giveXMLString() {
-    String result= "";
+    String result = "";
     result += "<event>\n";
     result += "<name>" + this.name + "</name>\n";
-    result += "<time>\n" + "<start-day>"+ this.startTime.day().toString() +"</start-day>\n" +
+    result += "<time>\n" + "<start-day>" + this.startTime.day().toString() + "</start-day>\n" +
             "<start>" + this.startTime.timeAsXMLString() + "</start>\n" +
             "<end-day>" + this.endTime.day().toString() + "</end-day>\n" +
             "<end>" + this.endTime.timeAsXMLString() + "</end>\n" + "</time>\n";
     String online;
-    if(this.online){
+    if (this.online) {
       online = "true";
     } else {
       online = "false";
@@ -420,7 +420,7 @@ public class Event implements IEvent{
 
     result += "<users>\n";
 
-    for (IUsers i: invitedUsers){
+    for (IUsers i : invitedUsers) {
       result += "<uid>" + i.userID() + "</uid>\n";
     }
 
@@ -434,7 +434,7 @@ public class Event implements IEvent{
    *
    * @return A string representation of the event.
    */
-  public String toString(){
+  public String toString() {
     String result = "";
     result += "name: " + this.name + "\n";
     //for time
@@ -443,7 +443,7 @@ public class Event implements IEvent{
     result += "online: " + this.online + "\n";
 
     String stringOfInvitees = "";
-    for(IUsers i: invitedUsers){
+    for (IUsers i : invitedUsers) {
       stringOfInvitees += i.userID() + "\n";
     }
     result += "invitees: " + stringOfInvitees;
@@ -457,7 +457,7 @@ public class Event implements IEvent{
    * @param e The event to compare with.
    * @return true if the events are equal, false otherwise.
    */
-  public boolean eventEquals(ReadOnlyEvent e){
+  public boolean eventEquals(ReadOnlyEvent e) {
     boolean nameEquals = this.name.equals(e.name());
     boolean locationEquals = this.location.equals(e.location());
     boolean onlineEquals = this.online == e.online();
@@ -479,10 +479,10 @@ public class Event implements IEvent{
    * @param inactivatedUser The inactive user to be replaced.
    */
   public void replaceInactivatedWithActivatedUser(UserSchedule activatedUser,
-                                                  InactiveUser inactivatedUser){
+                                                  InactiveUser inactivatedUser) {
     List<IUsers> modifiedInvitedUsers = new ArrayList<IUsers>();
-    for (IUsers i: this.invitedUsers){
-      if (i.userID().equals(inactivatedUser.userID())){
+    for (IUsers i : this.invitedUsers) {
+      if (i.userID().equals(inactivatedUser.userID())) {
         modifiedInvitedUsers.add(activatedUser);
       } else {
         modifiedInvitedUsers.add(i);

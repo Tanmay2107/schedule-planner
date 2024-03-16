@@ -4,21 +4,24 @@ import model.CentralSystemModel;
 import model.ReadOnlyUsers;
 import model.Day;
 import model.DayTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import model.ReadOnlyEvent;
 
 /**
- * CentralSystemTextView provides a textual representation of the central system's data and functionality.
- * It allows displaying schedules and event details in a formatted text representation.
+ * CentralSystemTextView provides a textual representation of the central system's data
+ * and functionality. It allows displaying schedules and event details in a
+ * formatted text representation.
  */
-public class CentralSystemTextView implements CentralSystemView{
+public class CentralSystemTextView implements CentralSystemView {
 
   private CentralSystemModel model;
 
   /**
    * Constructs a CentralSystemTextView with the specified model.
+   *
    * @param model The CentralSystemModel to associate with this view.
    */
   public CentralSystemTextView(CentralSystemModel model) {
@@ -28,6 +31,7 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Returns a string representation of the CentralSystemModel associated with this view.
+   *
    * @return A string representation of the CentralSystemModel.
    */
   @Override
@@ -37,6 +41,7 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Displays the schedule for a given user as a string.
+   *
    * @param userid The ID of the user whose schedule to display.
    * @return A string representation of the user's schedule.
    */
@@ -63,9 +68,9 @@ public class CentralSystemTextView implements CentralSystemView{
   }
 
 
-
   /**
    * Displays the schedules for all users as a single string.
+   *
    * @return A string representation of the schedules for all users.
    */
   @Override
@@ -80,11 +85,13 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Filters events by a given day.
+   *
    * @param events The list of events to filter.
-   * @param day The day to filter events by.
+   * @param day    The day to filter events by.
    * @return The list of events that occur on the specified day.
    */
-  private static ArrayList<ReadOnlyEvent> filterEventsByDay(ArrayList<ReadOnlyEvent> events, Day day) {
+  private static ArrayList<ReadOnlyEvent> filterEventsByDay(ArrayList<ReadOnlyEvent> events,
+                                                            Day day) {
     ArrayList<ReadOnlyEvent> eventsForDay = new ArrayList<>();
     for (ReadOnlyEvent event : events) {
       if (event.startTime().day().dayToInt() == day.dayToInt()) {
@@ -96,6 +103,7 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Displays the details of an event to the standard output.
+   *
    * @param event The event to display details for.
    */
   private static void displayEventDetails(ReadOnlyEvent event) {
@@ -114,13 +122,15 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Displays the details of an event as a string.
+   *
    * @param event The event to display details for.
    * @return A string representation of the event details.
    */
   private String displayEventDetailsAsString(ReadOnlyEvent event) {
     StringBuilder resultBuilder = new StringBuilder();
     resultBuilder.append("  name: ").append(event.name()).append("\n");
-    resultBuilder.append("  time: ").append(formatEventTime(event.startTime(), event.endTime())).append("\n");
+    resultBuilder.append("  time: ").append(formatEventTime(event.startTime(),
+            event.endTime())).append("\n");
     resultBuilder.append("  location: ").append(event.location()).append("\n");
     resultBuilder.append("  online: ").append(event.online()).append("\n");
 
@@ -138,8 +148,9 @@ public class CentralSystemTextView implements CentralSystemView{
 
   /**
    * Formats the start and end time of an event.
+   *
    * @param startTime The start time of the event.
-   * @param endTime The end time of the event.
+   * @param endTime   The end time of the event.
    * @return A string representation of the formatted event time.
    */
   private static String formatEventTime(DayTime startTime, DayTime endTime) {
@@ -154,8 +165,7 @@ public class CentralSystemTextView implements CentralSystemView{
     if (startTime.dayEquals(endTime.day())) {
       return startTimeString + " -> " + endTimeString;
 
-    }
-    else{
+    } else {
       return startTimeString + " -> " + endTimeString;
     }
   }

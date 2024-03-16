@@ -18,15 +18,15 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
   /**
    * Schedules an event with the specified details.
    *
-   * @param host_uid   The user ID of the event host.
-   * @param name       The name of the event.
-   * @param location   The location of the event.
-   * @param online     Indicates if the event is online or not.
-   * @param startTime  The start time of the event.
-   * @param endTime    The end time of the event.
-   * @param invitees   The list of user IDs of invitees to the event.
+   * @param hostUid   The user ID of the event host.
+   * @param name      The name of the event.
+   * @param location  The location of the event.
+   * @param online    Indicates if the event is online or not.
+   * @param startTime The start time of the event.
+   * @param endTime   The end time of the event.
+   * @param invitees  The list of user IDs of invitees to the event.
    */
-  public void createEvent(String host_uid, String name, String location, boolean online,
+  public void createEvent(String hostUid, String name, String location, boolean online,
                           DayTime startTime, DayTime endTime, ArrayList<String> invitees);
 
 
@@ -94,11 +94,11 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
   /**
    * Invites a user to an event.
    *
-   * @param inviter_uid The user ID of the inviter.
-   * @param invitee_uid The user ID of the invitee.
-   * @param event       The event to which the user is invited.
+   * @param inviterUid The user ID of the inviter.
+   * @param inviteeUid The user ID of the invitee.
+   * @param event      The event to which the user is invited.
    * @throws IllegalArgumentException if any of the input fields are null.
    */
-  public void inviteUserToEvent(String inviter_uid, String invitee_uid, IEvent event);
+  public void inviteUserToEvent(String inviterUid, String inviteeUid, IEvent event);
 }
 //...

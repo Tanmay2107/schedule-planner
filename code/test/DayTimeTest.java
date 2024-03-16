@@ -5,18 +5,17 @@ import org.junit.Test;
 import model.Day;
 import model.DayTime;
 
-import static org.junit.Assert.*;
 
 /**
  * Tests the DayTime class.
  */
 public class DayTimeTest {
-  DayTime mon1000 ;
+  DayTime mon1000;
   DayTime mon1000_1;
 
   DayTime mon1000_2;
-  DayTime tue1200 ;
-  DayTime thur1200 ;
+  DayTime tue1200;
+  DayTime thur1200;
   DayTime thur1300;
 
   /**
@@ -24,12 +23,12 @@ public class DayTimeTest {
    */
   @Before
   public void setUp() {
-     mon1000 = new DayTime(10, 00, Day.MONDAY);
-     mon1000_1 = new DayTime(10, 00, Day.MONDAY);
-     mon1000_2= new DayTime(10, 00, Day.MONDAY);
-     tue1200 = new DayTime(12, 00, Day.TUESDAY);
-     thur1200 = new DayTime(12, 00, Day.THURSDAY);
-     thur1300 = new DayTime(13, 00, Day.THURSDAY);
+    mon1000 = new DayTime(10, 00, Day.MONDAY);
+    mon1000_1 = new DayTime(10, 00, Day.MONDAY);
+    mon1000_2 = new DayTime(10, 00, Day.MONDAY);
+    tue1200 = new DayTime(12, 00, Day.TUESDAY);
+    thur1200 = new DayTime(12, 00, Day.THURSDAY);
+    thur1300 = new DayTime(13, 00, Day.THURSDAY);
   }
 
 

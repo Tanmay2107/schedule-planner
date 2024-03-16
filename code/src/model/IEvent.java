@@ -1,15 +1,18 @@
 package model;
 
-import java.io.File;
-import java.time.Duration;
+
 import java.util.ArrayList;
 
-public interface IEvent extends ReadOnlyEvent{
+/**
+ * Interface representing an event.
+ */
+public interface IEvent extends ReadOnlyEvent {
 
 
   /**
    * Adds the given user to the list of invitees for this event.
-   * @param u
+   *
+   * @param u The user to add to the list of invitees.
    */
   public void addInvitee(IUsers u);
 
@@ -22,34 +25,41 @@ public interface IEvent extends ReadOnlyEvent{
 
   /**
    * Checking if the given user is the host.
-   * @param u
+   *
+   * @param u The user to check if they are the host.
    * @return true if given user is the host of this event.
    */
   public boolean isHost(IUsers u);
 
   /**
    * Checks if the given event conflicts with this event.
-   * @param e
+   *
+   * @param e The event to check for conflicts.
    * @return true if the given event conflicts with this event.
    */
   public boolean eventConflict(ReadOnlyEvent e);
 
   /**
    * Checks if the given time slot conflicts with this event.
-   * @param ts
+   *
+   * @param ts The time slot to check for conflicts.
    * @return true if the given time slot conflicts with this event.
    */
   public boolean eventConflict(TimeSlot ts);
 
   /**
    * Returns a list of the uids of the invitees for this event.
+   *
    * @return a list of uids of the invitees for this event.
    */
   public ArrayList<String> listOfInvitees();
 
   /**
-   * Removes the given invitee from the event
-   * @return removes the given invitee from the event
+   * Removes the given invitee from the event.
+   *
+   * @param u The user to remove from the event.
+   * @return removes the given invitee from the event.
+   * @throws IllegalArgumentException if the user is not invited or null.
    */
   public void removeInvitee(IUsers u);
 
