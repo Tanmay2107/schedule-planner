@@ -68,6 +68,24 @@ public class DayTime {
   }
 
   /**
+   * Returns the hours component of the time.
+   *
+   * @return The hours component of the time.
+   */
+  public int hours() {
+    return this.hours;
+  }
+
+  /**
+   * Returns the minutes component of the time.
+   *
+   * @return The minutes component of the time.
+   */
+  public int minutes() {
+    return this.minutes;
+  }
+
+  /**
    * Returns a string representation of the DayTime object, including the day and time.
    *
    * @return A string representation of the DayTime object.
