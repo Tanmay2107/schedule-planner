@@ -95,6 +95,8 @@ public class ScheduleFrame extends JFrame implements ActionListener, MouseListen
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == createButton) {
       System.out.println("Create Event");
+      EventWithAddFrame eventWithAddFrame = new EventWithAddFrame(this.currentUser, model);
+
     } else if (e.getSource() == scheduleButton) {
       System.out.println("Schedule Event");
     } else if (e.getSource() == userBox) {
