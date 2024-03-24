@@ -149,6 +149,5 @@ public class EventWithModifyFrame extends JFrame{
 
     EventWithModifyFrame frame = new EventWithModifyFrame("Hamsa", centralSystemWithManyUsers,
             event);
-    frame.setVisible(true);
   }
 }

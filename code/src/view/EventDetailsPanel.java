@@ -87,10 +87,10 @@ public class EventDetailsPanel extends JPanel {
       formPanel.add(addUser);
 
       ArrayList<String> invitedUsers = new ArrayList<>();
+      invitedUsers.add(uid);
 
       JComboBox removeUserBox = new JComboBox<>(invitedUsers.toArray(new String[0]));
       formPanel.add(removeUserBox);
-      invitedUsers.add(uid);
       JButton removeUser = new JButton("Remove User");
       formPanel.add(removeUser);
 

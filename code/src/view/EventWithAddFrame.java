@@ -55,6 +55,9 @@ public class EventWithAddFrame extends JFrame{
     // Center the frame on the screen
     setLocationRelativeTo(null);
 
+    setVisible(true);
+
+
   }
 
   public static void main(String[] args) {
@@ -98,6 +101,5 @@ public class EventWithAddFrame extends JFrame{
     centralSystemWith3User.addUser(userId2);
 
     EventWithAddFrame frame = new EventWithAddFrame("Hamsa", centralSystemWith3User);
-    frame.setVisible(true);
   }
 }
