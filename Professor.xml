@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<schedule id="Prof. Nunez">
+<event>
+<name>OOD Class</name>
+<time>
+<start-day>Wednesday</start-day>
+<start>0950</start>
+<end-day>Wednesday</end-day>
+<end>1145</end>
+</time>
+<location>
+<online>true</online>
+<place>Churchill</place>
+</location>
+<users>
+<uid>Prof. Nunez</uid>
+<uid>Tanmay Shah</uid>
+<uid>Hamsa Madhira</uid>
+</users>
+</event>
+</schedule>
