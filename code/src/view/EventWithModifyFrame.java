@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,11 +15,15 @@ import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 import model.UserSchedule;
 
-public class EventWithModifyFrame extends JFrame{
+public class EventWithModifyFrame extends JFrame implements ActionListener {
 
   private ReadOnlyCentralSystem model;
   private String uid;
   private ReadOnlyEvent event;
+  private JPanel buttonPanel;
+  private JButton removeEventButton;
+  private JButton modifyEventButton;
+  private JPanel eventDetailsPanel;
 
   public EventWithModifyFrame(String uid, ReadOnlyCentralSystem model, ReadOnlyEvent event) {
     this.model = model;
@@ -44,27 +50,27 @@ public class EventWithModifyFrame extends JFrame{
     setLocationRelativeTo(null);
 
     // Create a panel to hold buttons
-    JPanel buttonPanel = new JPanel();
+    this.buttonPanel = new JPanel();
 
     // Create modify button
-    JButton modifyEventButton = new JButton("Modify Event");
-    buttonPanel.add(modifyEventButton);
+    this.modifyEventButton = new JButton("Modify Event");
+    this.buttonPanel.add(modifyEventButton);
 
     // Create remove button
-    JButton removeEventButton = new JButton("Remove Event");
-    buttonPanel.add(removeEventButton);
+    this.removeEventButton = new JButton("Remove Event");
+    this.buttonPanel.add(this.removeEventButton);
 
 
     // Create an empty panel
-    JPanel eventDetailsPanel = new EventDetailsPanel(uid, model, event);
+    this.eventDetailsPanel = new EventDetailsPanel(uid, model, event);
 
     // Create a container to hold both panels
     Container contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
 
     // Add panels to the content pane
-    contentPane.add(buttonPanel, BorderLayout.SOUTH);
-    contentPane.add(eventDetailsPanel, BorderLayout.CENTER);
+    contentPane.add(this.buttonPanel, BorderLayout.SOUTH);
+    contentPane.add(this.eventDetailsPanel, BorderLayout.CENTER);
 
     // Center the frame on the screen
     setLocationRelativeTo(null);
@@ -149,5 +155,19 @@ public class EventWithModifyFrame extends JFrame{
 
     EventWithModifyFrame frame = new EventWithModifyFrame("Hamsa", centralSystemWithManyUsers,
             event);
+  }
+
+  /**
+   * Invoked when an action occurs.
+   *
+   * @param e the event to be processed
+   */
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == modifyEventButton) {
+      System.out.println("Modifying Event");
+    } else if (e.getSource() == removeEventButton) {
+      System.out.println("Remove Event");
+    }
   }
 }
