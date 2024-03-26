@@ -121,7 +121,7 @@ public class EventDetailsPanel extends JPanel {
       // Add the invitees panel to the main panel
       add(inviteesPanel, BorderLayout.CENTER);
     }
-    else{
+    else {
       setLayout(new BorderLayout());
       setBorder(BorderFactory.createTitledBorder("Event Details"));
 
@@ -158,7 +158,7 @@ public class EventDetailsPanel extends JPanel {
       formPanel.add(startDayComboBox);
 
       formPanel.add(new JLabel("Start Time (HH:MM):"));
-      startTime = new JTextField(20);
+      startTime = new JTextField(event.startTime().timeAsString(), 20);
       formPanel.add(startTime);
 
       formPanel.add(new JLabel("End Day:"));
@@ -167,7 +167,7 @@ public class EventDetailsPanel extends JPanel {
 
 
       formPanel.add(new JLabel("End Time (HH:MM):"));
-      endTime = new JTextField(20);
+      endTime = new JTextField(event.endTime().timeAsString(), 20);
       formPanel.add(endTime);
 
       // Add the form panel to the main panel
