@@ -1,5 +1,7 @@
 package model;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
 
 /**
@@ -77,11 +79,11 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
   public void writeUserToXMLFile(String uid, String path);
 
   /**
-   * Loads user data from an XML file specified by the given path.
+   * Loads user data from a given XML document.
    *
-   * @param xmlPath The file path of the XML file containing user data.
+   * @param xmlDoc The document of the XML file to be loaded.
    */
-  public void loadUserFromXML(String xmlPath);
+  public void loadUserFromXML(Document xmlDoc);
 
 
   /**

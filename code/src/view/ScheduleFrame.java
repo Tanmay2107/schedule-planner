@@ -8,9 +8,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 
-public class ScheduleFrame extends JFrame implements ActionListener, MouseListener {
+public class ScheduleFrame extends JFrame implements ScheduleView,ActionListener, MouseListener {
   private ReadOnlyCentralSystem model;
 
   private SchedulePanel schedulePanel;
@@ -132,6 +133,11 @@ public class ScheduleFrame extends JFrame implements ActionListener, MouseListen
 
   @Override
   public void mouseExited(MouseEvent e) {
+
+  }
+
+  @Override
+  public void addFeatures(SchedulePlannerFeatures features) {
 
   }
 }

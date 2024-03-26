@@ -4,18 +4,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.Writer;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 
 /**
  * Represents the central system that manages all the users and their schedules.
@@ -286,17 +282,17 @@ public class CentralSystem implements CentralSystemModel {
   /**
    * Loads user data from an XML file located at the specified path.
    *
-   * @param xmlPath The path to the XML file containing user data.
+   * @param xmlDoc The xml document of the schedule for the user to be loaded into the system.
    * @throws IllegalArgumentException If the XML path is null.
    * @throws IllegalStateException    If an error occurs during parsing or processing of the file.
    */
-  public void loadUserFromXML(String xmlPath) {
-    if (xmlPath == null) {
-      throw new IllegalArgumentException("Path can't be null");
+  public void loadUserFromXML(Document xmlDoc) {
+    if (xmlDoc == null) {
+      throw new IllegalArgumentException("Doc can't be null");
     }
-    try {
-      DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-      Document xmlDoc = builder.parse(new File(xmlPath));
+
+
+
       xmlDoc.getDocumentElement().normalize();
       NodeList nodeList = xmlDoc.getElementsByTagName("schedule");
       Node first = nodeList.item(0);
@@ -365,13 +361,7 @@ public class CentralSystem implements CentralSystemModel {
 
       }
 
-    } catch (ParserConfigurationException ex) {
-      throw new IllegalStateException("Error in creating the builder");
-    } catch (IOException ioEx) {
-      throw new IllegalStateException("Error in opening the file");
-    } catch (SAXException saxEx) {
-      throw new IllegalStateException("Error in parsing the file");
-    }
+
 
   }
 
