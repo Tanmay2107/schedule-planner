@@ -4,7 +4,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
-
 import controller.SchedulePlannerFeatures;
 
 /**

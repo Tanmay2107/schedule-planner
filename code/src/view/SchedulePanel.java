@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.JPanel;
-
 import controller.SchedulePlannerFeatures;
 import model.Day;
 import model.DayTime;
