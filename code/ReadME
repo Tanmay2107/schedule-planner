@@ -282,3 +282,5 @@ view.displayScheduleAsString()
 // write it as XML file
 centralSystem.writeUserToXMLFile("Prof. Nunez", "nunez.xml");
 ```
+
+

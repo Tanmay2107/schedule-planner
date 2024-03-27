@@ -72,177 +72,128 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
    * Sets up the panel based on whether an event is provided or not.
    */
   public void setupPanel() {
+    setLayout(new BorderLayout());
+    setBorder(BorderFactory.createTitledBorder("Event Details"));
     if (event==null){
-      setLayout(new BorderLayout());
-      setBorder(BorderFactory.createTitledBorder("Event Details"));
-
-      // Create a panel for the form fields
-      this.formPanel = new JPanel();
-      this.formPanel.setLayout(new GridLayout(0, 2, 5, 5));
-
-      // Add form fields to the form panel
-      this.formPanel.add(new JLabel("Event Name:"));
-      this.name = new JTextField(20);
-      this.formPanel.add(this.name);
-
-      this.formPanel.add(new JLabel("Location:"));
-      this.location = new JTextField(20);
-      this.formPanel.add(location);
-
-      this.formPanel.add(new JLabel("Online:"));
-      this.online = new JCheckBox();
-      this.formPanel.add(this.online);
-
-      // Add a combo box for Day selection
-      this.formPanel.add(new JLabel("Start Day:"));
-      this.startDayComboBox = new JComboBox<>(Day.values());
-      this.formPanel.add(this.startDayComboBox);
-
-      this.formPanel.add(new JLabel("Start Time (HH:MM):"));
-      this.startTime = new JTextField(10);
-      this.formPanel.add(this.startTime);
-
-
-      this.formPanel.add(new JLabel("End Day:"));
-      this.endDayComboBox = new JComboBox<>(Day.values());
-      this.formPanel.add(this.endDayComboBox);
-
-
-      this.formPanel.add(new JLabel("End Time (HH:MM):"));
-      this.endTime = new JTextField(10);
-      this.formPanel.add(endTime);
-
-      this.formPanel.add(new JLabel("Host ID:"));
-      this.hostID = new JLabel(this.uid);
-      this.formPanel.add(hostID);
-
-      // Add user to event
-      this.addUserBox = new JComboBox<>(model.getUserIds().toArray());
-      this.formPanel.add(addUserBox);
-      this.addUser = new JButton("Add User");
-      this.formPanel.add(addUser);
-
-      ArrayList<String> invitedUsers = new ArrayList<>();
-      invitedUsers.add(uid);
-
-      this.removeUserBox = new JComboBox<>(invitedUsers.toArray(new String[0]));
-      this.formPanel.add(removeUserBox);
-      this.removeUser = new JButton("Remove User");
-      this.formPanel.add(removeUser);
-
-      // Add the form panel to the main panel
-      add(this.formPanel, BorderLayout.NORTH);
-
-      // Add the form panel to the main panel
-      add(this.formPanel, BorderLayout.NORTH);
-
-      // Create a panel for invitees
-      this.inviteesPanel = new JPanel(new BorderLayout());
-
-      // Add a label for the invitees
-      this.inviteesPanel.add(new JLabel("Invitees:"),
-              BorderLayout.NORTH);
-
-      // Get user IDs
-      ArrayList<String> userIds = new ArrayList<>();
-      userIds.add(this.uid);
-
-      // Create and populate the JList with user IDs
-      this.userList = new JList<>(userIds.toArray());
-
-      // Add the JList to the panel with scrollbars
-      this.scrollPane = new JScrollPane(this.userList);
-      this.inviteesPanel.add(this.scrollPane, BorderLayout.CENTER);
-
-      // Add the invitees panel to the main panel
-      add(inviteesPanel, BorderLayout.CENTER);
+      setUpAddEvent(); // handles AddEvent, all empty fields, to create a new event.
     }
     else {
-      setLayout(new BorderLayout());
-      setBorder(BorderFactory.createTitledBorder("Event Details"));
-
-      // Create a panel for the form fields
-      this.formPanel = new JPanel();
-      this.formPanel.setLayout(new GridLayout(0, 2, 5, 5));
-
-      // Add form fields to the form panel
-      this.formPanel.add(new JLabel("Event Name:"));
-      this.name = new JTextField(this.event.name(), 20);
-      this.formPanel.add(this.name);
-
-      this.formPanel.add(new JLabel("Host ID:"));
-      hostID = new JLabel(event.hostID());
-      this.formPanel.add(hostID);
-
-      this.formPanel.add(new JLabel("Location:"),
-              BorderLayout.NORTH);
-
-      boolean eventOnline = event.online();
-      this.online = new JCheckBox("Online", eventOnline);
-      this.formPanel.add(this.online);
-
-
-      this.formPanel.add(new JLabel("Location Name:"));
-      this.location = new JTextField(event.location(), 20);
-      this.formPanel.add(location);
-
-
-      // Add a combo box for Day selection
-      this.formPanel.add(new JLabel("Start Day:"));
-      this.startDayComboBox = new JComboBox<>(Day.values());
-      this.formPanel.add(startDayComboBox);
-
-      this.formPanel.add(new JLabel("Start Time (HH:MM):"));
-      this.startTime = new JTextField(event.startTime().timeAsString(), 20);
-      this.formPanel.add(startTime);
-
-      this.formPanel.add(new JLabel("End Day:"));
-      this.endDayComboBox = new JComboBox<>(Day.values());
-      this.formPanel.add(endDayComboBox);
-
-
-      this.formPanel.add(new JLabel("End Time (HH:MM):"));
-      this.endTime = new JTextField(event.endTime().timeAsString(), 20);
-      this.formPanel.add(endTime);
-
-      // Add the form panel to the main panel
-      add(formPanel, BorderLayout.NORTH);
-
-      // Create a panel for invitees
-      this.inviteesPanel = new JPanel(new BorderLayout());
-
-      // Add a label for the invitees
-      this.inviteesPanel.add(new JLabel("Invitees:"),
-              BorderLayout.NORTH);
-
-      // Get user IDs
-      ArrayList<String> invitedUserIds = new ArrayList<>();
-      invitedUserIds.addAll(this.event.listOfInvitees());
-
-
-      // Create and populate the JList with user IDs
-      this.userList = new JList<>(invitedUserIds.toArray());
-
-      // Add the JList to the panel with scrollbars
-      this.scrollPane = new JScrollPane(this.userList);
-      this.inviteesPanel.add(scrollPane, BorderLayout.CENTER);
-
-      // Add user to event
-      this.addUserBox = new JComboBox<>(this.model.getUserIds().toArray(new String[0]));
-      this.formPanel.add(addUserBox);
-      this.addUser = new JButton("Add User");
-      this.formPanel.add(this.addUser);
-
-      this.removeUserBox = new JComboBox<>(this.event.listOfInvitees().toArray(new String[0]));
-      this.formPanel.add(this.removeUserBox);
-      this.removeUser = new JButton("Remove User");
-      this.formPanel.add(this.removeUser);
-
-      // Add the invitees panel to the main panel
-      add(this.inviteesPanel, BorderLayout.CENTER);
-
+      setUpModifyEvent(); // handles modifyEvent, shows existing fields that can be changed.
     }
   }
+
+private void setUpAddEvent(){
+  //Event details fields
+  this.formPanel = new JPanel();
+  this.formPanel.setLayout(new GridLayout(0, 2, 5, 5));
+  this.formPanel.add(new JLabel("Event Name:")); // Event name section
+  this.name = new JTextField(20);
+  this.formPanel.add(this.name);
+  this.formPanel.add(new JLabel("Location:")); // Event location section
+  this.location = new JTextField(20);
+  this.formPanel.add(location);
+  this.formPanel.add(new JLabel("Online:")); // online selection section
+  this.online = new JCheckBox();
+  this.formPanel.add(this.online);
+  this.formPanel.add(new JLabel("Start Day:")); // Start Day
+  this.startDayComboBox = new JComboBox<>(Day.values());
+  this.formPanel.add(this.startDayComboBox);
+  this.formPanel.add(new JLabel("Start Time (HH:MM):")); // Start time (String input)
+  this.startTime = new JTextField(10);
+  this.formPanel.add(this.startTime);
+  this.formPanel.add(new JLabel("End Day:")); // End Day
+  this.endDayComboBox = new JComboBox<>(Day.values());
+  this.formPanel.add(this.endDayComboBox);
+  this.formPanel.add(new JLabel("End Time (HH:MM):")); // End time (String input)
+  this.endTime = new JTextField(10);
+  this.formPanel.add(endTime);
+  this.formPanel.add(new JLabel("Host ID:")); // Host ID, set to current user for Add Event
+  this.hostID = new JLabel(this.uid);
+  this.formPanel.add(hostID);
+  this.addUserBox = new JComboBox<>(model.getUserIds().toArray());   // Add user to event
+  this.formPanel.add(addUserBox);
+  this.addUser = new JButton("Add User");
+  this.formPanel.add(addUser);
+
+  ArrayList<String> invitedUsers = new ArrayList<>();
+  invitedUsers.add(uid);
+
+  this.removeUserBox = new JComboBox<>(invitedUsers.toArray(new String[0])); //removing user
+  this.formPanel.add(removeUserBox);
+  this.removeUser = new JButton("Remove User");
+  this.formPanel.add(removeUser);
+
+  add(this.formPanel, BorderLayout.NORTH); // Add the form panel to the main panel
+
+  this.inviteesPanel = new JPanel(new BorderLayout());   // Create a panel for invitees
+  this.inviteesPanel.add(new JLabel("Invitees:"), BorderLayout.NORTH); // Label for invitees
+
+  ArrayList<String> userIds = new ArrayList<>(); // Get user IDs
+  userIds.add(this.uid);
+
+  this.userList = new JList<>(userIds.toArray());   // Create and populate the JList with user IDs
+  this.scrollPane = new JScrollPane(this.userList); // Add the JList to the panel with scrollbars
+  this.inviteesPanel.add(this.scrollPane, BorderLayout.CENTER);
+  add(inviteesPanel, BorderLayout.CENTER); // Add the invitees panel to the main panel
+}
+
+private void setUpModifyEvent(){
+  // Create a panel for the form fields
+  this.formPanel = new JPanel();
+  this.formPanel.setLayout(new GridLayout(0, 2, 5, 5));
+
+  //Event details fields
+  this.formPanel.add(new JLabel("Event Name:"));
+  this.name = new JTextField(this.event.name(), 20);
+  this.formPanel.add(this.name);
+  this.formPanel.add(new JLabel("Host ID:"));
+  hostID = new JLabel(event.hostID());
+  this.formPanel.add(hostID);
+  this.formPanel.add(new JLabel("Location:"), BorderLayout.NORTH);
+  boolean eventOnline = event.online();
+  this.online = new JCheckBox("Online", eventOnline);
+  this.formPanel.add(this.online);
+  this.formPanel.add(new JLabel("Location Name:"));
+  this.location = new JTextField(event.location(), 20);
+  this.formPanel.add(location);
+  this.formPanel.add(new JLabel("Start Day:"));
+  this.startDayComboBox = new JComboBox<>(Day.values());
+  this.formPanel.add(startDayComboBox);
+  this.formPanel.add(new JLabel("Start Time (HH:MM):"));
+  this.startTime = new JTextField(event.startTime().timeAsString(), 20);
+  this.formPanel.add(startTime);
+  this.formPanel.add(new JLabel("End Day:"));
+  this.endDayComboBox = new JComboBox<>(Day.values());
+  this.formPanel.add(endDayComboBox);
+  this.formPanel.add(new JLabel("End Time (HH:MM):"));
+  this.endTime = new JTextField(event.endTime().timeAsString(), 20);
+  this.formPanel.add(endTime);
+
+  // Add the form panel to the main panel
+  add(formPanel, BorderLayout.NORTH);
+  this.inviteesPanel = new JPanel(new BorderLayout());  // panel for invitees
+
+  // Add a label for the invitees
+  this.inviteesPanel.add(new JLabel("Invitees:"), BorderLayout.NORTH);
+  ArrayList<String> invitedUserIds = new ArrayList<>();   // Get user IDs
+  invitedUserIds.addAll(this.event.listOfInvitees());
+  this.userList = new JList<>(invitedUserIds.toArray()); // List with invitees
+
+  // Add the JList to the panel with scrollbars
+  this.scrollPane = new JScrollPane(this.userList);
+  this.inviteesPanel.add(scrollPane, BorderLayout.CENTER);
+
+  this.addUserBox = new JComboBox<>(this.model.getUserIds().toArray(new String[0]));
+  this.formPanel.add(addUserBox);
+  this.addUser = new JButton("Add User");
+  this.formPanel.add(this.addUser);
+
+  this.removeUserBox = new JComboBox<>(this.event.listOfInvitees().toArray(new String[0]));
+  this.formPanel.add(this.removeUserBox);
+  this.removeUser = new JButton("Remove User");
+  this.formPanel.add(this.removeUser);
+  add(this.inviteesPanel, BorderLayout.CENTER);
+}
 
 
   /**

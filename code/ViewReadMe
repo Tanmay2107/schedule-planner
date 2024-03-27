@@ -1,0 +1,143 @@
+# READMe for View and basic Controller
+
+For this assignment, to abstract certain user functionalities features and make them reusable,
+we define a SchedulePlannerFeatures interface in the controller package. This outlines
+specific functionalities or operations that the application provides to users such as
+adding events, modifying events, loading data from a file, etc.
+
+This also ensures that there is a distinction between the roles of the Model, View, and Controller.
+
+Changes made to Homework 5, given Homework 6 requirements:
+- moved LoadXML to be in controller
+- moved ReadXML to be in controller
+
+
+The view package in the Schedule Planner application contains classes responsible for displaying
+the user interface (UI) and interacting with users. This package utilizes Java's Swing framework
+for creating graphical user interfaces.
+
+## Introduction
+
+The Schedule Planner view package is an essential part of the Schedule Planner application,
+providing a graphical interface for users to interact with the scheduling system.
+It includes various components such as panels, frames, buttons, and menus,
+allowing users to create, modify, and schedule events seamlessly.
+
+## Package Structure
+
+### View Package
+
+The view package contains the following classes:
+
+- **EventDetailsPanel:** A panel for displaying event details and allowing users to
+ add or remove participants.
+- **EventWithAddFrame:** A frame for adding new events to the schedule.
+- **EventWithModifyFrame:** A frame for modifying existing events in the schedule.
+- **Rectangle:** A utility class representing a rectangle used for UI elements.
+- **ScheduleButtonPanel:** A panel containing buttons for creating and scheduling events.
+- **ScheduleFrame:** The main frame of the application, displaying the schedule
+and providing user interaction.
+- **SchedulePanel:** A panel for displaying the schedule grid and events.
+
+## Classes
+
+### EventDetailsPanel
+
+This panel allows users to view and modify event details such as name,
+location, time, and participants. It includes text fields, check-boxes, combo-boxes,
+and buttons for user interaction.
+
+### EventWithAddFrame
+
+A frame for adding new events to the schedule. It contains fields for
+entering event details and buttons for confirming or canceling the action.
+
+### EventWithModifyFrame
+
+Similar to EventWithAddFrame, but for modifying existing events in the schedule.
+It displays the current event details and allows users to make changes.
+
+### Rectangle
+
+A utility class representing a rectangle used for UI elements. It provides methods for determining
+containment and equality.
+
+### ScheduleButtonPanel
+
+A panel containing buttons for creating and scheduling events. It also includes a
+combo-box for selecting users.
+
+### ScheduleFrame
+
+The main frame of the application, displaying the schedule grid and events.
+It provides navigation and interaction options for users.
+
+### SchedulePanel
+
+A panel for displaying the schedule grid and events.
+It renders the schedule dynamically based on user input and interactions.
+
+
+### Controller Package
+
+The controller package in the schedule planner application houses classes and interfaces
+responsible for orchestrating the interaction between the user interface (view) and
+the underlying data model. It implements the logic required for managing events,
+loading and saving data, and handling user inputs. Let's explore the components
+of the controller package:
+
+#### `CentralSystemController` Class
+
+- **Purpose**: This class serves as the main controller for managing the central system
+of the schedule planner.
+- **Responsibilities**:
+  - Loads and saves data from/to XML files.
+  - Manages event-related operations such as adding invitees, creating new events,
+  modifying existing events, and removing events from a user's schedule.
+  - Initializes the view (`ScheduleFrame`) with the model (`CentralSystemModel`)
+  and adds necessary features.
+- **Methods**:
+  - `loadXML(path)`: Loads user data from an XML file specified by the given filepath.
+  - `save()`: Saves the current schedule data.
+  - `addInvitee(inviter, invitee, event)`: Adds an invitee to a specified event.
+  - `removeEvent(user, event)`: Removes an event from a user's schedule.
+  - `createEvent(event)`: Creates a new event.
+  - `modifyEvent(uid, oldEvent, newEvent)`: Modifies an existing event.
+
+#### `SchedulePlannerController` Interface
+
+- **Purpose**: This interface defines the contract for controllers in the schedule planner
+application.
+- **Responsibilities**:
+  - Declares methods for starting the application, loading schedule data from a file, and
+     saving data.
+  - Extends `SchedulePlannerFeatures`, providing access to event management functionalities.
+- **Key Methods**:
+  - `start()`: Starts the schedule planner application.
+  - `loadXML(filepath)`: Loads a schedule from a specified file.
+  - `save()`: Saves the current schedule data.
+
+#### `SchedulePlannerFeatures` Interface
+
+- **Purpose**: This interface defines the features required for managing events and schedule
+  data in the application.
+- **Responsibilities**:
+  - Specifies methods for loading and saving data, managing events (adding, removing, creating,
+    and modifying), and adding invitees to events.
+- **Key Methods**:
+  - `loadXMLFile(path)`: Loads user data from an XML file.
+  - `saveXMLFile(path)`: Saves data to an XML file.
+  - `addInvitee(inviter, invitee, event)`: Adds an invitee to an event.
+  - `removeEvent(user, event)`: Removes an event from a user's schedule.
+  - `createEvent(event)`: Creates a new event.
+  - `modifyEvent(uid, oldEvent, newEvent)`: Modifies an existing event.
+
+
+## Usage
+
+```java
+// Example usage of ScheduleFrame
+ReadOnlyCentralSystem centralSystem = new CentralSystem();
+SchedulePlannerController controller = new CentralSystemController();
+```
+
