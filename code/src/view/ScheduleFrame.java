@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
 import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 
@@ -18,15 +19,18 @@ public class ScheduleFrame extends JFrame implements CentralSystemView {
   private ReadOnlyCentralSystem model;
 
   private SchedulePanel schedulePanel;
-  private JPanel buttonPanel;
+
   private ScheduleScreenMenuBar menuBar;
-  private JButton createButton, scheduleButton;
+  private JButton createButton;
+
+  private JButton scheduleButton;
   private JComboBox<String> userBox;
   private String currentUser;
   private String[] users;
 
   /**
    * Constructs a ScheduleFrame with the given model.
+   *
    * @param model The ReadOnlyCentralSystem model providing schedule data.
    */
   public ScheduleFrame(ReadOnlyCentralSystem model) {
@@ -39,7 +43,7 @@ public class ScheduleFrame extends JFrame implements CentralSystemView {
     this.model = model;
 
 
-    this.buttonPanel = this.setUpButtonPanel();
+    JPanel buttonPanel = this.setUpButtonPanel();
     this.currentUser = "none";
     this.schedulePanel = new SchedulePanel(model, this.currentUser);
     this.schedulePanel.setSize(800, 600);
@@ -56,9 +60,10 @@ public class ScheduleFrame extends JFrame implements CentralSystemView {
 
   /**
    * Sets up the button panel.
+   *
    * @return The JPanel representing the button panel.
    */
-  private JPanel setUpButtonPanel(){
+  private JPanel setUpButtonPanel() {
     JPanel buttonPanel = new JPanel();
     this.createButton = new JButton("Create Event");
 
@@ -102,18 +107,10 @@ public class ScheduleFrame extends JFrame implements CentralSystemView {
     this.schedulePanel.setUserID(users[userBox.getSelectedIndex()]);
   }
 
-  /**
-   * Handles button click events.
-   * @param e The ActionEvent object representing the action performed.
-   */
-
-
-
-
-
 
   /**
    * Adds features to the frame.
+   *
    * @param features The SchedulePlannerFeatures object providing features to be added.
    */
   @Override

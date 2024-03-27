@@ -16,8 +16,9 @@ public interface SchedulePlannerFeatures {
   public void  loadXMLFile(String path);
 
   /**
-   * Saves data to an XML file.
-   * @param path The path to save the XML file.
+   * Handles the saveXML button action.
+   *
+   * @param path the path to the XML file.
    */
   public void saveXMLFile(String path);
 

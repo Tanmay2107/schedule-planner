@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import controller.CentralSystemController;
+import controller.SchedulePlannerController;
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;
@@ -1236,6 +1238,7 @@ public class TestCentralSystem {
 
   /**
    * Tests the for reading the writing XML and ensuring the ouptut and input are equal.
+   */
 
   @Test
   public void testReadAndWriteXML() {
@@ -1248,9 +1251,11 @@ public class TestCentralSystem {
 
     CentralSystem centralSystemForXML = new CentralSystem();
 
-    centralSystemForXML.loadUserFromXML("Hamsa.xml");
-    centralSystemForXML.loadUserFromXML("Professor.xml");
-    centralSystemForXML.loadUserFromXML("Tanmay.xml");
+    CentralSystemController controller = new CentralSystemController(centralSystemForXML);
+    controller.loadXML("Hamsa.xml");
+    controller.loadXML("Professor.xml");
+    controller.loadXML("Tanmay.xml");
+
 
     CentralSystemTextView view = new CentralSystemTextView(centralSystemForXML);
     CentralSystemTextView viewPreXML = new CentralSystemTextView(this.centralSystemWith3User);
@@ -1263,7 +1268,7 @@ public class TestCentralSystem {
 
 
   }
-   */
+
 
   /**
    * Tests for write XML with null path.
@@ -1283,21 +1288,25 @@ public class TestCentralSystem {
 
   /**
    * Tests for read XML with null path.
+   */
 
   @Test(expected = IllegalArgumentException.class)
   public void testReadXMLNullPath() {
     centralSystemWith3User.loadUserFromXML(null);
   }
-   */
+
 
   /**
    * Tests for read XML with wrong path.
+   */
 
   @Test(expected = IllegalStateException.class)
   public void testReadXMLWithWrongPath() {
-    centralSystemWith3User.loadUserFromXML("random.xml");
+    SchedulePlannerController centralSystemWith3UserController =
+            new CentralSystemController(this.centralSystemWith3User);
+    centralSystemWith3UserController.loadXML("xyz.xml");
   }
-   */
+
 
   /**
    * Tests create event with empty invitee list.

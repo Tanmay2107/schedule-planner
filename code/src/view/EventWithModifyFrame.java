@@ -2,10 +2,12 @@ package view;
 
 import java.awt.Container;
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
+
 import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
@@ -19,7 +21,7 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
   private ReadOnlyCentralSystem model;
   private String uid;
   private ReadOnlyEvent event;
-  private JPanel buttonPanel;
+
   private JButton removeEventButton;
   private JButton modifyEventButton;
   private EventDetailsPanel eventDetailsPanel;
@@ -27,7 +29,8 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
 
   /**
    * Constructs an EventWithModifyFrame with the given unique identifier, model, and event.
-   * @param uid The unique identifier associated with the user.
+   *
+   * @param uid   The unique identifier associated with the user.
    * @param model The ReadOnlyCentralSystem model to interact with.
    * @param event The event to be modified.
    */
@@ -39,7 +42,7 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
   }
 
 
-  protected void setUp(){
+  protected void setUp() {
     // Setting the title of the frame
     setTitle("Event");
 
@@ -53,15 +56,15 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
     setLocationRelativeTo(null);
 
     // Create a panel to hold buttons
-    this.buttonPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
 
     // Create modify button
     this.modifyEventButton = new JButton("Modify Event");
-    this.buttonPanel.add(modifyEventButton);
+    buttonPanel.add(modifyEventButton);
 
     // Create remove button
     this.removeEventButton = new JButton("Remove Event");
-    this.buttonPanel.add(this.removeEventButton);
+    buttonPanel.add(this.removeEventButton);
 
 
     // Create an empty panel
@@ -72,7 +75,7 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
     contentPane.setLayout(new BorderLayout());
 
     // Add panels to the content pane
-    contentPane.add(this.buttonPanel, BorderLayout.SOUTH);
+    contentPane.add(buttonPanel, BorderLayout.SOUTH);
     contentPane.add(this.eventDetailsPanel, BorderLayout.CENTER);
 
     // Center the frame on the screen
@@ -84,6 +87,7 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
 
   /**
    * Adds features to the frame.
+   *
    * @param features The SchedulePlannerFeatures object providing features to be added.
    */
   @Override
@@ -97,9 +101,9 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
 
       try {
         ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
-        features.modifyEvent(uid, this.event, eventDetailsPanel.giveEvent());    }
-      catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this,"Enter a valid time");
+        features.modifyEvent(uid, this.event, eventDetailsPanel.giveEvent());
+      } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, "Enter a valid time");
       }
 
     });

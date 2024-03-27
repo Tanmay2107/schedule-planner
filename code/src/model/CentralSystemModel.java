@@ -78,6 +78,17 @@ public interface CentralSystemModel extends ReadOnlyCentralSystem {
    */
   public void writeUserToXMLFile(String uid, String path);
 
+
+  /**
+   * Writes the user's data to in XML format to a string.
+   *
+   * @param uid  The user ID of the user whose data is to be written.
+   *
+   * @return The XML string representation of the user's data.
+   */
+  public String giveXMLString(String uid);
+
+
   /**
    * Loads user data from a given XML document.
    *

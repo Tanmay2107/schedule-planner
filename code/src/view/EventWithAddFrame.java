@@ -2,10 +2,12 @@ package view;
 
 import java.awt.Container;
 import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
 import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
@@ -14,26 +16,27 @@ import model.ReadOnlyEvent;
  * Frame for adding new events.
  * This frame provides a user interface for adding new events to the schedule planner.
  */
-public class EventWithAddFrame extends JFrame implements ScheduleView{
+public class EventWithAddFrame extends JFrame implements ScheduleView {
 
   private ReadOnlyCentralSystem model;
   private String uid;
-  private  JPanel buttonPanel;
+
   private JButton addEventButton;
   private EventDetailsPanel eventDetailsPanel;
 
   /**
    * Constructs an EventWithAddFrame with the given unique identifier and model.
-   * @param uid The unique identifier associated with the user.
+   *
+   * @param uid   The unique identifier associated with the user.
    * @param model The ReadOnlyCentralSystem model to interact with.
    */
-  public EventWithAddFrame(String uid , ReadOnlyCentralSystem model) {
+  public EventWithAddFrame(String uid, ReadOnlyCentralSystem model) {
     this.uid = uid;
     this.model = model;
     setUp();
   }
 
-  protected void setUp(){
+  protected void setUp() {
     // Setting the title of the frame
     setTitle("Event");
 
@@ -46,8 +49,10 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
     // Centering the frame on the screen
     setLocationRelativeTo(null);
 
+
+
     // Create a panel to hold buttons
-    this.buttonPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
     // Create add button
     this.addEventButton = new JButton("Add Event");
     buttonPanel.add(addEventButton);
@@ -60,7 +65,7 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
     contentPane.setLayout(new BorderLayout());
 
     // Add panels to the content pane
-    contentPane.add(this.buttonPanel, BorderLayout.SOUTH);
+    contentPane.add(buttonPanel, BorderLayout.SOUTH);
     contentPane.add(this.eventDetailsPanel, BorderLayout.CENTER);
 
     // Center the frame on the screen
@@ -73,6 +78,7 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
 
   /**
    * Adds features to the frame.
+   *
    * @param features The SchedulePlannerFeatures object providing features to be added.
    */
   @Override
@@ -83,13 +89,13 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
       System.out.println("Adding Event");
       //features.addEvent();
       try {
-      ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
-      features.createEvent(event);    }
-      catch (IllegalArgumentException e) {
-      JOptionPane.showMessageDialog(this,"Enter a valid time");
-    }
+        ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
+        features.createEvent(event);
+      } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this, "Enter a valid time");
+      }
 
-  });
+    });
   }
 
   /**

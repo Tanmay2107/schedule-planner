@@ -5,7 +5,7 @@ import controller.SchedulePlannerController;
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;
-import view.ScheduleFrame;
+
 
 /**
  * The main class for the application.
@@ -79,6 +79,7 @@ public class Main {
 
 
     SchedulePlannerController controller = new CentralSystemController(centralSystemWithManyUsers);
+    controller.start();
 
 
   }

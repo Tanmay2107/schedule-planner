@@ -265,6 +265,18 @@ public class CentralSystem implements CentralSystemModel {
 
   }
 
+  @Override
+  public String giveXMLString(String uid) {
+    if (uid == null) {
+      throw new IllegalArgumentException("fields can't be null");
+    }
+    if (!activeUserMap.containsKey(uid)) {
+      throw new IllegalArgumentException("There is no active user with the given ID.");
+    }
+    UserSchedule user = activeUserMap.get(uid);
+    return user.giveXMLString();
+  }
+
   /**
    * Returns a string representation of the central system, including the schedules of all users.
    *

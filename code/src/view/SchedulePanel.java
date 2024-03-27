@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JPanel;
+
 import controller.SchedulePlannerFeatures;
 import model.Day;
 import model.DayTime;
@@ -8,6 +9,7 @@ import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 import model.ReadOnlyUsers;
 import model.Event;
+
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -27,7 +29,8 @@ public class SchedulePanel extends JPanel implements ScheduleView {
 
   /**
    * Constructs a SchedulePanel with the given model and user ID.
-   * @param model The ReadOnlyCentralSystem model providing schedule data.
+   *
+   * @param model  The ReadOnlyCentralSystem model providing schedule data.
    * @param userID The ID of the user whose schedule is to be displayed.
    */
   public SchedulePanel(ReadOnlyCentralSystem model, String userID) {
@@ -42,7 +45,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     System.out.println("Painting");
-    Graphics2D g2d = (Graphics2D)g;
+    Graphics2D g2d = (Graphics2D) g;
     this.drawSkeleton(g2d);
     if (!this.userID.equals("none")) {
       this.drawEvents(g2d);
@@ -53,7 +56,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
   private void drawSkeleton(Graphics2D g2d) {
 
     int hours = 1;
-    while (hours <=  24) {
+    while (hours <= 24) {
       g2d.drawLine(0, hours * this.getHeight() / 24, this.getWidth(),
               hours * this.getHeight() / 24);
       hours++;
@@ -73,14 +76,21 @@ public class SchedulePanel extends JPanel implements ScheduleView {
   private void drawEvents(Graphics2D g2d) {
     ReadOnlyUsers user = this.model.getUser(userID);
 
-    Day[] days = new Day[]{
-    Day.SUNDAY, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY, Day.SATURDAY};
+    Day sun = Day.SUNDAY;
+    Day mon = Day.MONDAY;
+    Day tue = Day.TUESDAY;
+    Day wed = Day.WEDNESDAY;
+    Day thu = Day.THURSDAY;
+    Day fri = Day.FRIDAY;
+    Day sat = Day.SATURDAY;
+
+    Day[] days = new Day[]{sun, mon, tue, wed, thu, fri, sat};
     ReadOnlyEvent carryForwardEvent = null;
     ReadOnlyEvent carryForwardEventToDraw = null;
     for (int i = 0; i < days.length; i++) {
       ArrayList<ReadOnlyEvent> events = filterEventsByDay(user.scheduledEvents(), days[i]);
 
-      if(!(carryForwardEvent == null)){
+      if (carryForwardEvent != null) {
         events.add(carryForwardEventToDraw);
       }
 
@@ -91,13 +101,13 @@ public class SchedulePanel extends JPanel implements ScheduleView {
         int width = this.getWidth() / 7;
         int height;
 
-        if(!event.startTime().dayEquals(event.endTime().day())){
+        if (!event.startTime().dayEquals(event.endTime().day())) {
           height = timeHeight(event.startTime(), new DayTime(23, 59,
                   event.startTime().day()));
           carryForwardEventToDraw =
                   new Event(event.name(), event.location(), event.online(),
-                          new DayTime(0, 0, days[i+1]),
-                  event.endTime(), event.hostID());
+                          new DayTime(0, 0, days[i + 1]),
+                          event.endTime(), event.hostID());
           carryForwardEvent = event;
         } else {
           height = timeHeight(event.startTime(), event.endTime());
@@ -109,7 +119,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
         g2d.setColor(Color.CYAN);
         g2d.fillRect(x, y, width, height);
         g2d.setColor(Color.BLACK);
-        g2d.drawString(event.name(), x , y + height/2);
+        g2d.drawString(event.name(), x, y + height / 2);
       }
     }
   }
@@ -152,6 +162,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
 
   /**
    * Sets the user ID for the schedule panel.
+   *
    * @param currentUser The ID of the current user.
    */
   public void setUserID(String currentUser) {
@@ -163,6 +174,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
 
   /**
    * Adds features to the schedule panel.
+   *
    * @param features The SchedulePlannerFeatures object providing features to be added.
    */
   @Override
@@ -190,6 +202,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
        */
       @Override
       public void mousePressed(MouseEvent e) {
+        //DO NOTHING
 
       }
 
@@ -200,6 +213,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
        */
       @Override
       public void mouseReleased(MouseEvent e) {
+        //DO NOTHING
 
       }
 
@@ -210,6 +224,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
        */
       @Override
       public void mouseEntered(MouseEvent e) {
+        //DO NOTHING
 
       }
 
@@ -220,6 +235,7 @@ public class SchedulePanel extends JPanel implements ScheduleView {
        */
       @Override
       public void mouseExited(MouseEvent e) {
+        //DO NOTHING
 
       }
     });

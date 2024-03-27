@@ -4,6 +4,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
+
 import controller.SchedulePlannerFeatures;
 
 /**
@@ -32,11 +33,11 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
   }
 
 
-
   /**
    * Adds the provided features to this menu bar.
    *
-   * @param features The SchedulePlannerFeatures object containing the functionality to be added to the menu items.
+   * @param features The SchedulePlannerFeatures object containing the functionality to be
+   *                added to the menu items.
    */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
@@ -45,8 +46,8 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
       System.out.println("Load XML");
       JFileChooser fileChooser = new JFileChooser();
       int i = fileChooser.showOpenDialog(this);
-      String path ="";
-      if(i == JFileChooser.APPROVE_OPTION) {
+      String path = "";
+      if (i == JFileChooser.APPROVE_OPTION) {
         path = fileChooser.getSelectedFile().getAbsolutePath();
       }
       features.loadXMLFile(path);
@@ -54,6 +55,16 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
 
     menuItemSaveXML.addActionListener(evt -> {
       System.out.println("Save XML");
+      JFileChooser fileChooser = new JFileChooser();
+      fileChooser.setCurrentDirectory(new java.io.File("."));
+      fileChooser.setDialogTitle("SelectDirectory");
+      fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+      int i = fileChooser.showOpenDialog(this);
+      String path = "";
+      if (i == JFileChooser.APPROVE_OPTION) {
+        path = fileChooser.getSelectedFile().getAbsolutePath();
+      }
+      features.saveXMLFile(path);
     });
   }
 

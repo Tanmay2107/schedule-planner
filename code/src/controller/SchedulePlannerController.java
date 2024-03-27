@@ -1,6 +1,10 @@
 package controller;
 
-public interface SchedulePlannerController extends  SchedulePlannerFeatures{
+/**
+ * Interface for a controller to run the schedule planner application, connecting
+ * the view and the model.
+ */
+public interface SchedulePlannerController extends SchedulePlannerFeatures {
 
   /**
    * Start the schedule planner application.
@@ -9,6 +13,7 @@ public interface SchedulePlannerController extends  SchedulePlannerFeatures{
 
   /**
    * Load a schedule to the central system from a file.
+   *
    * @param filepath the path to the file to load the schedule from
    */
   void loadXML(String filepath);
@@ -16,8 +21,7 @@ public interface SchedulePlannerController extends  SchedulePlannerFeatures{
   /**
    * Save the current schedule to the file it is supposed to be stored to.
    */
-  void save();
-
+  void save(String uid, String directory);
 
 
 }

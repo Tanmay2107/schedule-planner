@@ -1,9 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class InputEvent implements ReadOnlyEvent{
+
+
+/**
+ * Represents an event that is input by the user.
+ */
+public class InputEvent implements ReadOnlyEvent {
 
   private String name;
 
@@ -17,13 +21,25 @@ public class InputEvent implements ReadOnlyEvent{
   private TimeSlot duration;
   //INVARIANT: duration represents the time slot between startTime and endTime
 
-  private List<String> invitedUsers;
+  private ArrayList<String> invitedUsers;
 
 
   private String hostId;
 
+  /**
+   * Constructs an InputEvent with the given name, online status, location, start time, end time,
+   * host ID, and list of invited users.
+   *
+   * @param name         The name of the event.
+   * @param online       The online status of the event.
+   * @param location     The location of the event.
+   * @param startTime    The start time of the event.
+   * @param endTime      The end time of the event.
+   * @param hostId       The host ID of the event.
+   * @param invitedUsers The list of invited users to the event.
+   */
   public InputEvent(String name, boolean online, String location, DayTime startTime,
-                    DayTime endTime, String hostId,List<String> invitedUsers) {
+                    DayTime endTime, String hostId, ArrayList<String> invitedUsers) {
     this.name = name;
     this.online = online;
     this.location = location;
@@ -33,44 +49,45 @@ public class InputEvent implements ReadOnlyEvent{
     this.invitedUsers = invitedUsers;
     this.duration = new TimeSlot(startTime, endTime);
   }
+
   @Override
   public DayTime startTime() {
-    return null;
+    return this.startTime;
   }
 
   @Override
   public String name() {
-    return null;
+    return this.name;
   }
 
   @Override
   public boolean online() {
-    return false;
+    return this.online;
   }
 
   @Override
   public String location() {
-    return null;
+    return this.location;
   }
 
   @Override
   public DayTime endTime() {
-    return null;
+    return this.endTime;
   }
 
   @Override
   public String hostID() {
-    return null;
+    return this.hostId;
   }
 
   @Override
   public ArrayList<String> listOfInvitees() {
-    return null;
+    return this.invitedUsers;
   }
 
   @Override
   public TimeSlot duration() {
-    return null;
+    return this.duration;
   }
 
   @Override

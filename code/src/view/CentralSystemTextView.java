@@ -1,7 +1,7 @@
 package view;
 
 import controller.SchedulePlannerFeatures;
-import model.CentralSystemModel;
+
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyUsers;
 import model.Day;

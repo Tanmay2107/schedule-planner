@@ -4,7 +4,7 @@ package view;
  * The CentralSystemView interface defines the contract for views in the central system.
  * Views implementing this interface should provide a string representation of the system.
  */
-public interface CentralSystemView extends ScheduleView{
+public interface CentralSystemView extends ScheduleView {
 
 
 
