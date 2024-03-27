@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;

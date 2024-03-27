@@ -12,6 +12,7 @@ import model.CentralSystem;
 import model.Day;
 import model.DayTime;
 import model.ReadOnlyCentralSystem;
+import model.ReadOnlyEvent;
 
 public class EventWithAddFrame extends JFrame implements ScheduleView {
 
@@ -19,7 +20,7 @@ public class EventWithAddFrame extends JFrame implements ScheduleView {
   private String uid;
   private  JPanel buttonPanel;
   private JButton addEventButton;
-  private JPanel eventDetailsPanel;
+  private EventDetailsPanel eventDetailsPanel;
 
   public EventWithAddFrame(String uid , ReadOnlyCentralSystem model) {
     this.uid = uid;
@@ -69,11 +70,13 @@ public class EventWithAddFrame extends JFrame implements ScheduleView {
 
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
+    this.eventDetailsPanel.addFeatures(features);
 
     this.addEventButton.addActionListener(evt -> {
       System.out.println("Adding Event");
       //features.addEvent();
-    });
+      ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
+      features.createEvent(event);});
   }
 
   @Override

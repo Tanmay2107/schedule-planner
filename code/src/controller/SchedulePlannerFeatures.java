@@ -13,13 +13,11 @@ public interface SchedulePlannerFeatures {
 
   public void removeEvent(String user, ReadOnlyEvent event);
 
-  public void createEvent(String hostUid, String name, String location, boolean online,
-                          String startTime, String endTime, String invitees);
+  public void createEvent(ReadOnlyEvent event);
 
-  public void modifyEvent(String hostUid, String name, String location, boolean online,
-                          String startTime, String endTime, String invitees, ReadOnlyEvent event);
+  public void modifyEvent(String uid,ReadOnlyEvent oldEvent, ReadOnlyEvent newEvent);
 
-  public void removeInvitee(String inviter, String invitee, ReadOnlyEvent event);
+
 
 
 

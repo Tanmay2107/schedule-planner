@@ -10,8 +10,7 @@ import javax.swing.*;
 import controller.SchedulePlannerFeatures;
 import model.Day;
 import model.DayTime;
-import model.Event;
-import model.IUsers;
+import model.InputEvent;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 
@@ -240,24 +239,7 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
     }
   }
 
-  public ReadOnlyEvent giveEvent() {
-    String eventName = name.getText();
-    String eventLocation = location.getText();
-    boolean isOnline = online.isSelected();
-    Day startDay = (Day) startDayComboBox.getSelectedItem();
-    String startTimeText = startTime.getText();
-    Day endDay = (Day) endDayComboBox.getSelectedItem();
-    String endTimeText = endTime.getText();
-    String hostId = hostID.getText();
 
-    // Create a list of invited user IDs
-    ArrayList<IUsers> invitedUsers = new ArrayList<>();
-   //
-
-    // Create and return the ReadOnlyEvent object
-    return new Event(eventName, eventLocation, isOnline, convertToDayTime(startTimeText, startDay),
-            convertToDayTime(endTimeText,endDay),invitedUsers ,hostId);
-  }
 
   /**
    * Converts a string representing start time to a new DayTime object.
@@ -292,7 +274,12 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
 
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
-    //
+    this.addUser.addActionListener(evt -> {
+      features.addInvitee(uid, this.addUserBox.getSelectedItem().toString(),this.giveEvent());
+    });
+    this.removeUser.addActionListener(evt -> {
+      features.removeEvent(this.removeUserBox.getSelectedItem().toString(),this.giveEvent());
+    });
 
   }
 
@@ -301,4 +288,35 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
     setVisible(true);
 
   }
+  ///
+
+  public InputEvent giveEvent() {
+    String eventName = name.getText();
+    String eventLocation = location.getText();
+    boolean isOnline = online.isSelected();
+    Day startDay = (Day) startDayComboBox.getSelectedItem();
+    String startTimeText = startTime.getText();
+    Day endDay = (Day) endDayComboBox.getSelectedItem();
+    String endTimeText = endTime.getText();
+    String hostId = hostID.getText();
+
+
+    ArrayList list = new ArrayList(this.userList.getModel().getSize());
+
+    for (int i = 0; i < this.userList.getModel().getSize(); i++) {
+      list.add(this.userList.getModel().getElementAt(i));
+    }
+
+
+    // Create and return the ReadOnlyEvent object
+    return new InputEvent(eventName,  isOnline, eventLocation,
+            convertToDayTime(startTimeText, startDay),
+            convertToDayTime(endTimeText,endDay),hostId, list);
+    //public InputEvent(String name, boolean online, String location, DayTime startTime,
+    // DayTime endTime, String hostId)
+
+  }
+
+
+
 }

@@ -164,6 +164,8 @@ public class SchedulePanel extends JPanel implements ScheduleView {
             System.out.println("Event clicked: " + eventMap.get(rect).toString());
             EventWithModifyFrame modifyframe = new EventWithModifyFrame(userID,
                     model, eventMap.get(rect));
+            modifyframe.addFeatures(features);
+            modifyframe.makeVisible();
           }
         }
       }

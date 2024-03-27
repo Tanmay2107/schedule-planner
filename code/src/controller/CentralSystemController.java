@@ -3,8 +3,6 @@ package controller;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,8 +13,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import model.CentralSystemModel;
 import model.ReadOnlyEvent;
 import view.ScheduleFrame;
-import view.ScheduleView;
-
 
 
 public class CentralSystemController implements SchedulePlannerController  {
@@ -89,26 +85,27 @@ public class CentralSystemController implements SchedulePlannerController  {
 
   @Override
   public void addInvitee(String inviter, String invitee, ReadOnlyEvent event) {
-
+    System.out.println("Adding invitee" + "\n" + invitee + "\n" + "by :"+ inviter + "\n" +
+            "to event" + "\n" + event.toString());
   }
 
   @Override
   public void removeEvent(String user, ReadOnlyEvent event) {
-    
+    System.out.println("Removing event" + "\n" + event.toString() + "\n" + "from :"+ user);
   }
 
   @Override
-  public void createEvent(String hostUid, String name, String location, boolean online, String startTime, String endTime, String invitees) {
-
+  public void createEvent(ReadOnlyEvent event) {
+    System.out.println("Creating Event");
+    System.out.println(event.toString());
   }
 
   @Override
-  public void modifyEvent(String hostUid, String name, String location, boolean online, String startTime, String endTime, String invitees, ReadOnlyEvent event) {
+  public void modifyEvent(String uid,ReadOnlyEvent oldEvent, ReadOnlyEvent newEvent) {
 
+    System.out.println(uid + " is modifying Event" + "\n" + "from" +  "\n" +
+            oldEvent.toString() + "\n" + "to" + "\n" + newEvent.toString());
   }
 
-  @Override
-  public void removeInvitee(String inviter, String invitee, ReadOnlyEvent event) {
 
-  }
 }

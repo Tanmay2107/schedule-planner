@@ -22,14 +22,15 @@ public class InputEvent implements ReadOnlyEvent{
 
   private String hostId;
 
-  public InputEvent(String name, boolean online, String location, DayTime startTime, DayTime endTime, String hostId) {
+  public InputEvent(String name, boolean online, String location, DayTime startTime,
+                    DayTime endTime, String hostId,List<String> invitedUsers) {
     this.name = name;
     this.online = online;
     this.location = location;
     this.startTime = startTime;
     this.endTime = endTime;
     this.hostId = hostId;
-    this.invitedUsers = new ArrayList<>();
+    this.invitedUsers = invitedUsers;
     this.duration = new TimeSlot(startTime, endTime);
   }
   @Override
