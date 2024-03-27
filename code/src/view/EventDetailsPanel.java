@@ -16,6 +16,7 @@ import model.ReadOnlyEvent;
 
 
 public class EventDetailsPanel extends JPanel implements ActionListener, ScheduleView {
+
   private ReadOnlyEvent event;
   private ReadOnlyCentralSystem model;
   private String uid;
@@ -24,7 +25,7 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
   private JCheckBox online;
   private JTextField startTime;
   private JTextField endTime;
-  private JTextField hostID;
+  private JLabel hostID;
   private  JList userList;
   private JScrollPane scrollPane;
   private JPanel inviteesPanel;
@@ -92,7 +93,7 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
       this.formPanel.add(endTime);
 
       this.formPanel.add(new JLabel("Host ID:"));
-      this.hostID = new JTextField(20);
+      this.hostID = new JLabel(this.uid);
       this.formPanel.add(hostID);
 
       // Add user to event
@@ -150,7 +151,7 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
       this.formPanel.add(this.name);
 
       this.formPanel.add(new JLabel("Host ID:"));
-      hostID = new JTextField(event.hostID(), 20);
+      hostID = new JLabel(event.hostID());
       this.formPanel.add(hostID);
 
       this.formPanel.add(new JLabel("Location:"),
@@ -251,9 +252,7 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
   private DayTime convertToDayTime(String timeString, Day day) {
     String[] parts = timeString.split(":");
     if (parts.length != 2) {
-      // Handle invalid time format
-      return null;
-    }
+      return null;   }
 
     try {
       int hours = Integer.parseInt(parts[0]);
@@ -267,7 +266,6 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
 
       return new DayTime(hours, minutes, day);
     } catch (NumberFormatException e) {
-      // Handle parsing errors
       return null;
     }
   }

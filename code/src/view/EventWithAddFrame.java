@@ -14,7 +14,7 @@ import model.DayTime;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 
-public class EventWithAddFrame extends JFrame implements ScheduleView {
+public class EventWithAddFrame extends JFrame implements ScheduleView{
 
   private ReadOnlyCentralSystem model;
   private String uid;
@@ -79,7 +79,6 @@ public class EventWithAddFrame extends JFrame implements ScheduleView {
       features.createEvent(event);});
   }
 
-  @Override
   public void makeVisible() {
     setVisible(true);
   }
