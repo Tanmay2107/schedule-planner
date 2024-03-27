@@ -10,6 +10,7 @@ This also ensures that there is a distinction between the roles of the Model, Vi
 Changes made to Homework 5, given Homework 6 requirements:
 - moved LoadXML to be in controller
 - moved ReadXML to be in controller
+- added new event class for inputs
 
 
 The view package in the Schedule Planner application contains classes responsible for displaying
@@ -45,17 +46,23 @@ and providing user interaction.
 
 This panel allows users to view and modify event details such as name,
 location, time, and participants. It includes text fields, check-boxes, combo-boxes,
-and buttons for user interaction.
+and buttons for user interaction. This panel is used in ScheduleEvent, AddEvent and ModifyEvent
+frames so that the common code between three frames is used, and the button panels change
+as per need.
 
 ### EventWithAddFrame
 
 A frame for adding new events to the schedule. It contains fields for
-entering event details and buttons for confirming or canceling the action.
+entering event details and buttons for confirming or canceling the action. When Create Event or
+Schedule event (for now, no difference in functionality) is clicked on the ScheduleFrame,
+this Frame opens.
 
 ### EventWithModifyFrame
 
 Similar to EventWithAddFrame, but for modifying existing events in the schedule.
-It displays the current event details and allows users to make changes.
+It displays the current event details and allows users to make changes. Comes with a Modify event
+that currently prints out the old event details, and the modified event details, and who made the
+modification. The Remove Event button prints the details of the event that is being deleted.
 
 ### Rectangle
 
