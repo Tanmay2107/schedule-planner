@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class ScheduleScreenMenuBar extends JMenuBar implements ActionListener {
+import controller.SchedulePlannerFeatures;
+
+public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
   JMenu menu;
 
   JMenuItem menuItemLoadXML;
@@ -16,27 +18,39 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ActionListener {
     super();
     menu = new JMenu("File");
     menuItemLoadXML = new JMenuItem("Add calender");
-    menuItemLoadXML.addActionListener(this);
+
     menu.add(menuItemLoadXML);
     menuItemSaveXML = new JMenuItem("Save calender");
     menu.add(menuItemSaveXML);
-    menuItemSaveXML.addActionListener(this);
+
     this.add(menu);
   }
 
+
+
+
   @Override
-  public void actionPerformed(ActionEvent e) {
-    if(e.getSource() == menuItemLoadXML) {
+  public void addFeatures(SchedulePlannerFeatures features) {
+    System.out.println("Adding features");
+    menuItemLoadXML.addActionListener(evt -> {
       System.out.println("Load XML");
       JFileChooser fileChooser = new JFileChooser();
       int i = fileChooser.showOpenDialog(this);
+      String path ="";
       if(i == JFileChooser.APPROVE_OPTION) {
-        System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
+        path = fileChooser.getSelectedFile().getAbsolutePath();
       }
-    } else if(e.getSource() == menuItemSaveXML) {
-      System.out.println("Save XML");
+      features.loadXMLFile(path);
+    });
 
-    }
+    menuItemSaveXML.addActionListener(evt -> {
+      System.out.println("Save XML");
+    });
+  }
+
+  @Override
+  public void makeVisible() {
+    setVisible(true);
   }
 }
 

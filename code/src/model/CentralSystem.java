@@ -293,73 +293,73 @@ public class CentralSystem implements CentralSystemModel {
 
 
 
-      xmlDoc.getDocumentElement().normalize();
-      NodeList nodeList = xmlDoc.getElementsByTagName("schedule");
-      Node first = nodeList.item(0);
-      NamedNodeMap attrList = first.getAttributes();
-      System.out.println("User Details");
+    xmlDoc.getDocumentElement().normalize();
+    NodeList nodeList = xmlDoc.getElementsByTagName("schedule");
+    Node first = nodeList.item(0);
+    NamedNodeMap attrList = first.getAttributes();
+    System.out.println("User Details");
 
-      System.out.println(attrList.item(0).getNodeName() + " : " +
-              attrList.item(0).getNodeValue());
-      String uid = attrList.item(0).getNodeValue();
-      this.addUser(uid);
+    System.out.println(attrList.item(0).getNodeName() + " : " +
+            attrList.item(0).getNodeValue());
+    String uid = attrList.item(0).getNodeValue();
+    this.addUser(uid);
 
-      NodeList eventNodeList = xmlDoc.getElementsByTagName("event");
+    NodeList eventNodeList = xmlDoc.getElementsByTagName("event");
 
-      for (int j = 0; j < eventNodeList.getLength(); j++) {
-        Node firstEvent = eventNodeList.item(j);
+    for (int j = 0; j < eventNodeList.getLength(); j++) {
+      Node firstEvent = eventNodeList.item(j);
 
-        NodeList eventChildNodeList = firstEvent.getChildNodes();
+      NodeList eventChildNodeList = firstEvent.getChildNodes();
 
-        int n = eventChildNodeList.getLength();
-        Node current;
-        System.out.println("Event " + j + " Details");
+      int n = eventChildNodeList.getLength();
+      Node current;
+      System.out.println("Event " + j + " Details");
 
-        xmlDoc.getElementsByTagName("name").item(j).getTextContent();
+      xmlDoc.getElementsByTagName("name").item(j).getTextContent();
 
-        String eventName = xmlDoc.getElementsByTagName("name").item(j).getTextContent();
-        System.out.println("Event Name: " + eventName);
+      String eventName = xmlDoc.getElementsByTagName("name").item(j).getTextContent();
+      System.out.println("Event Name: " + eventName);
 
-        String startDay = xmlDoc.getElementsByTagName("start-day").item(j).getTextContent();
+      String startDay = xmlDoc.getElementsByTagName("start-day").item(j).getTextContent();
 
-        String startTime = xmlDoc.getElementsByTagName("start").item(j).getTextContent();
+      String startTime = xmlDoc.getElementsByTagName("start").item(j).getTextContent();
 
-        String endDay = xmlDoc.getElementsByTagName("end-day").item(j).getTextContent();
+      String endDay = xmlDoc.getElementsByTagName("end-day").item(j).getTextContent();
 
-        String endTime = xmlDoc.getElementsByTagName("end").item(j).getTextContent();
-        System.out.println("Time-Start Day: " + startDay);
-        System.out.println("Time-Start Time: " + startTime);
-        System.out.println("Time-End Day: " + endDay);
-        System.out.println("Time-End Time: " + endTime);
+      String endTime = xmlDoc.getElementsByTagName("end").item(j).getTextContent();
+      System.out.println("Time-Start Day: " + startDay);
+      System.out.println("Time-Start Time: " + startTime);
+      System.out.println("Time-End Day: " + endDay);
+      System.out.println("Time-End Time: " + endTime);
 
-        String locationOnline = xmlDoc.getElementsByTagName("online").item(j).getTextContent();
+      String locationOnline = xmlDoc.getElementsByTagName("online").item(j).getTextContent();
 
-        String locationPlace = xmlDoc.getElementsByTagName("place").item(j).getTextContent();
-        System.out.println("Location-Online: " + locationOnline);
-        System.out.println("Location-Place: " + locationPlace);
+      String locationPlace = xmlDoc.getElementsByTagName("place").item(j).getTextContent();
+      System.out.println("Location-Online: " + locationOnline);
+      System.out.println("Location-Place: " + locationPlace);
 
-        Node inviteesNode = xmlDoc.getElementsByTagName("users").item(j);
-        NodeList inviteesNodeList = inviteesNode.getChildNodes();
+      Node inviteesNode = xmlDoc.getElementsByTagName("users").item(j);
+      NodeList inviteesNodeList = inviteesNode.getChildNodes();
 
-        ArrayList<String> users = new ArrayList<>();
+      ArrayList<String> users = new ArrayList<>();
 
 
-        int numInvitees = inviteesNodeList.getLength();
-        Node currentInvitee;
-        for (int k = 0; k < numInvitees; k++) {
-          currentInvitee = inviteesNodeList.item(k);
-          if (currentInvitee.getNodeType() == Node.ELEMENT_NODE) {
+      int numInvitees = inviteesNodeList.getLength();
+      Node currentInvitee;
+      for (int k = 0; k < numInvitees; k++) {
+        currentInvitee = inviteesNodeList.item(k);
+        if (currentInvitee.getNodeType() == Node.ELEMENT_NODE) {
 
-            users.add(currentInvitee.getTextContent());
-          }
+          users.add(currentInvitee.getTextContent());
         }
-
-        System.out.println("Users: " + users);
-
-        this.createEvent(users.get(0), eventName, locationPlace, locationOnline.equals("true"),
-                stringToDayTime(startDay, startTime), stringToDayTime(endDay, endTime), users);
-
       }
+
+      System.out.println("Users: " + users);
+
+      this.createEvent(users.get(0), eventName, locationPlace, locationOnline.equals("true"),
+              stringToDayTime(startDay, startTime), stringToDayTime(endDay, endTime), users);
+
+    }
 
 
 

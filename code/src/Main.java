@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import controller.CentralSystemController;
+import controller.SchedulePlannerController;
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;
@@ -76,8 +78,8 @@ public class Main {
     centralSystemWithManyUsers.addUser(userId2);
 
 
-    ScheduleFrame frame = new ScheduleFrame(centralSystemWithManyUsers);
-    frame.setVisible(true);
+    SchedulePlannerController controller = new CentralSystemController(centralSystemWithManyUsers);
+
 
   }
 }

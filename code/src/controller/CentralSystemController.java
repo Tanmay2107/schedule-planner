@@ -19,14 +19,17 @@ import view.ScheduleView;
 
 
 
-public class CentralSystemController implements SchedulePlannerController, SchedulePlannerFeatures  {
+public class CentralSystemController implements SchedulePlannerController  {
   private final CentralSystemModel model;
-  private final ScheduleView view;
+  private final ScheduleFrame view;
 
   public CentralSystemController(CentralSystemModel model) {
 
     this.model = model;
     this.view = new ScheduleFrame(model);
+    this.view.addFeatures(this);
+    this.view.setVisible(true);
+
 
   }
   @Override
@@ -86,6 +89,26 @@ public class CentralSystemController implements SchedulePlannerController, Sched
 
   @Override
   public void addInvitee(String inviter, String invitee, ReadOnlyEvent event) {
+
+  }
+
+  @Override
+  public void removeEvent(String user, ReadOnlyEvent event) {
+    
+  }
+
+  @Override
+  public void createEvent(String hostUid, String name, String location, boolean online, String startTime, String endTime, String invitees) {
+
+  }
+
+  @Override
+  public void modifyEvent(String hostUid, String name, String location, boolean online, String startTime, String endTime, String invitees, ReadOnlyEvent event) {
+
+  }
+
+  @Override
+  public void removeInvitee(String inviter, String invitee, ReadOnlyEvent event) {
 
   }
 }

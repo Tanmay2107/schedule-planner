@@ -7,12 +7,13 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.CentralSystem;
 import model.Day;
 import model.DayTime;
 import model.ReadOnlyCentralSystem;
 
-public class EventWithAddFrame extends JFrame implements ActionListener {
+public class EventWithAddFrame extends JFrame implements ScheduleView {
 
   private ReadOnlyCentralSystem model;
   private String uid;
@@ -59,20 +60,26 @@ public class EventWithAddFrame extends JFrame implements ActionListener {
     // Center the frame on the screen
     setLocationRelativeTo(null);
 
-    setVisible(true);
+    setVisible(false);
 
 
   }
 
-  /**
-   * Invoked when an action occurs.
-   *
-   * @param e the event to be processed
-   */
+
+
   @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == addEventButton) {
+  public void addFeatures(SchedulePlannerFeatures features) {
+
+    this.addEventButton.addActionListener(evt -> {
       System.out.println("Adding Event");
-    }
+      //features.addEvent();
+    });
   }
+
+  @Override
+  public void makeVisible() {
+    setVisible(true);
+  }
+
+
 }

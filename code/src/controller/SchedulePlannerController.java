@@ -1,6 +1,6 @@
 package controller;
 
-public interface SchedulePlannerController {
+public interface SchedulePlannerController extends  SchedulePlannerFeatures{
 
   /**
    * Start the schedule planner application.

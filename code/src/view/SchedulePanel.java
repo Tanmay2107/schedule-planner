@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.Day;
 import model.DayTime;
 import model.ReadOnlyCentralSystem;
@@ -16,7 +17,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SchedulePanel extends JPanel implements MouseListener {
+public class SchedulePanel extends JPanel implements ScheduleView {
   private final ReadOnlyCentralSystem model;
 
   private String userID;
@@ -28,7 +29,7 @@ public class SchedulePanel extends JPanel implements MouseListener {
     this.model = model;
     this.userID = userID;
     this.eventMap = new HashMap<>();
-    this.addMouseListener(this);
+
   }
 
   @Override
@@ -149,36 +150,49 @@ public class SchedulePanel extends JPanel implements MouseListener {
     this.repaint();
   }
 
+
+
   @Override
-  public void mouseClicked(MouseEvent e) {
-    System.out.println("Mouse clicked in Panel");
-    for (Rectangle rect : this.eventMap.keySet()) {
-      if (rect.contains(e.getPoint().x, e.getPoint().y)) {
-        System.out.println(this.userID);
-        System.out.println("Event clicked: " + this.eventMap.get(rect).toString());
-        EventWithModifyFrame modifyframe = new EventWithModifyFrame(this.userID,
-                this.model, this.eventMap.get(rect));
+  public void addFeatures(SchedulePlannerFeatures features) {
+    this.addMouseListener(new MouseListener() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse clicked in Panel");
+        for (Rectangle rect : eventMap.keySet()) {
+          if (rect.contains(e.getPoint().x, e.getPoint().y)) {
+            System.out.println(userID);
+            System.out.println("Event clicked: " + eventMap.get(rect).toString());
+            EventWithModifyFrame modifyframe = new EventWithModifyFrame(userID,
+                    model, eventMap.get(rect));
+          }
+        }
       }
-    }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
+      }
+    });
+
   }
 
   @Override
-  public void mousePressed(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-
+  public void makeVisible() {
+    setVisible(true);
   }
 }

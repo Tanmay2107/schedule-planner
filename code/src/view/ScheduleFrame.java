@@ -50,11 +50,12 @@ public class ScheduleFrame extends JFrame implements ScheduleView,ActionListener
     this.add(buttonPanel, BorderLayout.SOUTH);
     this.currentUser = "none";
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+    this.setVisible(false);
 
 
   }
+
+
 
   private JPanel setUpButtonPanel(){
     JPanel buttonPanel = new JPanel();
@@ -138,6 +139,25 @@ public class ScheduleFrame extends JFrame implements ScheduleView,ActionListener
 
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
+    System.out.println("Adding features");
+    this.menuBar.addFeatures(features);
+    this.schedulePanel.addFeatures(features);
+    this.createButton.addActionListener(evt -> {
+      System.out.println("Create Event");
+      EventWithAddFrame eventWithAddFrame = new EventWithAddFrame(this.currentUser, model);
+      eventWithAddFrame.addFeatures(features);
+      eventWithAddFrame.makeVisible();
+    });
+
+    this.userBox.addActionListener(evt -> {
+      System.out.println("User changed to " + users[userBox.getSelectedIndex()]);
+      this.currentUser = users[userBox.getSelectedIndex()];
+      this.updateUserID();
+    });
+
+    this.scheduleButton.addActionListener(evt -> {
+      System.out.println("Schedule Event");
+    });
 
   }
 }

@@ -6,9 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 
-public class ScheduleButtonPanel extends JPanel implements ActionListener {
+public class ScheduleButtonPanel extends JPanel implements ActionListener, ScheduleView {
   private JButton createButton, scheduleButton;
   private JComboBox<String> userBox;
 
@@ -48,6 +49,7 @@ public class ScheduleButtonPanel extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == createButton) {
       System.out.println("Create Event");
+      EventWithAddFrame eventWithAddFrame = new EventWithAddFrame(this.currentUser(), model);
     } else if (e.getSource() == scheduleButton) {
       System.out.println("Schedule Event");
     } else if (e.getSource() == userBox) {
@@ -55,5 +57,15 @@ public class ScheduleButtonPanel extends JPanel implements ActionListener {
     }
 
 
+  }
+
+  @Override
+  public void addFeatures(SchedulePlannerFeatures features) {
+
+  }
+
+  @Override
+  public void makeVisible() {
+    setVisible(true);
   }
 }

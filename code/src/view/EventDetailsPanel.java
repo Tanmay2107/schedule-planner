@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import controller.SchedulePlannerFeatures;
 import model.Day;
 import model.DayTime;
 import model.Event;
@@ -15,7 +16,7 @@ import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 
 
-public class EventDetailsPanel extends JPanel implements ActionListener {
+public class EventDetailsPanel extends JPanel implements ActionListener, ScheduleView {
   private ReadOnlyEvent event;
   private ReadOnlyCentralSystem model;
   private String uid;
@@ -287,5 +288,17 @@ public class EventDetailsPanel extends JPanel implements ActionListener {
       // Handle parsing errors
       return null;
     }
+  }
+
+  @Override
+  public void addFeatures(SchedulePlannerFeatures features) {
+    //
+
+  }
+
+  @Override
+  public void makeVisible() {
+    setVisible(true);
+
   }
 }
