@@ -17,7 +17,7 @@ public class Main {
    * @param args The command line arguments.
    */
   public static void main(String[] args) {
-    // This is the main entry point for the application..
+    // This is the main entry point for the application...
 
     CentralSystem centralSystemWithManyUsers = new CentralSystem();
 

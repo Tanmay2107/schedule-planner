@@ -1,6 +1,6 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import controller.SchedulePlannerFeatures;
 import model.Day;
@@ -184,21 +184,41 @@ public class SchedulePanel extends JPanel implements ScheduleView {
         }
       }
 
+      /**
+       * Invoked when a mouse button has been pressed on a component.
+       *
+       * @param e The MouseEvent describing the event source and details.
+       */
       @Override
       public void mousePressed(MouseEvent e) {
 
       }
 
+      /**
+       * Invoked when a mouse button has been released on a component.
+       *
+       * @param e The MouseEvent describing the event source and details.
+       */
       @Override
       public void mouseReleased(MouseEvent e) {
 
       }
 
+      /**
+       * Invoked when the mouse enters a component.
+       *
+       * @param e The MouseEvent describing the event source and details.
+       */
       @Override
       public void mouseEntered(MouseEvent e) {
 
       }
 
+      /**
+       * Invoked when the mouse exits a component.
+       *
+       * @param e The MouseEvent describing the event source and details.
+       */
       @Override
       public void mouseExited(MouseEvent e) {
 

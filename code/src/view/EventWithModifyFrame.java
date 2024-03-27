@@ -6,10 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
-
-
-
-
 import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;

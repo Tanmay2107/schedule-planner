@@ -1,12 +1,15 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JFileChooser;
 
 import controller.SchedulePlannerFeatures;
 
+/**
+ * A menu bar for the schedule screen, providing options for loading and saving calendar data.
+ */
 public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
   JMenu menu;
 
@@ -14,6 +17,9 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
 
   JMenuItem menuItemSaveXML;
 
+  /**
+   * Constructs a new ScheduleScreenMenuBar with default menu items.
+   */
   public ScheduleScreenMenuBar() {
     super();
     menu = new JMenu("File");
@@ -28,7 +34,11 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
 
 
 
-
+  /**
+   * Adds the provided features to this menu bar.
+   *
+   * @param features The SchedulePlannerFeatures object containing the functionality to be added to the menu items.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
     System.out.println("Adding features");
@@ -48,6 +58,9 @@ public class ScheduleScreenMenuBar extends JMenuBar implements ScheduleView {
     });
   }
 
+  /**
+   * Makes this menu bar visible.
+   */
   @Override
   public void makeVisible() {
     setVisible(true);
