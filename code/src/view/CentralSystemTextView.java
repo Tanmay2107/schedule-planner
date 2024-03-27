@@ -1,6 +1,8 @@
 package view;
 
+import controller.SchedulePlannerFeatures;
 import model.CentralSystemModel;
+import model.ReadOnlyCentralSystem;
 import model.ReadOnlyUsers;
 import model.Day;
 import model.DayTime;
@@ -17,14 +19,14 @@ import model.ReadOnlyEvent;
  */
 public class CentralSystemTextView implements CentralSystemView {
 
-  private CentralSystemModel model;
+  private ReadOnlyCentralSystem model;
 
   /**
    * Constructs a CentralSystemTextView with the specified model.
    *
    * @param model The CentralSystemModel to associate with this view.
    */
-  public CentralSystemTextView(CentralSystemModel model) {
+  public CentralSystemTextView(ReadOnlyCentralSystem model) {
     this.model = model;
   }
 
@@ -168,5 +170,19 @@ public class CentralSystemTextView implements CentralSystemView {
     } else {
       return startTimeString + " -> " + endTimeString;
     }
+  }
+
+  @Override
+  public void addFeatures(SchedulePlannerFeatures features) {
+    //DO NOTHING
+    // This view does not support adding features
+
+  }
+
+  @Override
+  public void makeVisible() {
+    //DO NOTHING
+
+    //This view is not a GUI
   }
 }

@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.event.ActionEvent;
+
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -16,7 +14,7 @@ import model.ReadOnlyCentralSystem;
  * Frame for scheduling events and managing the schedule.
  * This frame provides the main interface for scheduling events and managing the schedule.
  */
-public class ScheduleFrame extends JFrame implements ScheduleView, ActionListener, MouseListener {
+public class ScheduleFrame extends JFrame implements CentralSystemView {
   private ReadOnlyCentralSystem model;
 
   private SchedulePanel schedulePanel;
@@ -63,9 +61,9 @@ public class ScheduleFrame extends JFrame implements ScheduleView, ActionListene
   private JPanel setUpButtonPanel(){
     JPanel buttonPanel = new JPanel();
     this.createButton = new JButton("Create Event");
-    this.createButton.addActionListener(this);
+
     this.scheduleButton = new JButton("Schedule Event");
-    this.scheduleButton.addActionListener(this);
+
     String[] users = new String[model.getUserIds().size() + 1];
     for (int i = 0; i < model.getUserIds().size(); i++) {
       users[i] = model.getUserIds().get(i);
@@ -74,7 +72,7 @@ public class ScheduleFrame extends JFrame implements ScheduleView, ActionListene
     this.users = users;
     this.userBox = new JComboBox<String>(users);
     this.userBox.setSelectedIndex(model.getUserIds().size());
-    this.userBox.addActionListener(this);
+
 
     buttonPanel.add(userBox);
     buttonPanel.add(createButton);
@@ -108,70 +106,11 @@ public class ScheduleFrame extends JFrame implements ScheduleView, ActionListene
    * Handles button click events.
    * @param e The ActionEvent object representing the action performed.
    */
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == createButton) {
-      System.out.println("Create Event");
-      EventWithAddFrame eventWithAddFrame = new EventWithAddFrame(this.currentUser, model);
-
-    } else if (e.getSource() == scheduleButton) {
-      System.out.println("Schedule Event");
-    } else if (e.getSource() == userBox) {
-      System.out.println("User changed to " + users[userBox.getSelectedIndex()]);
-      this.currentUser = users[userBox.getSelectedIndex()];
-      this.updateUserID();
-
-    }
-    this.refresh();
-  }
 
 
-  /**
-   * Handles mouse click events.
-   * @param e The MouseEvent object representing the mouse event.
-   */
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    System.out.println("Mouse clicked");
-  }
 
 
-  /**
-   * Handles mouse press events.
-   * @param e The MouseEvent object representing the mouse event.
-   */
-  @Override
-  public void mousePressed(MouseEvent e) {
-    System.out.println("Mouse clicked");
 
-  }
-
-  /**
-   * Handles mouse release events.
-   * @param e The MouseEvent object representing the mouse event.
-   */
-  @Override
-  public void mouseReleased(MouseEvent e) {
-
-  }
-
-  /**
-   * Handles mouse entered events.
-   * @param e The MouseEvent object representing the mouse event.
-   */
-  @Override
-  public void mouseEntered(MouseEvent e) {
-
-  }
-
-  /**
-   * Handles mouse exits.
-   * @param e The MouseEvent object representing the mouse event.
-   */
-  @Override
-  public void mouseExited(MouseEvent e) {
-
-  }
 
   /**
    * Adds features to the frame.
@@ -197,7 +136,17 @@ public class ScheduleFrame extends JFrame implements ScheduleView, ActionListene
 
     this.scheduleButton.addActionListener(evt -> {
       System.out.println("Schedule Event");
+      EventWithAddFrame eventWithAddFrame = new EventWithAddFrame(this.currentUser, model);
+      eventWithAddFrame.addFeatures(features);
+      eventWithAddFrame.makeVisible();
     });
 
+
+  }
+
+  @Override
+  public String displayScheduleAsString() {
+    CentralSystemTextView textView = new CentralSystemTextView(this.model);
+    return this.model.toString();
   }
 }

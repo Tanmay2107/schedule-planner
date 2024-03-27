@@ -88,6 +88,7 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
    */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
+    this.eventDetailsPanel.addFeatures(features);
     this.removeEventButton.addActionListener(evt -> {
       features.removeEvent(uid, this.event);
     });
