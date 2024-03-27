@@ -14,11 +14,19 @@ import model.CentralSystemModel;
 import model.ReadOnlyEvent;
 import view.ScheduleFrame;
 
-
+/**
+ * The controller class for managing the central system of the schedule planner.
+ * This class implements the SchedulePlannerController interface.
+ */
 public class CentralSystemController implements SchedulePlannerController  {
   private final CentralSystemModel model;
   private final ScheduleFrame view;
 
+  /**
+   * Constructs a CentralSystemController with the given model.
+   * Initializes the view with the model and adds features.
+   * @param model The CentralSystemModel to be used.
+   */
   public CentralSystemController(CentralSystemModel model) {
 
     this.model = model;
@@ -28,11 +36,21 @@ public class CentralSystemController implements SchedulePlannerController  {
 
 
   }
+
+  /**
+   * Starts the controller.
+   */
   @Override
   public void start() {
 
   }
 
+  /**
+   * Loads user data from an XML file.
+   * @param filepath The path to the XML file.
+   * @throws IllegalArgumentException If filepath is null.
+   * @throws IllegalStateException If an error occurs in parsing or opening the file.
+   */
   @Override
   public void loadXML(String filepath) {
 
@@ -52,12 +70,19 @@ public class CentralSystemController implements SchedulePlannerController  {
 
   }
 
+  /**
+   * Saves data.
+   */
   @Override
   public void save() {
 
   }
 
 
+  /**
+   * Loads user data from an XML file.
+   * @param path The path to the XML file.
+   */
   @Override
   public void loadXMLFile(String path) {
     System.out.println("Loading file:" + path);
@@ -78,28 +103,54 @@ public class CentralSystemController implements SchedulePlannerController  {
      */
   }
 
+  /**
+   * Saves data to an XML file.
+   * @param path The path to save the XML file.
+   */
   @Override
   public void saveXMLFile(String path) {
 
   }
 
+  /**
+   * Adds an invitee to an event.
+   * @param inviter The user inviting.
+   * @param invitee The user being invited.
+   * @param event The event to which the invitee is added.
+   */
   @Override
   public void addInvitee(String inviter, String invitee, ReadOnlyEvent event) {
     System.out.println("Adding invitee" + "\n" + invitee + "\n" + "by :"+ inviter + "\n" +
             "to event" + "\n" + event.toString());
   }
 
+
+  /**
+   * Removes an event from a user's schedule.
+   * @param user The user from whose schedule the event is removed.
+   * @param event The event to be removed.
+   */
   @Override
   public void removeEvent(String user, ReadOnlyEvent event) {
     System.out.println("Removing event" + "\n" + event.toString() + "\n" + "from :"+ user);
   }
 
+  /**
+   * Creates a new event.
+   * @param event The event to be created.
+   */
   @Override
   public void createEvent(ReadOnlyEvent event) {
     System.out.println("Creating Event");
     System.out.println(event.toString());
   }
 
+  /**
+   * Modifies an existing event.
+   * @param uid The unique identifier of the event.
+   * @param oldEvent The original event.
+   * @param newEvent The modified event.
+   */
   @Override
   public void modifyEvent(String uid,ReadOnlyEvent oldEvent, ReadOnlyEvent newEvent) {
 

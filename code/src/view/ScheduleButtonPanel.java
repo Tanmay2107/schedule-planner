@@ -1,14 +1,18 @@
 package view;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
 import controller.SchedulePlannerFeatures;
 import model.ReadOnlyCentralSystem;
 
+/**
+ * Panel containing buttons for creating and scheduling events.
+ * This panel allows users to select a user from a dropdown box and then create or
+ * schedule events accordingly.
+ */
 public class ScheduleButtonPanel extends JPanel implements ActionListener, ScheduleView {
   private JButton createButton, scheduleButton;
   private JComboBox<String> userBox;
@@ -40,11 +44,19 @@ public class ScheduleButtonPanel extends JPanel implements ActionListener, Sched
     this.add(scheduleButton);
   }
 
+  /**
+   * Retrieves the currently selected user.
+   * @return The username of the currently selected user.
+   */
   public String currentUser() {
     return users[userBox.getSelectedIndex()];
   }
 
 
+  /**
+   * Handles button click events.
+   * @param e The ActionEvent object representing the action performed.
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == createButton) {
@@ -59,11 +71,19 @@ public class ScheduleButtonPanel extends JPanel implements ActionListener, Sched
 
   }
 
+
+  /**
+   * Adds features to the panel.
+   * @param features The SchedulePlannerFeatures object providing features to be added.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
 
   }
 
+  /**
+   * Makes the panel visible.
+   */
   @Override
   public void makeVisible() {
     setVisible(true);

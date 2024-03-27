@@ -8,22 +8,29 @@ import model.DayTime;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 import model.ReadOnlyUsers;
-import model.IEvent;
 import model.Event;
-
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Panel for displaying the schedule of events.
+ * This panel displays the schedule of events for a particular user on different days of the week.
+ */
 public class SchedulePanel extends JPanel implements ScheduleView {
   private final ReadOnlyCentralSystem model;
-
   private String userID;
-
   private HashMap<Rectangle, ReadOnlyEvent> eventMap;
 
+  /**
+   * Constructs a SchedulePanel with the given model and user ID.
+   * @param model The ReadOnlyCentralSystem model providing schedule data.
+   * @param userID The ID of the user whose schedule is to be displayed.
+   */
   public SchedulePanel(ReadOnlyCentralSystem model, String userID) {
     super();
     this.model = model;
@@ -144,6 +151,10 @@ public class SchedulePanel extends JPanel implements ScheduleView {
   }
 
 
+  /**
+   * Sets the user ID for the schedule panel.
+   * @param currentUser The ID of the current user.
+   */
   public void setUserID(String currentUser) {
     this.userID = currentUser;
     System.out.println("User ID set to " + currentUser);
@@ -151,7 +162,10 @@ public class SchedulePanel extends JPanel implements ScheduleView {
   }
 
 
-
+  /**
+   * Adds features to the schedule panel.
+   * @param features The SchedulePlannerFeatures object providing features to be added.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
     this.addMouseListener(new MouseListener() {
@@ -193,6 +207,9 @@ public class SchedulePanel extends JPanel implements ScheduleView {
 
   }
 
+  /**
+   * Makes the schedule panel visible.
+   */
   @Override
   public void makeVisible() {
     setVisible(true);

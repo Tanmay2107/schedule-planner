@@ -1,21 +1,23 @@
 package view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.Container;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
-import javax.swing.*;
+
+
 
 import controller.SchedulePlannerFeatures;
-import model.CentralSystem;
-import model.Day;
-import model.DayTime;
-import model.IUsers;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
-import model.UserSchedule;
 
+/**
+ * Frame for modifying existing events.
+ * This frame provides a user interface for modifying existing events in the schedule planner.
+ */
 public class EventWithModifyFrame extends JFrame implements ScheduleView {
 
   private ReadOnlyCentralSystem model;
@@ -26,6 +28,13 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
   private JButton modifyEventButton;
   private EventDetailsPanel eventDetailsPanel;
 
+
+  /**
+   * Constructs an EventWithModifyFrame with the given unique identifier, model, and event.
+   * @param uid The unique identifier associated with the user.
+   * @param model The ReadOnlyCentralSystem model to interact with.
+   * @param event The event to be modified.
+   */
   public EventWithModifyFrame(String uid, ReadOnlyCentralSystem model, ReadOnlyEvent event) {
     this.model = model;
     this.uid = uid;
@@ -33,9 +42,6 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
     setUp();
   }
 
-  public EventWithModifyFrame() {
-    setUp();
-  }
 
   protected void setUp(){
     // Setting the title of the frame
@@ -80,17 +86,31 @@ public class EventWithModifyFrame extends JFrame implements ScheduleView {
 
   }
 
-
+  /**
+   * Adds features to the frame.
+   * @param features The SchedulePlannerFeatures object providing features to be added.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
-    this.modifyEventButton.addActionListener(evt -> {
-    features.modifyEvent(uid, this.event, eventDetailsPanel.giveEvent()); });
     this.removeEventButton.addActionListener(evt -> {
       features.removeEvent(uid, this.event);
     });
 
+    this.modifyEventButton.addActionListener(evt -> {
+
+      try {
+        ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
+        features.modifyEvent(uid, this.event, eventDetailsPanel.giveEvent());    }
+      catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(this,"Enter a valid time");
+      }
+
+    });
   }
 
+  /**
+   * Makes the frame visible.
+   */
   @Override
   public void makeVisible() {
     setVisible(true);

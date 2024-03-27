@@ -1,19 +1,19 @@
 package view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.*;
-
+import java.awt.Container;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import controller.SchedulePlannerFeatures;
-import model.CentralSystem;
-import model.Day;
-import model.DayTime;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 
+/**
+ * Frame for adding new events.
+ * This frame provides a user interface for adding new events to the schedule planner.
+ */
 public class EventWithAddFrame extends JFrame implements ScheduleView{
 
   private ReadOnlyCentralSystem model;
@@ -22,6 +22,11 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
   private JButton addEventButton;
   private EventDetailsPanel eventDetailsPanel;
 
+  /**
+   * Constructs an EventWithAddFrame with the given unique identifier and model.
+   * @param uid The unique identifier associated with the user.
+   * @param model The ReadOnlyCentralSystem model to interact with.
+   */
   public EventWithAddFrame(String uid , ReadOnlyCentralSystem model) {
     this.uid = uid;
     this.model = model;
@@ -63,11 +68,13 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
 
     setVisible(false);
 
-
   }
 
 
-
+  /**
+   * Adds features to the frame.
+   * @param features The SchedulePlannerFeatures object providing features to be added.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
     this.eventDetailsPanel.addFeatures(features);
@@ -75,10 +82,19 @@ public class EventWithAddFrame extends JFrame implements ScheduleView{
     this.addEventButton.addActionListener(evt -> {
       System.out.println("Adding Event");
       //features.addEvent();
+      try {
       ReadOnlyEvent event = this.eventDetailsPanel.giveEvent();
-      features.createEvent(event);});
+      features.createEvent(event);    }
+      catch (IllegalArgumentException e) {
+      JOptionPane.showMessageDialog(this,"Enter a valid time");
+    }
+
+  });
   }
 
+  /**
+   * Makes the frame visible.
+   */
   public void makeVisible() {
     setVisible(true);
   }

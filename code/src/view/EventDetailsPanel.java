@@ -14,7 +14,10 @@ import model.InputEvent;
 import model.ReadOnlyCentralSystem;
 import model.ReadOnlyEvent;
 
-
+/**
+ * Panel for displaying and editing event details.
+ * It allows users to view and modify event attributes such as name, location, time, and invitees.
+ */
 public class EventDetailsPanel extends JPanel implements ActionListener, ScheduleView {
 
   private ReadOnlyEvent event;
@@ -38,12 +41,26 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
   private JButton removeUser;
 
 
+  /**
+   * Constructs an EventDetailsPanel with the given unique identifier and model.
+   * If the event is provided, it displays the details of that event; otherwise,
+   * it provides fields for creating a new event.
+   * @param uid The unique identifier of the event.
+   * @param model The ReadOnlyCentralSystem model to interact with.
+   */
   public EventDetailsPanel(String uid, ReadOnlyCentralSystem model) {
     this.uid = uid;
     this.model = model;
     setupPanel();
   }
 
+  /**
+   * Constructs an EventDetailsPanel with the given unique identifier, model, and event.
+   * It displays the details of the provided event.
+   * @param uid The unique identifier of the event.
+   * @param model The ReadOnlyCentralSystem model to interact with.
+   * @param event The event whose details are to be displayed.
+   */
   public EventDetailsPanel(String uid, ReadOnlyCentralSystem model, ReadOnlyEvent event){
     this.uid = uid;
     this.model = model;
@@ -51,6 +68,9 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
     setupPanel();
   }
 
+  /**
+   * Sets up the panel based on whether an event is provided or not.
+   */
   public void setupPanel() {
     if (event==null){
       setLayout(new BorderLayout());
@@ -251,25 +271,43 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
    */
   private DayTime convertToDayTime(String timeString, Day day) {
     String[] parts = timeString.split(":");
-    if (parts.length != 2) {
-      return null;   }
-
-    try {
-      int hours = Integer.parseInt(parts[0]);
-      int minutes = Integer.parseInt(parts[1]);
-
-      // Ensure hours and minutes are within valid ranges
-      if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-        // Handle invalid time values
-        return null;
-      }
-
-      return new DayTime(hours, minutes, day);
-    } catch (NumberFormatException e) {
-      return null;
-    }
+   try {
+     this.DayTimeValidator(timeString);
+   }
+   catch (NumberFormatException e) {
+     throw new IllegalArgumentException();
+   }
+   int hours = Integer.parseInt(parts[0]);
+    int minutes = Integer.parseInt(parts[1]);
+    return new DayTime(hours, minutes, day);
   }
 
+
+  private boolean DayTimeValidator(String dayTime){
+    String[] parts = dayTime.split(":");
+    if (parts.length != 2) {
+      throw new IllegalArgumentException();
+    }
+    int hours = Integer.parseInt(parts[0]);
+    int minutes = Integer.parseInt(parts[1]);
+    try {
+      if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+        // Handle invalid time values
+        throw new IllegalArgumentException();
+      }
+    }
+    catch (NumberFormatException e) {
+        throw new IllegalArgumentException();
+    }
+    return true;
+  }
+
+
+
+  /**
+   * Adds features to the panel.
+   * @param features The SchedulePlannerFeatures object providing features to be added.
+   */
   @Override
   public void addFeatures(SchedulePlannerFeatures features) {
     this.addUser.addActionListener(evt -> {
@@ -281,13 +319,22 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
 
   }
 
+  /**
+   * Makes the panel visible.
+   */
   @Override
   public void makeVisible() {
     setVisible(true);
 
   }
-  ///
 
+
+
+  /**
+   * Constructs an InputEvent object based on the panel's input fields.
+   * @return The constructed InputEvent object.
+   * @throws IllegalArgumentException If any input field has invalid data.
+   */
   public InputEvent giveEvent() {
     String eventName = name.getText();
     String eventLocation = location.getText();
@@ -304,15 +351,14 @@ public class EventDetailsPanel extends JPanel implements ActionListener, Schedul
     for (int i = 0; i < this.userList.getModel().getSize(); i++) {
       list.add(this.userList.getModel().getElementAt(i));
     }
-
-
+    try {
     // Create and return the ReadOnlyEvent object
     return new InputEvent(eventName,  isOnline, eventLocation,
             convertToDayTime(startTimeText, startDay),
-            convertToDayTime(endTimeText,endDay),hostId, list);
-    //public InputEvent(String name, boolean online, String location, DayTime startTime,
-    // DayTime endTime, String hostId)
-
+            convertToDayTime(endTimeText,endDay),hostId, list); }
+    catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException();
+    }
   }
 
 
